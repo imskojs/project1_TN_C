@@ -1,0 +1,71 @@
+<ion-modal-view id="reserveModal">
+    <ion-content class="reserveModal-content">
+        <div class="row row-container">
+            <div class="col">
+                <div class="r1 row">
+                    <div class="col">
+                        <button class="button button-icon icon ion-ios-close-empty"
+
+                                ng-click="
+                                    Schedule.selectedService.realname=null;
+                                    Schedule.selectedService.userPhone=null;
+                                    Schedule.modal.hide();
+                                "
+                        ></button>
+                        <div class="service-container flex-v"
+                            ng-repeat="service in Schedule.reserveModel.services"
+                            choose
+                            ng-click="
+                                Schedule.selectedService.name = service.name;
+                                Schedule.selectedService.price = service.price;
+                                Schedule.selectedService.duration = service.duration;
+                            "
+                        >
+                            <div class="circle"></div>
+                            <span>{{ service.name }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="r2 row flex-v">
+                    <div class="c1 col-20">
+                        <span>이름</span>
+                    </div>
+                    <div class="c2 col-65">
+                        <input type="text" placeholder="이름을 입력해주세요."
+                            ng-model="Schedule.selectedService.realname"
+                        >
+                    </div>
+                </div>
+                <div class="r3 row">
+                    <div class="c1 col-20">
+                        <span>연락처</span>
+                    </div>
+                    <div class="c2 col-65">
+                        <input type="number" placeholder="전화번호를 입력해주세요."
+                            ng-model="Schedule.selectedService.userPhone"
+                        >
+                    </div>
+                </div>
+
+                <div class="r4 row">
+                    <div class="c1 col">
+                        <p>* 원하시는 디자어너가 있으시면 유선 연락 바랍니다.</p>
+                        <p>* 예약취소는 '설정'을 이용해주세요.</p>
+                    </div>
+                </div>
+
+                <div class="r5 row flex">
+                    <div class="c1 col-40"
+                        touch
+                        ng-click="Schedule.doReserve();"
+                    >
+                       <span>예약</span>
+                    </div>
+                </div>
+
+            
+            
+            </div><!-- row-container ends -->
+        </div>
+    </ion-content>
+</ion-modal-view>

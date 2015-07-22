@@ -1,0 +1,83 @@
+<ion-view id="main-home"
+    view-title="오늘 Nail"
+    cache-view="true"
+    can-swipe-back="false"
+    hide-back-button="true"
+    hide-nav-bar="false"
+>
+    <!-- Set navigation header -->
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-navicon"
+            ng-click="Main.toggleSideMenu()"
+        >
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-share-alt">
+        </button>
+    </ion-nav-buttons>
+
+
+
+    <!-- Home Content -->
+    <ion-content class="has-header">
+
+        <!-- ROw 1 -->
+        <div class="r1 row flex zero">
+            <div class="c1 col zero">
+                <i class="main-home-logo">
+                </i>
+            </div>
+        </div>
+
+
+        <!-- Row 2 -->
+        <div class="r2 row flex">
+            <div class="c1 col-80">
+                <input type="text"
+                    placeholder="상호명, 지역, 지하철 역을 검색하세요."
+                    ng-model="Home.search"
+                >
+            </div>
+            <div class="c2 col-10 flex"
+                touch
+                ng-click="Home.searchHandler(Home.search);"
+            >
+                <i class="ion-android-search"></i>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="r3 row flex">
+            <div class="c1 col-32 overall"
+                touch
+                ng-click="Home.goToHandler('main.daumMap')"
+            >
+                <i class="overall-icon"></i>
+            </div>
+            <div class="c2 col-32 favorite-shop"
+                touch
+                ng-click="Home.goToHandler('main.favorite')"
+            >
+                <i class="heart-icon"></i>
+            </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="r4 row flex">
+            <div class="c1 col-32 quick-service"
+                touch
+                ng-click="Home.goToHandler('main.daumMap')"
+            >
+                <i class="quick-service-icon"></i>
+            </div>
+            <div class="c2 col-32 show-off"
+                touch
+                ng-click="Home.goToHandler('main.show.list')"
+            >
+                <i class="show-off-icon"></i>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,67 @@
+<ion-modal-view id="show-modal">
+    <ion-content class="black-70">
+        <div class="row r1 flex row-90">
+            <div class="c1 col-80">
+                <span>새 글 쓰기</span>
+            </div>
+            <div class="c2 col-20"
+                ng-click="Show.modalHideHandler()"
+            >
+                <button class="button button-icon icon ion-ios-close-empty"></button>
+            </div>
+        </div>
+
+        <div class="row r2 row-90 flex">
+            <div class="c1 col-40 col"
+                ng-click="Show.getPictureHandler(1)"
+                touch
+            >
+                <span>사진찍기</span>
+            </div>
+            <div class="c2 col-40 col"
+                ng-click="Show.getPictureHandler(0)"
+                touch
+            >
+                <span>사진고르기</span>
+            </div>
+
+        </div>
+
+        <div class="row row-image flex">
+            <div class="col-90 zero">
+                <img class="camera-image" alt="no-img"
+                    ng-src="{{ Show.writeImageSrc }}"
+                    ng-if="Show.showWriteImage()"
+                >
+            </div>
+        </div>
+
+        <div class="row row-90 r3">
+            <div class="c1 col-20">
+                <span>제목</span>
+            </div>
+            <div class="c2 col-70">
+                <input type="text"
+                    ng-model="Show.writeTitle"
+                >
+            </div>
+        </div>
+
+        <div class="row r4 row-90">
+            <div class="c1 col">
+                <p class="label">내용</p>
+                <textarea
+                    ng-model="Show.writeContent"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="r5 row row-90 flex">
+            <div class="c1 col-90 col-button"
+                ng-click="Show.postHandler()"
+            >
+                <span>등록하기</span>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

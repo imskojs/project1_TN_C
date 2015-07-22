@@ -1,0 +1,30 @@
+<ion-view id="event-detail"
+    cache-view="false"
+    view-title="이벤트"
+    can-swipe-back="false"
+    hide-back-button="false"
+    hide-nav-bar="false"
+>
+    <!-- List Content -->
+    <ion-content class="has-header">
+
+        <div class="r1 row zero">
+            <div class="c1 col zero">
+                <h2 class="title">{{ EventDetail.post.title }}</h2>
+            </div>
+        </div>
+
+        <div class="r2 row flex">
+            <div class="c1 col">
+                <img ng-src="{{EventDetail.post.photos[0].url}}" alt="">
+            </div>
+        </div>
+
+        <div class="r3 row">
+            <div class="c1 col">
+                <p> {{ EventDetail.post.content }}</p>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

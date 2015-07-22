@@ -1,0 +1,8 @@
+myApp
+.factory('LoginModel', [
+
+
+
+function (){
+
+}]);

@@ -1,0 +1,40 @@
+<ion-modal-view id="daumMapModal">
+    <ion-content class="daumMapModal-content">
+        <div class="r1 row row-title"
+            touch
+            ng-click="Map.modal.hide()"
+        >
+            <div class="c1 col-90">
+                <span>
+                    {{ Map.selectedPlace.name }}
+                </span>
+            </div>
+            <div class="c2 col flex"
+            >
+                <i class="icon ion-close-round"></i>
+            </div>
+        </div>
+        <div class="r2 row row-content zero radius-bottom"
+            touch
+            ng-click="Map.goToDetailHandler()"
+        >
+            <div class="c1 col zero">
+                <img ng-src="{{ Map.selectedPlace.photos[0].url }}" alt="error loading">
+                <div class="description relative"
+                >
+                    <div class="row row-description flex-v">
+                        <div class="c1 col-15 flex">
+                            <img src="img/800/icon/icon_map_s.png" alt="Nail Icon">
+                        </div>
+                        <div class="c2 col-50">
+                            <span>{{ Map.selectedPlace.address }}</span>
+                        </div>
+                        <div class="c3 col flex">
+                            <i class="more-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+  </ion-modal-view>

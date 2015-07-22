@@ -1,0 +1,75 @@
+#main {
+    $sideMenuBgColor: #c094df;
+    $sideMenuHeaderHeight: 25vw;
+
+    $sideMenuListHeight: 12.5vw;
+    $sideMenuListColor: white;
+
+    $sideMenuSelectedListColor: #831bd4;
+    $sideMenuSelectedListBgColor: white;
+
+    $sideMenuFooterBgColor: #c094df;
+    // Side Menu Styling //
+    .side-menu-content {
+        background: $sideMenuBgColor;
+        ion-item.side-menu-header {
+            background: $sideMenuBgColor;
+            height: $sideMenuHeaderHeight;
+        }
+        ion-item.menu-list-row {
+            background: $sideMenuBgColor;
+            height: $sideMenuListHeight;
+            padding-left: 5%;
+            .menu-list-text {
+                color: $sideMenuListColor;
+            }
+            &.selected {
+                background: $sideMenuSelectedListBgColor;
+                .menu-list-text {
+                    color: $sideMenuSelectedListColor;
+                }
+            }
+        }
+    }
+    .item.setting {
+        padding-left: 5%;
+        background: $sideMenuBgColor;
+        height: $sideMenuListHeight;
+        &.selected {
+            opacity: 0.7;
+        }
+        .col-90 {
+            span {
+                color: white;
+                font-size:16px;
+            }
+        }
+    }
+
+    .accordion {
+        .item {
+            padding-left: 5%;
+            background: #a178be;
+            height: $sideMenuListHeight;
+            i:before {
+                font-size: 6vw;
+                color: white;
+            }
+        }
+        span {
+            color: white;
+            font-size:16px;
+        }
+        .selected {
+            i:before {
+                color: $positive;
+            }
+        }
+    }
+    .side-menu-footer {
+        background: $sideMenuFooterBgColor;
+        .side-menu-footer-icon {
+            color: white;
+        }
+    }
+}
