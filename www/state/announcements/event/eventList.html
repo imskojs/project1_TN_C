@@ -17,11 +17,8 @@
     <ion-content class="has-header">
         <ion-refresher
             pulling-text="새로운 내용이 있는지 보시려면 힘것 당기세요."
-            on-refresh="EventList.doRefresh()"
-            on-pulling=""
-            pulling-icon="ion-android-arrow-down"
+            on-refresh="EventList.getNewerPosts()"
             disable-pulling-rotation="false"
-            spinner="ripple"
         >
         </ion-refresher>
 
@@ -36,16 +33,16 @@
 
         <ion-list>
             <ion-item class="r2 row-items row zero"
-                collection-repeat="post in EventList.posts"
+                collection-repeat="post in EventList.Model.postsWrapper.posts"
                 item-width="95%"
                 item-height="vw * 0.30"
                 item-render-buffer="3"
                 force-refresh-images="false"
-                ng-click="EventList.postHandler(post)"
+                ng-click="EventList.goToDetailHandler(post)"
                 touch
             >
                 <div class="c1 col-30 image zero flex">
-                    <img class="" ng-src="{{post.titlePhoto.url}}" alt="">
+                    <img ng-src="{{post.photos[0] && post.photos[0].url}}">
                 </div>
 
                 <div class="c2 col-70 content">
@@ -53,17 +50,16 @@
                         {{ post.title }}
                     </h2>
                     <p class="content">
-                        {{ post.summary }}
+                        TODO:{{ post.summary }}
                     </p>
                 </div>
             </ion-item>
         </ion-list>
-        <!-- Checked immediately as soon as page is entered. -->
         <ion-infinite-scroll
-            on-infinite="EventList.getData()"
+            on-infinite="EventList.getOlderPosts()"
             distance="1%"
             spinner="true"
-            immediate-check="true"
+            immediate-check="false"
             ng-if="EventList.checkForMore()"
         >
         </ion-infinite-scroll>

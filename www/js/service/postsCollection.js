@@ -7,12 +7,13 @@ myApp
     function($resource, governorUrl, $cordovaFileTransfer) {
 
         var postUrl = governorUrl + '/post' + '/:list' +
-            '/:image' + '/:mine';
+            '/:image' + '/:mine' + '/:like';
 
         var params = {
             list: '@list',
             image: '@image',
-            mine: '@mine'
+            mine: '@mine',
+            like: '@like'
         };
 
         var actions = {
@@ -38,6 +39,12 @@ myApp
             updatePost: {
                 method: 'PUT'
             },
+            // listPost: {
+            //     method: 'PUT',
+            //     params: {
+            //         like: 'like'
+            //     }
+            // },
             removePost: {
                 method: 'DELETE'
             }

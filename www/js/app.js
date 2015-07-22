@@ -187,7 +187,7 @@ var myApp = angular.module('todayNail', [
 
         .state('main.announcements', {
             abstract: true,
-            url: '/event',
+            url: '/announcements',
             views: {
                 main: {
                     templateUrl: 'state/announcements/announcements.html',
@@ -223,7 +223,7 @@ var myApp = angular.module('todayNail', [
                 }
             })
             .state('main.announcements.noticeDetail', {
-                url: '/noticeDetail',
+                url: '/noticeDetail/:id',
                 views: {
                     announcements: {
                         templateUrl: 'state/announcements/notice/noticeDetail.html',

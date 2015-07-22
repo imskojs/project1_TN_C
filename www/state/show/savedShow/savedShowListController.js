@@ -1,93 +1,38 @@
 myApp
     .controller('SavedShowListController', [
 
-        '$state', '$scope',
+        'SavedShowListModel', '$state', '$scope',
 
-        function($state, $scope) {
+        function(SavedShowListModel, $state, $scope) {
 
             var SavedShowList = this;
 
-            $scope.$on('$ionicView.enter', function() {
-                SavedShowList.posts =
+            SavedShowList.Model = SavedShowListModel;
+            $scope.$on('$ionicView.beforeEnter', function() {
+                SavedShowListModel.posts =
                     angular.fromJson(localStorage.getItem('NAIL_SAVED_POSTS'));
             })
 
 
 
-            SavedShowList.itemHandler = function(item) {
+
+            SavedShowList.goToDetailHandler = function(post) {
                 $state.go('main.show.detail', {
-                    id: item.id
+                    id: post.id
                 });
+                //MVP2: resave. likeCounts, and commentCounts.
             };
 
-
-
-
-
-
-
-            //==========================================================================
-            // Test
-            //==========================================================================
-            var posts = [{
-                    id: 0,
-                    titlePhoto: {
-                        url: 'http://http://placehold.it/500x500',
-                        resource_type: 'titlePhoto'
-                    },
-                    title: 'title number 1',
-                    createdBy: 'user101',
-                    likeCount: 11,
-                    commentCount: 11,
-                    category: 'show' || 'event' || 'announcement',
-                    summary: '80 characters long',
-                    createdAt: new Date()
-                }, {
-                    id: 1,
-                    titlePhoto: {
-                        url: 'http://http://placehold.it/500x500',
-                        resource_type: 'titlePhoto'
-                    },
-                    title: 'title number 2',
-                    createdBy: 'user102',
-                    likeCount: 22,
-                    commentCount: 22,
-                    category: 'show' || 'event' || 'announcement',
-                    summary: '80 characters long',
-                    createdAt: new Date()
-                }, {
-                    id: 2,
-                    titlePhoto: {
-                        url: 'http://http://placehold.it/500x500',
-                        resource_type: 'titlePhoto'
-                    },
-                    title: 'title number 2',
-                    createdBy: 'user102',
-                    likeCount: 22,
-                    commentCount: 22,
-                    category: 'show' || 'event' || 'announcement',
-                    summary: '80 characters long',
-                    createdAt: new Date()
-                }, {
-                    id: 3,
-                    titlePhoto: {
-                        url: 'http://http://placehold.it/500x500',
-                        resource_type: 'titlePhoto'
-                    },
-                    title: 'title number 2',
-                    createdBy: 'user102',
-                    likeCount: 22,
-                    commentCount: 22,
-                    category: 'show' || 'event' || 'announcement',
-                    summary: '80 characters long',
-                    createdAt: new Date()
+            var savedList = [{
+                id: '',
+                titile: '',
+                createdBy: {
+                    nickname: ''
                 },
-
-            ]
-
-            localStorage.setItem('NAIL_SAVED_POSTS',
-                angular.toJson(posts)
-            )
-
+                photos: [],
+                // Check if updated
+                likeCount: '',
+                commentCount: ''
+            }];
         }
     ]);

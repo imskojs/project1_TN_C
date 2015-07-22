@@ -4,7 +4,19 @@ myApp
         function() {
 
             var ShowDetailModel = {
-                post: {}
+                post: {
+                    id: '',
+                    comments: [],
+                    photos: [{
+                        url: ''
+                    }],
+                    content: '',
+                    title: '',
+                    category: 'SHOW-POST',
+                    createdBy: {
+                        nickname: ''
+                    }
+                }
             };
 
             return ShowDetailModel;

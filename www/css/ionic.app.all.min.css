@@ -8640,25 +8640,6 @@ span {
   #announcements .footer .col:first-of-type {
     border-right: 1px solid white; }
 
-#cancel .row-list {
-  width: 98vw;
-  border: 1px solid #aaa;
-  margin-top: 1vw; }
-  #cancel .row-list .shop-name {
-    font-size: 5vw; }
-    #cancel .row-list .shop-name span {
-      color: #831bd4; }
-  #cancel .row-list .c1 span {
-    color: #831bd4; }
-  #cancel .row-list .c2 {
-    background: #e53e96;
-    text-align: center;
-    height: inherit;
-    padding-top: 10vw; }
-    #cancel .row-list .c2 span {
-      font-size: 6vw;
-      color: white; }
-
 #daumMap .r1 {
   height: 15.1vw;
   background: #e2d6fc; }
@@ -8736,6 +8717,25 @@ span {
             height: 6vw; }
         #daumMapModal .r2.row-content .c1 .description .test2 {
           color: white; }
+
+#cancel .row-list {
+  width: 98vw;
+  border: 1px solid #aaa;
+  margin-top: 1vw; }
+  #cancel .row-list .shop-name {
+    font-size: 5vw; }
+    #cancel .row-list .shop-name span {
+      color: #831bd4; }
+  #cancel .row-list .c1 span {
+    color: #831bd4; }
+  #cancel .row-list .c2 {
+    background: #e53e96;
+    text-align: center;
+    height: inherit;
+    padding-top: 10vw; }
+    #cancel .row-list .c2 span {
+      font-size: 6vw;
+      color: white; }
 
 #detail ion-content {
   background: #e2d6fc; }
@@ -9196,6 +9196,9 @@ span {
   #balance-list .r1 .coin-icon {
     content: url('../img/800/icon/icon_coin.png');
     width: 19vw; }
+
+.bar-header .favorite-post.button {
+  color: tomato; }
 
 #show-detail .r1 .c1 img {
   width: 100%;

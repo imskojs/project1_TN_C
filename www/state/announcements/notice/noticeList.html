@@ -9,11 +9,7 @@
     <ion-content class="has-header">
         <ion-refresher
             pulling-text="새로운 내용이 있는지 보시려면 힘것 당기세요."
-            on-refresh="NoticeList.doRefresh()"
-            on-pulling=""
-            pulling-icon="ion-android-arrow-down"
-            disable-pulling-rotation="false"
-            spinner="ripple"
+            on-refresh="NoticeList.getNewerPosts()"
         >
         </ion-refresher>
 
@@ -28,12 +24,12 @@
 
         <ion-list>
             <ion-item class="r2 row-items row zero flex"
-                collection-repeat="post in NoticeList.posts"
+                collection-repeat="post in NoticeList.Model.postsWrapper.posts"
                 item-width="100%"
                 item-height="vw * 0.16"
                 item-render-buffer="3"
                 force-refresh-images="false"
-                ng-click="NoticeList.postHandler(post)"
+                ng-click="NoticeList.goToDetailHandler(post)"
                 touch
             >
                 <div class="c1 col-10 col image flex">
@@ -52,10 +48,10 @@
         </ion-list>
         <!-- Checked immediately as soon as page is entered. -->
         <ion-infinite-scroll
-            on-infinite="NoticeList.getData()"
+            on-infinite="NoticeList.getOlderPosts()"
             distance="1%"
             spinner="true"
-            immediate-check="true"
+            immediate-check="false"
             ng-if="NoticeList.checkForMore()"
         >
         </ion-infinite-scroll>
