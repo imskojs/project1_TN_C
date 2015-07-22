@@ -10,7 +10,7 @@ myApp
 
             var ShowList = this;
 
-            ShowList.Model = ShowListModel
+            ShowList.Model = ShowListModel;
 
 
             $scope.$on('$ionicView.afterEnter', function() {
