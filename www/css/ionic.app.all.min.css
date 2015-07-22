@@ -8640,6 +8640,25 @@ span {
   #announcements .footer .col:first-of-type {
     border-right: 1px solid white; }
 
+#cancel .row-list {
+  width: 98vw;
+  border: 1px solid #aaa;
+  margin-top: 1vw; }
+  #cancel .row-list .shop-name {
+    font-size: 5vw; }
+    #cancel .row-list .shop-name span {
+      color: #831bd4; }
+  #cancel .row-list .c1 span {
+    color: #831bd4; }
+  #cancel .row-list .c2 {
+    background: #e53e96;
+    text-align: center;
+    height: inherit;
+    padding-top: 10vw; }
+    #cancel .row-list .c2 span {
+      font-size: 6vw;
+      color: white; }
+
 #daumMap .r1 {
   height: 15.1vw;
   background: #e2d6fc; }
@@ -8658,12 +8677,8 @@ span {
     #daumMap .r1 .c2 i:before {
       font-size: 7vw; }
 #daumMap .r2.row-daum-map {
-  height: 100%;
-  margin: 0;
-  padding: 0; }
+  height: 100%; }
   #daumMap .r2.row-daum-map .c1 {
-    margin: 0;
-    padding: 0;
     height: 100%; }
     #daumMap .r2.row-daum-map .c1 [daum-map] {
       height: 100%;
@@ -8717,25 +8732,6 @@ span {
             height: 6vw; }
         #daumMapModal .r2.row-content .c1 .description .test2 {
           color: white; }
-
-#cancel .row-list {
-  width: 98vw;
-  border: 1px solid #aaa;
-  margin-top: 1vw; }
-  #cancel .row-list .shop-name {
-    font-size: 5vw; }
-    #cancel .row-list .shop-name span {
-      color: #831bd4; }
-  #cancel .row-list .c1 span {
-    color: #831bd4; }
-  #cancel .row-list .c2 {
-    background: #e53e96;
-    text-align: center;
-    height: inherit;
-    padding-top: 10vw; }
-    #cancel .row-list .c2 span {
-      font-size: 6vw;
-      color: white; }
 
 #detail ion-content {
   background: #e2d6fc; }

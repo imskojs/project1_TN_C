@@ -31,9 +31,9 @@ myApp
                 }
             });
 
-            ShowList.itemHandler = function(item) {
+            ShowList.goToDetailHandler = function(post) {
                 $state.go('main.show.detail', {
-                    id: item.id
+                    id: post.id
                 });
             };
             //------------------------

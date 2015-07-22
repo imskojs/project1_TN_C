@@ -23,7 +23,7 @@ myApp
                     if (post.id === $stateParams.id) {
                         ShowDetail.styleStar = true;
                     }
-                })
+                });
                 Message.loading.default();
                 Posts.get({
                     id: $stateParams.id
@@ -81,14 +81,14 @@ myApp
                 localStorage.setItem('NAIL_SAVED_POSTS', postsString);
                 // style right button star icon to indicate saved sate
                 ShowDetail.styleStar = true;
-                Message.popUp.alert.default('담아두기 알림', '포스트를 담아두었습니다.')
+                Message.popUp.alert.default('담아두기 알림', '포스트를 담아두었습니다.');
             };
 
             ShowDetail.addComment = function(comment) {
                 commentBody = {
                     content: comment,
                     post: $stateParams.id
-                }
+                };
                 Comments.addCommentToPost({}, commentBody).$promise
                     .then(function success(data) {
                         Message.popUp.alert.default('댓글달기 알림', '댓글이 성공적으로 달렸습니다.');
@@ -96,27 +96,9 @@ myApp
                         console.log(data);
 
                     }, function error(err) {
-                        Message.popUp.alert.default('댓글달기 알림', '인터넷이 꺼져있습니다.')
+                        Message.popUp.alert.default('댓글달기 알림', '인터넷이 꺼져있습니다.');
                     });
             };
 
-
-
-
-
-
-            var savedList = [{
-                id: '',
-                titile: '',
-                createdBy: {
-                    nickname: ''
-                },
-                photos: [],
-                // Check if updated
-                likeCount: '',
-                commentCount: ''
-            }];
-
-
-        }
+        } //END
     ]);

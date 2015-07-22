@@ -19,7 +19,7 @@ myApp
                     var DOM = element[0];
                     var mapOptions = {
                         center: new daum.maps.LatLng(37.5691469, 126.978647),
-                        level: 5,
+                        level: 4,
                         draggable: true
                     };
                     var map = new daum.maps.Map(DOM, mapOptions);
@@ -89,8 +89,8 @@ myApp
                                     // Save converted place with click event added.
                                     DaumMapModel.markers.push(marker);
                                 });
-                            }, function error() {
-                                console.log('error')
+                            }, function error(err) {
+                                console.log(err);
                             });
                     };
                     //==========================================================================

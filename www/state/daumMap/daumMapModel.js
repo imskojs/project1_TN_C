@@ -6,7 +6,7 @@ myApp
         function($http, $q, governorUrl) {
             var DaumMapModel = {
                 // need to specify category for search
-                category: 'shop', // only one category hence fixed
+                category: 'NAIL-PLACE', // only one category hence fixed
                 currentPosition: {
                     latitude: 'FLOAT',
                     longitude: 'FLOAT'

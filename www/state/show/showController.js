@@ -90,18 +90,18 @@ myApp
                         Show.writeContent = '';
                         Show.writeImageSrc = '';
                         Message.loading.hide();
-                        Message.message.success('포스트가 만들어졌습니다.')
+                        Message.message.success('포스트가 만들어졌습니다.');
                         Show.modal.hide();
                         $timeout(function() {
                             $state.go('main.show.list', {}, {
                                 reload: true
-                            })
-                        }, 1500)
+                            });
+                        }, 1500);
                     }, function error() {
                         Message.loading.hide();
-                        Message.message.error('다시 시도해주세요.')
-                    }, function progress(progress) {
-                        console.dir(progress);
+                        Message.message.error('다시 시도해주세요.');
+                    }, function progress(prog) {
+                        console.dir(prog);
                     });
             };
 
