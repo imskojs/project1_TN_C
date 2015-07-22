@@ -9,17 +9,14 @@
 
         <ion-refresher
             pulling-text="새로운 내용이 있는지 보시려면 힘것 당기세요."
-            on-refresh="ShowList.doRefresh()"
-            on-pulling=""
-            pulling-icon="ion-android-arrow-down"
+            on-refresh="ShowList.getNewerPosts()"
             disable-pulling-rotation="false"
-            spinner="ripple"
         >
         </ion-refresher>
 
         <ion-list class="r1 row-list row wrap zero">
             <ion-item class="col items"
-                collection-repeat="post in ShowList.postsWrapper.posts"
+                collection-repeat="post in ShowList.Model.postsWrapper.posts"
                 item-width="50%"
                 item-height="vw * 0.69"
                 item-render-buffer="3"
@@ -52,7 +49,7 @@
         </ion-list>
         <!-- Checked immediately as soon as page is entered. -->
         <ion-infinite-scroll
-            on-infinite="ShowList.getData()"
+            on-infinite="ShowList.getOlderPosts()"
             distance="1%"
             spinner="true"
             immediate-check="false"

@@ -14,14 +14,8 @@ myApp
                             url: ''
                         }]
                     }],
-                    more: false
+                    more: true
                 },
-                moreData: true
-
-
-
-
-
 
 
                 // posts: [{
