@@ -1,0 +1,23 @@
+<ion-view id="announcements"
+    cache-view="true"
+    can-swipe-back="false"
+    hide-nav-bar="false"
+>
+    <ion-nav-view name="announcements">
+    </ion-nav-view>
+
+    <ion-footer-bar class="bar-positive row footer">
+        <div class="col"
+            touch
+            ng-click="Announcements.goToEventListHandler()"
+        >
+            <span>이벤트</span>
+        </div>
+        <div class="col"
+            touch
+            ng-click="Announcements.goToNoticeListHandler()"
+        >
+            <span>공지사항</span>
+        </div>
+    </ion-footer-bar>
+</ion-view>

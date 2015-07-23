@@ -1,0 +1,35 @@
+#show-list {
+    .r1 {
+        .items {
+            border: 0;
+            background: white;
+            .title-image {
+                display: block;
+                width: 100%;
+                height: 45vw;
+            }
+            .user-id {
+                color: $stable;
+            }
+            .count {
+                text-align: center;
+                span {
+                    font-size: 3.5vw;
+                    height: 3.5vw;
+                    line-height: 3.5vw;
+                }
+            }
+
+            .icon-container {
+                .icon:before {
+                    font-size: 4vw;
+                }
+            }
+            .counts {
+                border: {
+                    bottom: 1px solid #bbb;
+                }
+            }
+        }
+    }
+}

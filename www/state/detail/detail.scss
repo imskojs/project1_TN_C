@@ -1,0 +1,125 @@
+#detail {
+
+    // Container
+    $bg: #e2d6fc;
+
+    // row1
+    $r1Height: 55vw;
+    $r1BgColor: pink;
+
+    // row2
+    // .r2.row-items height set by item-height attribute of collection-repeat
+    $r2BgColor: #e2d6fc;
+    $r2BorderColor: #e2d6fc;
+
+    ion-content {
+        background: $bg;
+        .col-sub-title {
+            padding: {
+                left: 2vw;
+            }
+            span {
+                color: $dark;
+            }
+        }
+        .r1.non-row-slide-box {
+            height: $r1Height;
+            background: $r1BgColor;
+            .row-slides {
+                .c1 {
+
+                }
+            }
+        }
+
+        .r2 {
+
+        }
+
+        .col-80 {
+            font-size: 3.5vw;
+            color: #444;
+        }
+
+        .r21 {
+            margin: {
+                top: 2vw;
+            }
+        }
+
+
+        .portfolio {
+            height: 30vw;
+            margin-top: 2px;
+            width: 100%;
+
+            .port-container {
+                width: 240vw;
+                img {
+                    display: block;
+                    width: 80vw;
+                    height: 30vw;
+                    float: left;
+                }
+            }
+        }
+
+
+        .r3 {
+            margin: {
+                top: 4vw;
+            }
+            padding:{
+                top: 5px;
+            }
+        }
+        .date-picker {
+            margin: {
+                top: 5vw;
+                bottom: 55px;
+            }
+            table {
+                background: $positive;
+                width: 90%;
+                margin: 0 auto;
+                * {
+                    background: $positive;
+                    border: 0;
+                }
+                thead {
+                    * {
+                        border: 0;
+                        background: $positive;
+                    }
+                    // Date title
+                    .btn {
+                        position: relative;
+                        top: 3vw;
+                    }
+                }
+                tbody {
+                    td {
+                        button {
+                            height: 12vw;
+                            border-radius: 100%;
+                            span {
+                                background: transparent;
+                                color: $light;
+                            }
+                            span.text-muted {
+                                color: #888;
+                            }
+                        }
+                        button.active {
+                            background: $light;
+                            span {
+                                color: black;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}

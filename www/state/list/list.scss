@@ -1,0 +1,31 @@
+#list {
+
+    // Container
+    $bg: #e2d6fc;
+
+    // row1
+    $r1Height: 15.5vw;
+    $r1BgColor: pink;
+
+    // row2
+    // .r2.row-items height set by item-height attribute of collection-repeat
+    $r2BgColor: #e2d6fc;
+    $r2BorderColor: #e2d6fc;
+
+    ion-content {
+        background: $bg;
+        .r1 {
+            height: $r1Height;
+            background: $r1BgColor;
+            .c1 {
+            }
+        }
+        .r2.row-items {
+            background: $r2BgColor;
+            border-color: $r2BgColor;
+            .c1 {
+                text-align: center;
+            }
+        }
+    }
+}

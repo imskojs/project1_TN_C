@@ -1,0 +1,23 @@
+#schedule {
+    ion-list, ion-content {
+        background: $light;
+    }
+    .r1 {
+        .col {
+            text-align: center;
+            font-size: 4vw;
+            .not-available {
+                color: red;
+            }
+            .available {
+                color: blue;
+            }
+        }
+        &.selected {
+            background: $positive;
+            span {
+                color: white;
+            }
+        }
+    }
+}

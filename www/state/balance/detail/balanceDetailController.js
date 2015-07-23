@@ -1,0 +1,9 @@
+myApp
+    .controller('BalanceDetailController', [
+
+
+
+        function() {
+
+        }
+    ]);

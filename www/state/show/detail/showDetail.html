@@ -1,0 +1,67 @@
+<ion-view id="show-detail"
+    view-title="자랑하기"
+    can-swipe-back="false"
+    hide-back-button="false"
+    hide-nav-bar="false"
+>
+    <!-- List Content -->
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-ios-star-outline"
+            ng-click="ShowDetail.toggleSavePost()"
+            ng-class="{'favorite-post': ShowDetail.styleStar}"
+        >
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header">
+        <div class="r1 row zero">
+            <div class="c1 col zero">
+                <img ng-src="{{ShowDetail.Model.post.photos[0]&& ShowDetail.Model.post.photos[0].url}}">
+            </div>
+        </div>
+        <div class="r2 row">
+            <div class="c1 col">
+                <h3 class="title">{{ShowDetail.Model.post.title}}</h3>
+                <p class="username">TODO:{{ShowDetail.Model.post.createdBy.nickname}}</p>
+                <div class="row counts zero">
+                    <div class="col-5 flex icon-container zero"
+                        toggle
+                    >
+                        <i class="icon ion-star"></i>
+                    </div>
+                    <div class="col-8 like-count count">
+                        <span> TODO:{{ ShowDetail.Model.post.likeCount }} </span>
+                    </div>
+                    <div class="col-5 flex icon-container">
+                        <i class="icon ion-ios-chatbubble"></i>
+                    </div>
+                    <div class="col-10 comment-count count">
+                        <span> {{ ShowDetail.Model.post.comments.length }} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="r3 row">
+            <div class="c1 col-70">
+                <textarea class="radius-bottom radius-top" type="text"
+                    ng-model="ShowDetail.comment"> </textarea>
+            </div>
+            <div class="c2 col-23 radius-bottom radius-top flex"
+                touch
+                ng-click="ShowDetail.addComment(ShowDetail.comment)"
+            >
+                <span class="col">Comment</span>
+            </div>
+        </div>
+
+        <div class="r4 row"
+            ng-repeat="comment in ShowDetail.Model.post.comments"
+        >
+            <div class="c1 col">
+                <h3 class="username">{{ comment.createdBy.nickname }}</h3>
+                <p class="comment">{{ comment.content }}</p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

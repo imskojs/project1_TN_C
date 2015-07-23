@@ -1,0 +1,65 @@
+<ion-view id="list"
+    view-title="즐겨찾는 shop"
+    cache-view="true"
+    can-swipe-back="false"
+    hide-back-button="true"
+    hide-nav-bar="false"
+>
+    <!-- Set navigation header -->
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-navicon"
+            ng-click="Main.toggleSideMenu()"
+        >
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-share-alt">
+        </button>
+    </ion-nav-buttons>
+
+    <!-- List Content -->
+    <ion-content class="has-header">
+        <ion-refresher
+            pulling-text="새로운 내용이 있는지 보시려면 힘것 당기세요."
+            on-refresh="List.doRefresh()"
+            on-pulling=""
+            pulling-icon="ion-android-arrow-down"
+            disable-pulling-rotation="false"
+        >
+        </ion-refresher>
+
+        <div class="r1 row">
+            <div class="c1 col">
+                <h2>This is a list headline</h2>
+            </div>
+        </div>
+
+        <ion-list>
+            <ion-item class="r2 row-items row flex"
+                collection-repeat="item in List.lists"
+                item-width="100%"
+                item-height="vw * 0.30"
+                item-render-buffer="3"
+                force-refresh-images="false"
+                ng-click="List.itemHandler(item)"
+            >
+                <div class="c1 col">
+                    <span >
+                        {{item.title}}
+                    </span>
+                </div>
+            </ion-item>
+        </ion-list>
+        <!-- Checked immediately as soon as page is entered. -->
+        <ion-infinite-scroll
+            on-infinite="List.getData()"
+            distance="1%"
+            spinner="true"
+            immediate-check="true"
+            ng-if="List.checkForMore()"
+        >
+        </ion-infinite-scroll>
+
+    </ion-content>
+
+</ion-view>

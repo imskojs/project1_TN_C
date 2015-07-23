@@ -1,0 +1,109 @@
+#main-home {
+    // Container
+    $bg: #831bd4;
+    // row1
+    $r1Height: 45.5vw;
+    $r1BgColor: pink;
+
+    // row2
+    $r2Height: 15.1vw;
+    $r2BgColor: #e2d6fc;
+
+    // row3
+    $r3Height: 43vw;
+    $r3BgColor: #831bd4;
+
+    // row4
+    $r4Height: 43vw;
+    $r4BgColor: #831bd4;
+
+    .ion-android-share-alt:before{
+        font-size: 55px;
+    }
+    ion-content {
+        background: $bg;
+        .r1 {
+            .c1 {
+                .main-home-logo {
+                    content: url($img + '02_main/main00.png') no-repeat;
+                    width: 100%;
+                }
+            }
+        }
+        .r2 {
+            height: $r2Height;
+            background: $r2BgColor;
+            .c1 {
+                input {
+                    height: 10vw;
+                    width: 100%;
+                    border-radius: 5px 0px 0px 5px;
+                    font-size: 5vw;
+                    padding: {
+                      left: 2vw;
+                    }
+                }
+                ::-webkit-input-placeholder {
+                    font-size: 4vw;
+                    height: 10vw;
+                }
+            }
+            .c2 {
+                height: 10vw;
+                border-radius: 0 5px 5px 0;
+                background: white;
+                i {
+                    &:before {
+                        font-size: 7vw;
+                    }
+                }
+            }
+        }
+        .r3 {
+            height: $r3Height;
+            background: $r3BgColor;
+            .c1, .c2 {
+                margin: {
+                    left: 5vw;
+                    right: 5vw;
+                } 
+            }
+            .c1 {
+                .overall-icon {
+                    content: url('../img/800/02_main/main01.png');
+                    width: 100%;
+                }
+            }
+            .c2 {
+                .heart-icon {
+                    content: url('../img/800/02_main/main02.png');
+                    width: 100%;
+                }
+            }
+
+        }
+        .r4 {
+            height: $r4Height;
+            background: $r4BgColor;
+            margin-bottom: 5vw;
+            .c1, .c2 {
+                margin: {
+                    left: 5vw;
+                    right: 5vw;
+                } 
+            }
+            .c1 {
+                .quick-service-icon {
+                    content: url('../img/800/02_main/main03.png');
+                    width: 100%;
+                }
+            }
+            .c2 {
+                .show-off-icon {
+                    content: url('../img/800/02_main/main04.png');
+                    width: 100%;
+                }
+            }
+        }
+	}
+}

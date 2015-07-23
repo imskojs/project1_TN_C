@@ -1,0 +1,58 @@
+<ion-view id="daumMap"
+    view-title="전체보기"
+    cache-view="true"
+    can-swipe-back="false"
+    hide-back-button="false"
+    hide-nav-bar="false"
+>
+
+<!--     <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-android-arrow-back"
+            ng-click="goTo('main.home')"
+        ></button>
+    </ion-nav-buttons>
+ -->
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-pinpoint"
+            ng-click="Map.findMeThenSearchNearBy()"
+        >
+        </button>
+    </ion-nav-buttons>
+
+    <!-- Home Content -->
+    <ion-content class="has-header"
+        data-tap-disable="true"
+        scroll="false"
+    >
+
+        <!-- Row 1 -->
+        <div class="r1 row row-search flex">
+            <div class="c1 col-80">
+                <input type="text"
+                    placeholder="상호명, 지역, 지하철 역을 검색하세요."
+                    ng-model="Map.search"
+                >
+            </div>
+            <div class="c2 col-10 flex"
+                touch
+                ng-click="Map.searchLocationNearBy(Map.search);"
+            >
+                <i class="ion-android-search"></i>
+            </div>
+        </div>
+
+
+        <div class="r2 row row-daum-map zero">
+            <div class="c1 col zero">
+                <div daum-map
+                    marker-src="img/800/icon/icon_map_s.png"
+                    marker-clicked-src="img/800/icon/icon_map_s.png"
+                    marker-width="30"
+                    marker-height="43"
+                ></div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,41 @@
+#notice-list {
+    .r1.no-post {
+        margin-top: 2vw;
+        border: 1px solid $positive;
+        background: $light;
+
+        .title {
+            font-size: 4vw;
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;
+            padding-bottom: 2vw;
+            border-bottom: 1px solid $positive;
+            color: $positive;
+        }
+        .message {
+            font-size: 4vw;
+            color: #555;
+            margin-top: 2vw;
+            text-align: center;
+        }
+    }
+
+    .r2.row-items {
+        background: white;
+        .c1, .c2, .c3 {
+            height: 13vw;
+            border-bottom: 1px solid #555;
+        }
+        .c1 {
+            img {
+                width: 100%;
+            }
+        }
+        .notice-icon {
+            width: 7vw;
+            content: url('../img/800/icon/icon_notice.png')
+        }
+
+    }
+}

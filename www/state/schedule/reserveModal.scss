@@ -1,0 +1,98 @@
+#reserveModal {
+    background: transparent;
+    .reserveModal-content {
+        .row-container {
+            width: 90vw;
+            margin: {
+                top: 12vw;
+                left: auto;
+                right: auto;
+            }
+            background: rgba(0, 0, 0, 0.9);
+            .button-icon {
+                position: absolute;
+                top: 0;
+                right: 8vw;
+                &:before {
+                    color: white;
+                    font-size: 15vw;
+                }
+            }
+            .r1 {
+                .service-container {
+                    height: 9vw;
+                    &:first-of-type {
+                        margin: {
+                            top: 4vw;
+                        }
+                    }
+                    &.selected {
+                        .circle {
+                            background: $positive;
+                        }
+                    }
+                    .circle {
+                        display: inline-block;
+                        width: 4vw;
+                        height: 4vw;
+                        border: 2px solid white;
+                        border-radius: 100%;
+                        margin: {
+                            right: 4vw;
+                            left: 4vw;
+                        }
+
+                    }
+                    span {
+                        color: white;
+                        font-size: 4.5vw;
+                    }
+                }
+            }
+            .r2, .r3, .r4, .r5 {
+                margin-top: 4vw;
+                .c1 {
+                    margin: {
+                        left: 7vw; 
+                    }
+                    span {
+                        font-size: 4vw;
+                        color: white;
+                    }
+                    p {
+                        font-size: 3vw;
+                        color: white;
+                        margin:0;
+                    }
+                }
+                .c2 {
+                    input {
+                        height: 6.2vw;
+                        border: 1px solid white;
+                        width: 100%;
+                    }
+                }
+            }
+            .r2 {
+                .c1 {
+                    span {
+                        color: white;
+                    }
+                }
+            }
+            .r5 {
+                margin-top: 8vw;
+                margin-bottom: 8vw;
+                .c1 {
+                    margin-left: 0;
+                    border: 1px solid white;
+                    text-align: center;
+                    padding: 2vw;
+                    span {
+                        font-size: 5vw;
+                    }
+                }
+            }
+        }
+    }
+}

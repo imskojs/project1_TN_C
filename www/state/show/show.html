@@ -1,0 +1,25 @@
+<ion-view id="show"
+    view-title="자랑하기"
+    cache-view="true"
+    can-swipe-back="false"
+    hide-back-button="false"
+    hide-nav-bar="false"
+>
+    <ion-nav-view name="show">
+    </ion-nav-view>
+
+    <ion-footer-bar class="bar-positive row footer">
+        <div class="col"
+            touch
+            ng-click="Show.modalShowHandler()"
+        >
+            <span>새 글 쓰기</span>
+        </div>
+        <div class="col"
+            touch
+            ng-click="Show.goToSavedPostListHandler()"
+        >
+            <span>담아둔 것 들</span>
+        </div>
+    </ion-footer-bar>
+</ion-view>

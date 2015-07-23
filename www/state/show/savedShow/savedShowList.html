@@ -1,0 +1,46 @@
+<!-- Saved show list -->
+<ion-view id="show-list"
+    cache-view="true"
+    can-swipe-back="false"
+    hide-back-button="false"
+    view-title="담아둔 것 들"
+    hide-nav-bar="false"
+>
+    <!-- List Content -->
+    <ion-content class="has-header">
+
+        <ion-list class="r1 row-list row wrap zero">
+            <ion-item class="col items"
+                collection-repeat="post in SavedShowList.Model.posts"
+                item-width="50%"
+                item-height="vw * 0.69"
+                item-render-buffer="3"
+                force-refresh-images="false"
+                ng-click="SavedShowList.goToDetailHandler(post)"
+                touch
+            >
+                    <img class="title-image" ng-src="{{ post.photos[0] && post.photos[0].url }}"
+                    >
+                    <p class="title">{{ post.title }}</p>
+                    <p class="user-id">TODO:{{ post.createdBy.nickname }}</p>
+                    <div class="row counts">
+                        <div class="col-10 flex icon-container"
+                            toggle
+                        >
+                            <i class="icon ion-star"></i>
+                        </div>
+                        <div class="col-20 like-count count">
+                            <span> TODO:{{ post.likeCount }} </span>
+                        </div>
+                        <div class="col-10 flex icon-container">
+                            <i class="icon ion-ios-chatbubble"></i>
+                        </div>
+                        <div class="col-20 comment-count count">
+                            <span> TODO:{{ post.comments.length }} </span>
+                        </div>
+                    </div>
+
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
