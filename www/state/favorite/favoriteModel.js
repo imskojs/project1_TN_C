@@ -1,8 +1,0 @@
-myApp
-.factory('FavoriteModel', [
-
-
-
-function(){
-    
-}]);

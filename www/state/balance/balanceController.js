@@ -1,9 +1,0 @@
-myApp
-.controller('BalanceController', [
-
-
-
-function (){
-    
-}]);
-
