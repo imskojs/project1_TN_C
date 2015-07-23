@@ -55,7 +55,7 @@ myApp
                         });
                         DaumMapModel.markers = []
 
-                        // Request server for places
+                        // Request server for places;
                         DaumMapModel.queryNearBy(searchParams)
                             .then(function success(response) {
                                 // Save and draw nearby places with category
