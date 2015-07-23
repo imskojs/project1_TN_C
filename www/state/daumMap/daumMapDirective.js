@@ -66,16 +66,19 @@ myApp
                                     var marker = new daum.maps.Marker({
                                         map: map,
                                         position: position,
+                                        // title is used to get place with index from places array.
                                         title: String(i),
                                         image: markerImg,
                                         clickable: true
                                     });
                                     daum.maps.event.addListener(marker, 'click', function() {
+                                        // marker we are adding listener to.
                                         var marker = this;
+
                                         scope.$apply(function() {
                                             // change rest img to unselected.
-                                            angular.forEach(DaumMapModel.markers, function(marker, i, self) {
-                                                marker.setImage(markerImg);
+                                            angular.forEach(DaumMapModel.markers, function(otherMarker, i, self) {
+                                                otherMarker.setImage(markerImg);
                                             });
                                             // change this marker to selected.
                                             marker.setImage(markerClickedImg);
@@ -93,6 +96,32 @@ myApp
                                 console.log(err);
                             });
                     };
+
+                    //------------------------
+                    //  Search when moved
+                    //------------------------
+
+                    daum.maps.event.addListener(map, 'idle', function() {
+                        var center = map.getCenter();
+                        var level = map.getLevel();
+                        if (level > 6) {
+                            map.setLevel(6);
+                        }
+                        console.log(center.getLng(), center.getLat());
+                        console.log(level);
+
+
+                        // if level is <4 then
+                        // 0.02 limit 20
+
+                        // if level is >4 then
+                        //0.05 limit 50
+                    })
+
+
+
+
+
                     //==========================================================================
                     //              Find Current location and search nearby
                     //==========================================================================
