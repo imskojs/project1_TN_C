@@ -2,10 +2,12 @@ myApp
 .controller('DaumMapController', [
 
 'DaumMapModel', '$ionicModal', '$scope', '$state', '$ionicLoading',
-    
+
 function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading){
 
     var Map = this;
+
+    Map.Model = DaumMapModel;
 
     Map.findMeThenSearchNearBy = function (){
         return DaumMapModel.findMeThenSearchNearBy();
@@ -16,7 +18,7 @@ function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading){
     };
 
     Map.goToDetailHandler = function (){
-        Map.modal.remove();
+        DaumMapModel.modal.hide();
         $state.go('main.detail', {id: DaumMapModel.selectedPlace.id});
     };
 
@@ -31,7 +33,7 @@ function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading){
         })
         .then(function (modal){
             DaumMapModel.modal = modal;
-            Map.modal = DaumMapModel.modal;
+            // Map.modal = DaumMapModel.modal;
         })
     });
 

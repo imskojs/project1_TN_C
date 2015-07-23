@@ -6,7 +6,7 @@ var myApp = angular.module('todayNail', [
     'ngResource',
 
     "ui.bootstrap.tpls",
-    "ui.bootstrap.datepicker",
+    "ui.bootstrap.datepicker"
 ])
 
 .run([

@@ -1,65 +1,71 @@
-#daumMapModal {
+#daum-map-modal {
+    .row + .row {
+        margin: 0;
+    }
+    p {
+        margin: 0;
+    }
     background: rgba(0, 0, 0, 0.6);
-    .row {
+    .daum-map-modal-container {
         width: 80vw;
-        margin-left: 10vw;
-    }
+        margin: 0 auto {
+            top: 40vw;
+        };
 
-    .r1.row-title {
-        color: white;
-        height: 10vw;
-        margin-top: 40vw;
-        background: $positive;
-        border-radius: 5px 5px 0 0 ;
-        .c1 {
-            padding-left: 10vw;
-            text-align: center;
-            span {
-                font-size: 4vw;
-            }
-        }
-        .c2 {
-            font-size: 5vw;
-        }
-    }
-    .r2.row-content {
-        height: 60vw;
-        .c1 {
-            background: black;
-            img {
-                width: 100%;
-                height: 60vw;
-            }
-            .description {
-                height: 10vw;
-                top: -11.2vw;
-                left: 0;
-                .row.row-description {
-                    margin: 0;
-                    padding: 0;
-                    height: 10vw;
-                    background: rgba(255,255,255, 0.5);
-                    .c1 {
-                        background: transparent;
-                        img {
-                            height: 7vw;
-                            width: 5vw;
-                        }
-                    }
-                    .c2 {
-                        color: $positive;
-                        font-size: 3.5vw;
-                    }
-                    .c3 {
-                        .more-icon {
-                            content: url('../img/800/icon_more.png');
-                            width: 20vw;
-                            height: 6vw;
-                        }
-                    }
+        .r1.row-title {
+            color: white;
+            height: 8.5vw;
+            background: $positive;
+            border-radius: 5px 5px 0 0 ;
+            .c1 {
+                padding-left: 10vw;
+                text-align: center;
+                p {
+                    font-size: 4vw;
+                    line-height: 4vw;
                 }
-                .test2 {
-                    color: white;
+            }
+            .c2 {
+                font-size: 10vw;
+                margin-right: 2%;
+            }
+        }
+        .r2.row-content {
+            height: 54vw;
+            .c1 {
+                width: 100%;
+                height: 100%;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+                .description {
+                    width: 100%;
+                    height: 9.5vw;
+                    left: 0;
+                    bottom: 0;
+                    .row.row-description {
+                        height: 100%;
+                        background: rgba(255,255,255, 0.5);
+                        .c1 {
+                            img {
+                                height: 5vw;
+                                width: 3vw;
+                            }
+                        }
+                        .c2 {
+                            color: $positive;
+                            font-size: 3.5vw;
+                            line-height: 120%;
+                        }
+                        .c3 {
+                            .more-icon {
+                                content: url('../img/800/icon/icon_more.png');
+                                width: 18.4vw;
+                                height: 5.1vw;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -2,8 +2,11 @@ myApp
     .directive('daumMap', [
 
         'DaumMapModel', 'Places', '$ionicLoading', '$state', '$ionicPopup',
+        '$cordovaGeolocation',
 
-        function(DaumMapModel, Places, $ionicLoading, $state, $ionicPopup) {
+        function(DaumMapModel, Places, $ionicLoading, $state, $ionicPopup,
+           $cordovaGeolocation
+        ) {
             return {
                 scope: {
                     markerSrc: '@',
@@ -80,6 +83,7 @@ myApp
                                             // modal references DaumMapModel.selectedPlace to fill in the info
                                             var index = Number(marker.getTitle());
                                             DaumMapModel.selectedPlace = DaumMapModel.places[index];
+                                            console.log(DaumMapModel.selectedPlace)
                                         });
                                     });
                                     // Save converted place with click event added.
@@ -111,10 +115,6 @@ myApp
 
                     });
 
-
-
-
-
                     //==========================================================================
                     //              Find Current location and search nearby
                     //==========================================================================
@@ -122,31 +122,34 @@ myApp
                         $ionicLoading.show({
                             template: '<ion-spinner></ion-spinner>'
                         });
-                        navigator.geolocation.getCurrentPosition(function(position) {
+                        $cordovaGeolocation.getCurrentPosition()
+                            .then(function success(position){
 
-                            if (position.coords == null) {
+                                if (position.coords == null) {
+                                    $ionicLoading.hide();
+                                    $ionicPopup.alert({
+                                        title: '위치 공유가 꺼져있습니다.',
+                                        template: '위치 공유가 켜주세요.'
+                                    });
+                                    return false;
+                                }
+                                var result = {
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude
+                                };
+
+                                var currentCenter = DaumMapModel.currentPosition = result
+
+                                map.setCenter(new daum.maps.LatLng(
+                                    DaumMapModel.currentPosition.latitude,
+                                    DaumMapModel.currentPosition.longitude
+                                ));
+
+                                drawMarkers(currentCenter);
                                 $ionicLoading.hide();
-                                $ionicPopup.alert({
-                                    title: '위치 공유가 꺼져있습니다.',
-                                    template: '위치 공유가 켜주세요.'
-                                });
-                                return false;
-                            }
-                            var result = {
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude
-                            };
-
-                            var currentCenter = DaumMapModel.currentPosition = result
-
-                            map.setCenter(new daum.maps.LatLng(
-                                DaumMapModel.currentPosition.latitude,
-                                DaumMapModel.currentPosition.longitude
-                            ));
-
-                            drawMarkers(currentCenter);
-                            $ionicLoading.hide();
-                        });
+                            }, function error(err){
+                                console.log(err);
+                            });
                     };
                     //==========================================================================
                     //              Find specific location with value and search nearby
