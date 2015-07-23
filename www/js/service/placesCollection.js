@@ -29,7 +29,7 @@ myApp
                         mine: 'mine'
                     }
                 },
-                getPlaceWithin: {
+                getPlacesWithin: {
                     method: 'GET',
                     params: {
                         list: 'list',

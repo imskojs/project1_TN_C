@@ -1,9 +1,9 @@
 myApp
     .directive('daumMap', [
 
-        'DaumMapModel', '$ionicLoading', '$state', '$ionicPopup',
+        'DaumMapModel', 'Places', '$ionicLoading', '$state', '$ionicPopup',
 
-        function(DaumMapModel, $ionicLoading, $state, $ionicPopup) {
+        function(DaumMapModel, Places, $ionicLoading, $state, $ionicPopup) {
             return {
                 scope: {
                     markerSrc: '@',
@@ -29,93 +29,87 @@ myApp
                     var markerSize = new daum.maps.Size(scope.markerWidth, scope.markerHeight);
                     var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
                     var markerClickedImg = new daum.maps.MarkerImage(scope.markerClickedSrc, markerSize);
-                    //==========================================================================
+                    // ==========================================================================
                     //              HELPER FUNCTIONS
-                    //==========================================================================
-                    // Calc nearby locations within a category function
-                    var calcNearBy = function(lat, lng, category) {
-                        var minLat = lat - 0.3;
-                        var maxLat = lat + 0.3;
-                        var minLng = lng - 0.6;
-                        var maxLng = lng + 0.6;
-                        var params = {
-                            category: category,
-                            minLat: minLat,
-                            maxLat: maxLat,
-                            minLng: minLng,
-                            maxLng: maxLng
-                        };
-                        return params;
-                    };
+                    // ==========================================================================
                     // Draw Markers after query
-                    var drawMarkers = function(searchParams) {
+                    var drawMarkers = function(currentCenter) {
                         // Reset previous markers;
                         angular.forEach(DaumMapModel.markers, function(marker, i, self) {
                             marker.setMap(null);
                         });
-                        DaumMapModel.markers = []
+                        DaumMapModel.markers = [];
 
                         // Request server for places;
-                        DaumMapModel.queryNearBy(searchParams)
-                            .then(function success(response) {
-                                // Save and draw nearby places with category
-                                angular.copy(response.places, DaumMapModel.places);
+                        Places.getPlacesWithin({
+                            latitude: currentCenter.latitude,
+                            longitude: currentCenter.longitude,
+                            distance: currentCenter.distance || 5000,
+                            limit: currentCenter.limit || 50
+                        }).$promise
+                            .then(function success(placesWrapper) {
+                                // placesWrapper = {places:[], more: true};
+                                DaumMapModel.places = placesWrapper.places;
+                                console.log(placesWrapper);
+                                // console.log(DaumMapModel.places);
                                 angular.forEach(DaumMapModel.places, function(place, i, self) {
-                                    var position = new daum.maps.LatLng(place.latitude, place.longitude);
+                                    //place = {location:{type:'Point', coordinates:[126.10101, 27.101010]}, ...}
+                                    var placeLongitude = place.location.coordinates[0];
+                                    var placeLatitude = place.location.coordinates[1];
+                                    // set marker
+                                    var position = new daum.maps.LatLng(placeLatitude, placeLongitude);
                                     var marker = new daum.maps.Marker({
                                         map: map,
                                         position: position,
-                                        // title is used to get place with index from places array.
+                                        // used as to link to place info
                                         title: String(i),
                                         image: markerImg,
                                         clickable: true
-                                    });
+                                    })
+                                    // add click event
                                     daum.maps.event.addListener(marker, 'click', function() {
-                                        // marker we are adding listener to.
                                         var marker = this;
-
                                         scope.$apply(function() {
-                                            // change rest img to unselected.
+                                            // on click: differentiate clicked image;
                                             angular.forEach(DaumMapModel.markers, function(otherMarker, i, self) {
                                                 otherMarker.setImage(markerImg);
                                             });
-                                            // change this marker to selected.
                                             marker.setImage(markerClickedImg);
-                                            // show modal for clicked marker
+                                            // on click: show modal which will be filled with place info
                                             DaumMapModel.modal.show();
-                                            // load content based on location of the array
+                                            // modal references DaumMapModel.selectedPlace to fill in the info
                                             var index = Number(marker.getTitle());
-                                            angular.copy(DaumMapModel.places[index], DaumMapModel.selectedPlace);
+                                            DaumMapModel.selectedPlace = DaumMapModel.places[index];
                                         });
                                     });
                                     // Save converted place with click event added.
                                     DaumMapModel.markers.push(marker);
                                 });
-                            }, function error(err) {
+                            }, function error(err){
                                 console.log(err);
                             });
                     };
 
-                    //------------------------
+                    // ------------------------
                     //  Search when moved
-                    //------------------------
+                    // ------------------------
 
                     daum.maps.event.addListener(map, 'idle', function() {
-                        var center = map.getCenter();
-                        var level = map.getLevel();
-                        if (level > 6) {
-                            map.setLevel(6);
+
+                        var currentCenter = {
+                            longitude: map.getCenter().getLng(),
+                            latitude: map.getCenter().getLat()
                         }
-                        console.log(center.getLng(), center.getLat());
-                        console.log(level);
 
+                        angular.extend(currentCenter, {
+                            distance: 2000,
+                            limit: 20
+                        });
 
-                        // if level is <4 then
-                        // 0.02 limit 20
+                        console.log(currentCenter);
+                        drawMarkers(currentCenter)
 
-                        // if level is >4 then
-                        //0.05 limit 50
-                    })
+                    });
 
 
 
@@ -127,7 +121,7 @@ myApp
                     DaumMapModel.findMeThenSearchNearBy = function() {
                         $ionicLoading.show({
                             template: '<ion-spinner></ion-spinner>'
-                        })
+                        });
                         navigator.geolocation.getCurrentPosition(function(position) {
 
                             if (position.coords == null) {
@@ -135,29 +129,22 @@ myApp
                                 $ionicPopup.alert({
                                     title: '위치 공유가 꺼져있습니다.',
                                     template: '위치 공유가 켜주세요.'
-                                })
+                                });
                                 return false;
                             }
                             var result = {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude
                             };
-                            console.log(result);
 
-                            angular.copy(result, DaumMapModel.currentPosition);
+                            var currentCenter = DaumMapModel.currentPosition = result
 
                             map.setCenter(new daum.maps.LatLng(
                                 DaumMapModel.currentPosition.latitude,
                                 DaumMapModel.currentPosition.longitude
                             ));
 
-                            var searchParams = calcNearBy(
-                                DaumMapModel.currentPosition.latitude,
-                                DaumMapModel.currentPosition.longitude,
-                                DaumMapModel.category
-                            );
-
-                            drawMarkers(searchParams);
+                            drawMarkers(currentCenter);
                             $ionicLoading.hide();
                         });
                     };
@@ -169,32 +156,33 @@ myApp
                             template: '<ion-spinner></ion-spinner>'
                         });
                         ps.keywordSearch(value, function(status, data, pagination) {
-                            // Center the map to the first result of the search
-                            var category = DaumMapModel.category;
 
+                            // if no search result, notify and exit.
                             if (data.places[0] === undefined) {
                                 $ionicLoading.hide();
                                 $ionicPopup.alert({
                                     title: '요청하신 장소가 없습니다',
                                     template: '다시검색해주세요'
-                                })
+                                });
                                 return false;
                             }
+
+                            // move to center of searched result.
                             map.panTo(new daum.maps.LatLng(
                                 data.places[0].latitude,
                                 data.places[0].longitude
                             ));
-                            var searchParams = calcNearBy(
-                                data.places[0].latitude,
-                                data.places[0].longitude,
-                                category
-                            );
-                            drawMarkers(searchParams);
+                            var currentCenter = {
+                                latitude: data.places[0].latitude,
+                                longitude: data.places[0].longitude
+                            };
+
+                            drawMarkers(currentCenter);
+
                             $ionicLoading.hide();
                         });
                     };
                 }
             };
-
         }
     ]);
