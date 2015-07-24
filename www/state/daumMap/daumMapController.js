@@ -2,8 +2,11 @@ myApp
 .controller('DaumMapController', [
 
 'DaumMapModel', '$ionicModal', '$scope', '$state', '$ionicLoading',
+'$stateParams', 'Dom',
 
-function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading){
+function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading,
+    $stateParams, Dom
+){
 
     var Map = this;
 
@@ -25,7 +28,7 @@ function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading){
     // Make currently selected place from DaumMapDirective available at ModalView
     Map.selectedPlace = DaumMapModel.selectedPlace;
 
-    $scope.$on('$ionicView.afterEnter', function (){
+    $scope.$on('$ionicView.enter', function (){
         // Set Modal
         $ionicModal.fromTemplateUrl( 'state/daumMap/placeModal.html', {
             scope: $scope,
@@ -33,9 +36,21 @@ function (DaumMapModel, $ionicModal, $scope, $state, $ionicLoading){
         })
         .then(function (modal){
             DaumMapModel.modal = modal;
-            // Map.modal = DaumMapModel.modal;
         })
     });
+
+    //------------------------
+    //  APP SPECIFIC FUNCTION
+    //------------------------
+    $scope.$on('$ionicView.enter', function (){
+        focusInput($stateParams, Dom);
+    })
+
+    function focusInput($stateParams, Dom){
+        if($stateParams.from === 'homeInput'){
+            Dom.focusById('daum-map-search-input');
+        }
+    }
 
 
 }])

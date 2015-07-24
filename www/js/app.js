@@ -69,7 +69,7 @@ var myApp = angular.module('todayNail', [
         })
 
         .state('main.daumMap', {
-            url: '/daumMap',
+            url: '/daumMap/:from',
             views: {
                 main: {
                     templateUrl: 'state/daumMap/daumMap.html',

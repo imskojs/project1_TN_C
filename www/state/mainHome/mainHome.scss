@@ -3,56 +3,58 @@
     $bg: #831bd4;
     // row1
     $r1Height: 45.5vw;
-    $r1BgColor: pink;
+    $r1BgColor: $positive;
 
     // row2
     $r2Height: 15.1vw;
-    $r2BgColor: #e2d6fc;
+    $r2BgColor: $light;
 
     // row3
     $r3Height: 43vw;
-    $r3BgColor: #831bd4;
+    $r3BgColor: $positive;
 
     // row4
     $r4Height: 43vw;
-    $r4BgColor: #831bd4;
+    $r4BgColor: $positive;
 
-    .ion-android-share-alt:before{
-        font-size: 55px;
-    }
     ion-content {
         background: $bg;
         .r1 {
+            height: 45.3vw;
             .c1 {
-                .main-home-logo {
-                    content: url($img + '02_main/main00.png') no-repeat;
-                    width: 100%;
-                }
+                background: url($img + '02_main/main00.png') no-repeat;
+                background-size: cover;
             }
         }
-        .r2 {
-            height: $r2Height;
-            background: $r2BgColor;
+        .row-search {
+            height: 12vw;
+            background: $light;
+            padding: 1vw;
             .c1 {
+                height: 100%;
                 input {
-                    height: 10vw;
+                    height: 100%;
                     width: 100%;
-                    border-radius: 5px 0px 0px 5px;
-                    font-size: 5vw;
-                    padding: {
+                    border-radius: 2px 0px 0px 2px;
+                    line-height: 4vw;
+                    font-size: 4vw;
+                    padding: 0 {
                       left: 2vw;
                     }
                 }
                 ::-webkit-input-placeholder {
                     font-size: 4vw;
-                    height: 10vw;
+                    padding-top: .4vw;
+                    text-align: center;
+                    color: $light-grey;
                 }
             }
             .c2 {
-                height: 10vw;
-                border-radius: 0 5px 5px 0;
+                height: 100%;
+                border-radius: 0 2px 2px 0;
                 background: white;
                 i {
+                    color: $grey;
                     &:before {
                         font-size: 7vw;
                     }
@@ -62,11 +64,12 @@
         .r3 {
             height: $r3Height;
             background: $r3BgColor;
+            margin-top: 7vw;
             .c1, .c2 {
                 margin: {
                     left: 5vw;
                     right: 5vw;
-                } 
+                }
             }
             .c1 {
                 .overall-icon {
@@ -90,7 +93,7 @@
                 margin: {
                     left: 5vw;
                     right: 5vw;
-                } 
+                }
             }
             .c1 {
                 .quick-service-icon {

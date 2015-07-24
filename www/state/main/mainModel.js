@@ -18,7 +18,15 @@ myApp
                 }, {
                     state: 'main.announcements.eventList',
                     text: '이벤트 / 공지사항'
-                }]
+                }],
+                currentItem: {
+                    state: 'main.home',
+                    text: '홈으로 가기'
+                },
+                setting: {
+                    location: 'on',
+                    push: 'on'
+                }
             };
 
             return MainModel;

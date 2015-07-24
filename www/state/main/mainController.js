@@ -2,29 +2,46 @@ myApp
     .controller('MainController', [
 
         '$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
-        '$ionicNavBarDelegate',
+        '$ionicNavBarDelegate', '$ionicHistory',
 
         function($ionicSideMenuDelegate, MainModel, $state, $timeout,
-            $ionicNavBarDelegate
+            $ionicNavBarDelegate, $ionicHistory
         ) {
 
             var Main = this;
+
+            Main.Model = MainModel;
 
             Main.toggleSideMenu = function() {
                 $ionicSideMenuDelegate.toggleLeft();
             }
 
-            Main.sideMenuLists = MainModel.sideMenuLists;
 
-            Main.menuSelectHandler = function(state) {
-                $state.go(state)
+            Main.menuSelectHandler = function(item) {
+                MainModel.currentItem = item;
+                $state.go(item.state)
                 $ionicSideMenuDelegate.toggleLeft(false);
             }
 
-            Main.settingMenuHandler = function() {
+            Main.getCurrentState = function () {
+                return $ionicHistory.currentStateName()
+            }
+
+            Main.toggleAccordion = function() {
                 Main.settingSubMenu = !Main.settingSubMenu;
             }
 
-            // END
-        }
+            Main.toggleSetting = function (setting){
+                if(MainModel.setting[setting] === 'on'){
+                    MainModel.setting[setting] = 'off'
+                } else {
+                    MainModel.setting[setting] = 'on'
+                }
+            }
+
+            Main.goToDaumMapHandler = function (){
+                $state.go('main.daumMap');
+            }
+
+        }// END
     ]);

@@ -7,14 +7,15 @@ myApp
 
             Home.search = ''
 
-            Home.searchHandler = function(search) {
-
-            }
 
             Home.goToHandler = function(state) {
                 $state.go(state);
             }
 
+            // APP SPECIFIC
+            Home.searchHandler = function(search) {
+                $state.go('main.daumMap', {from: 'homeInput'})
+            }
 
 
         }

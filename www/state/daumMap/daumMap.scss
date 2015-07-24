@@ -2,14 +2,13 @@
 //  daum map <script> with places library
 
 #daum-map {
-    $r1Height: 12vw;
     $r1BgColor: $light;
     .row + .row {
         margin-top: 0;
     }
-    .r1 {
-        height: $r1Height;
-        background: $r1BgColor;
+    .row-search {
+        height: 12vw;
+        background: $light;
         padding: 1vw;
         .c1 {
             height: 100%;
@@ -35,6 +34,7 @@
             border-radius: 0 2px 2px 0;
             background: white;
             i {
+                color: $grey;
                 &:before {
                     font-size: 7vw;
                 }

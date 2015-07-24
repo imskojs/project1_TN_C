@@ -1,15 +1,22 @@
 $light:                           #d8c7fe !default;
 $stable:                          #a85fe2 !default;
 $positive:                        #831bd4 !default;
-$dark:                            #6716cb !default;
 // $calm:                            #11c1f3 !default;
 // $balanced:                        #33cd5f !default;
 // $energized:                       #ffc900 !default;
 // $assertive:                       #ef473a !default;
 // $royal:                           #886aea !default;
-// $dark:                            #444 !default;
+$dark:                            #6716cb !default;
+
+// APP SPECIFIC
+$sub-stable: #c094df !default;
+$dark-sub-stable: #a178be !default;
+
+$aqua: #3fc4d1 !default;
 
 $light-grey:                      #c9c9c9 !default;
+$grey:                            #808080 !default;
+$dark-grey:                       #777f88 !default;
 
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 

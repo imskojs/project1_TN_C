@@ -19,7 +19,7 @@
     >
         <div class="r1 row row-search flex zero">
             <div class="c1 col-82 zero">
-                <input type="text"
+                <input id="daum-map-search-input" type="text"
                     placeholder="상호명, 지역, 지하철 역을 검색하세요."
                     ng-model="Map.search"
                 >
@@ -28,7 +28,7 @@
                 touch
                 ng-click="Map.searchLocationNearBy(Map.search);"
             >
-                <i class="ion-android-search"></i>
+                <i class="ion-search"></i>
             </div>
         </div>
 
