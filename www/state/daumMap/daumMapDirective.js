@@ -1,12 +1,9 @@
 myApp
     .directive('daumMap', [
 
-        'DaumMapModel', 'Places', '$ionicLoading', '$state', '$ionicPopup',
-        '$cordovaGeolocation',
+        'DaumMapModel', 'Places', '$state', '$cordovaGeolocation', 'Message',
 
-        function(DaumMapModel, Places, $ionicLoading, $state, $ionicPopup,
-           $cordovaGeolocation
-        ) {
+        function(DaumMapModel, Places, $state, $cordovaGeolocation, Message) {
             return {
                 scope: {
                     markerSrc: '@',
@@ -62,14 +59,14 @@ myApp
                                     // set marker
                                     var position = new daum.maps.LatLng(placeLatitude, placeLongitude);
                                     var marker = new daum.maps.Marker({
-                                        map: map,
-                                        position: position,
-                                        // used as to link to place info
-                                        title: String(i),
-                                        image: markerImg,
-                                        clickable: true
-                                    })
-                                    // add click event
+                                            map: map,
+                                            position: position,
+                                            // used as to link to place info
+                                            title: String(i),
+                                            image: markerImg,
+                                            clickable: true
+                                        })
+                                        // add click event
                                     daum.maps.event.addListener(marker, 'click', function() {
                                         var marker = this;
                                         scope.$apply(function() {
@@ -89,7 +86,7 @@ myApp
                                     // Save converted place with click event added.
                                     DaumMapModel.markers.push(marker);
                                 });
-                            }, function error(err){
+                            }, function error(err) {
                                 console.log(err);
                             });
                     };
@@ -119,18 +116,16 @@ myApp
                     //              Find Current location and search nearby
                     //==========================================================================
                     DaumMapModel.findMeThenSearchNearBy = function() {
-                        $ionicLoading.show({
-                            template: '<ion-spinner></ion-spinner>'
-                        });
+                        Message.loading.default();
                         $cordovaGeolocation.getCurrentPosition()
-                            .then(function success(position){
+                            .then(function success(position) {
 
                                 if (position.coords == null) {
-                                    $ionicLoading.hide();
-                                    $ionicPopup.alert({
+                                    Message.loading.hide();
+                                    Message.popUp.alert.default({
                                         title: '위치 공유가 꺼져있습니다.',
                                         template: '위치 공유가 켜주세요.'
-                                    });
+                                    })
                                     return false;
                                 }
                                 var result = {
@@ -146,29 +141,31 @@ myApp
                                 ));
 
                                 drawMarkers(currentCenter);
-                                $ionicLoading.hide();
-                            }, function error(err){
-                                console.log(err);
-                            });
+                                Message.loading.hide();
+                            }, function error(err) {});
                     };
                     //==========================================================================
                     //              Find specific location with value and search nearby
                     //==========================================================================
                     DaumMapModel.searchLocationNearBy = function(value) {
-                        $ionicLoading.show({
-                            template: '<ion-spinner></ion-spinner>'
-                        });
+                        Message.loading.default();
+                        if (!value) {
+                            Message.loading.hide();
+                            Message.popUp.alert.default('검색하기 알림', '장소 값을 넣어서 다시 검색해주세요');
+                            return false;
+                        }
                         ps.keywordSearch(value, function(status, data, pagination) {
 
                             // if no search result, notify and exit.
                             if (data.places[0] === undefined) {
-                                $ionicLoading.hide();
-                                $ionicPopup.alert({
-                                    title: '요청하신 장소가 없습니다',
-                                    template: '다시검색해주세요'
-                                });
+                                Message.loading.hide();
+                                Message.popUp.alert.default(
+                                    '요청하신 장소가 없습니다',
+                                    '다시검색해주세요'
+                                );
                                 return false;
                             }
+                            console.log(status);
 
                             // move to center of searched result.
                             map.panTo(new daum.maps.LatLng(
@@ -182,7 +179,9 @@ myApp
 
                             drawMarkers(currentCenter);
 
-                            $ionicLoading.hide();
+                            Message.loading.hide();
+                        }, function(err) {
+                            console.log(err);
                         });
                     };
                 }

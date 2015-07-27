@@ -73,7 +73,7 @@
                     >
 
                         <div class="row row-menu-list row-accordion flex-v zero"
-                            ng-click="Main.toggleSetting('location')"
+                            ng-click="Main.toggleSettingHandler('location')"
                             ng-class="{'activate': Main.Model.setting.location === 'on'}"
                         >
                             <div class="col-30 col-list-text">
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="row row-menu-list flex-v zero"
-                            ng-click="Main.toggleSetting('push')"
+                            ng-click="Main.toggleSettingHandler('push')"
                             ng-class="{'activate': Main.Model.setting.push === 'on'}"
                         >
                             <div class="col-30 col-list-text">

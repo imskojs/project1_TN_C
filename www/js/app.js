@@ -11,9 +11,9 @@ var myApp = angular.module('todayNail', [
 
 .run([
 
-    '$ionicPlatform', '$rootScope', '$stateParams', '$state',
+    '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService',
 
-    function($ionicPlatform, $rootScope, $stateParams, $state) {
+    function($ionicPlatform, $rootScope, $stateParams, $state, AuthService) {
 
         $ionicPlatform.ready(function() {
             if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -24,15 +24,23 @@ var myApp = angular.module('todayNail', [
             }
         });
 
+        AuthService.login('admin', 'admin1234');
+
         $state.go('main.home');
     }
 ])
 
 .config([
 
-    '$stateProvider',
+    '$stateProvider', '$httpProvider',
 
-    function($stateProvider) {
+    function($stateProvider, $httpProvider) {
+
+        // Security handler
+        $httpProvider.interceptors.push('AuthInterceptor');
+
+        // Allow session
+        // $httpProvider.defaults.withCredentials = true;
 
         $stateProvider
 

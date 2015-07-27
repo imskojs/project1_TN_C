@@ -3,52 +3,69 @@
 //==========================================================================
 myApp
 
-.directive('touch', function() {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            element.on('touchstart', function(e) {
-                element.css({
-                    opacity: 0.5,
-                })
-                    .addClass('touchBackground');
+// .directive('touch', function() {
+//     return {
+//         restrict: 'A',
+//         link: function(scope, element, attrs) {
+//             element.on('touchstart', function(e) {
+//                 element.css({
+//                     opacity: 0.5,
+//                 })
+//                     .addClass('touchBackground');
 
-            })
-            element.on('touchend', function(e) {
-                element.css({
-                    opacity: 1
+//             })
+//             element.on('touchend', function(e) {
+//                 element.css({
+//                     opacity: 1
+//                 })
+//                     .removeClass('touchBackground');
+//             })
+//         }
+//     }
+// })
+.directive('touch', ['$timeout',
+    function($timeout) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.on('click', function(e) {
+                    element.addClass('touch');
+                    $timeout(function() {
+                        element.removeClass('touch');
+                    }, 50);
+
                 })
-                    .removeClass('touchBackground');
-            })
+            }
         }
     }
-})
+])
 
 .directive('focus', [
 
-'$ionicHistory', '$timeout',
+    '$ionicHistory', '$timeout',
 
-function($ionicHistory, $timeout){
-    return {
-        restrict: 'A',
-        // scope: {
-        //     ifFrom: '@ifFrom'
-        // },
-        link: function (scope, element, attrs){
-            $timeout(function (){
-                console.log('hi');
-                element[0].focus();
-            },1000);
-            // if(!scope.ifFrom){
-            // } else {
-            //     var someState = $ionicHistory.backView() && $ionicHistory.backView().stateName;
-            //     if(scope.ifFrom === someState){
-            //         element[0].focus();
-            //     }
-            // }
+    function($ionicHistory, $timeout) {
+        return {
+            restrict: 'A',
+            // scope: {
+            //     ifFrom: '@ifFrom'
+            // },
+            link: function(scope, element, attrs) {
+                $timeout(function() {
+                    console.log('hi');
+                    element[0].focus();
+                }, 1000);
+                // if(!scope.ifFrom){
+                // } else {
+                //     var someState = $ionicHistory.backView() && $ionicHistory.backView().stateName;
+                //     if(scope.ifFrom === someState){
+                //         element[0].focus();
+                //     }
+                // }
+            }
         }
     }
-}])
+])
 
 // Deprecated: styling selected state should be styled by using ng-class
 //and and changing the underlying model of the view

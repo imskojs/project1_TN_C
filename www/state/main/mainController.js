@@ -31,12 +31,14 @@ myApp
                 Main.settingSubMenu = !Main.settingSubMenu;
             }
 
-            Main.toggleSetting = function (setting){
+            Main.toggleSettingHandler = function (setting){
                 if(MainModel.setting[setting] === 'on'){
                     MainModel.setting[setting] = 'off'
                 } else {
                     MainModel.setting[setting] = 'on'
                 }
+
+                //req server to turn off setting.
             }
 
             Main.goToDaumMapHandler = function (){

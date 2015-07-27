@@ -5,10 +5,8 @@
         background: white;
     }
     .r1 {
-        margin: {
+        margin: 0 auto {
             top: 20vw;
-            left: auto;
-            right: auto;
         }
         background: $positive;
         height: 12vw;
@@ -39,6 +37,7 @@
         padding: {
             top: 5vw;
         }
+        margin: 0 auto;
         .col {
             background: $positive;
             font-size: 5vw;
@@ -75,6 +74,7 @@
 
     .r3 {
         padding-top: 3vw;
+        margin: 0 auto;
         .c1 {
             color: #aaa;
             border: {
@@ -98,6 +98,7 @@
         padding: {
             top: 5vw;
         }
+        margin: 0 auto;
         .c1 {
             font-size: 4vw;
             text-align: left;
@@ -122,6 +123,7 @@
         padding: {
             bottom: 5vw;
         }
+        margin: 0 auto;
         .c1 {
             text-align: center;
             margin-top: 5vw;
