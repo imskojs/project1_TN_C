@@ -21,7 +21,7 @@ $img: '../img/800/';
 }
 
 // Typical title row color and size
-.title-bar {
+.row-title-bar {
     background: $stable;
     color: white;
     height: 10.5vw;
@@ -31,6 +31,12 @@ $img: '../img/800/';
         color: white;
         font-size: 4.5vw;
     }
+}
+
+.text-overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
 }
 
 .touch {
@@ -126,29 +132,29 @@ ink.animate {animation: ripple 0.15s linear;}
 //==========================================================================
 //              Common Layout
 //==========================================================================
-p {
-    font-size: 3.5vw;
-}
+// p {
+//     font-size: 3.5vw;
+// }
 
-h1 {
-    font-size: 6vw;
-}
-h2 {
-    font-size: 5.5vw;
-}
-h3 {
-    font-size: 5vw;
-}
-h4 {
-    font-size: 4.5vw;
-}
-h5 {
-    font-size: 4vw;
-}
+// h1 {
+//     font-size: 6vw;
+// }
+// h2 {
+//     font-size: 5.5vw;
+// }
+// h3 {
+//     font-size: 5vw;
+// }
+// h4 {
+//     font-size: 4.5vw;
+// }
+// h5 {
+//     font-size: 4vw;
+// }
 
-span {
-    font-size: 3.5vw;
-}
+// span {
+//     font-size: 3.5vw;
+// }
 .small {
     font-size: 3vw
 }

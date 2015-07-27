@@ -18,7 +18,7 @@ myApp
                     // Initiate map
                     var DOM = element[0];
                     var mapOptions = {
-                        center: new daum.maps.LatLng(37.5691469, 126.978647),
+                        center: new daum.maps.LatLng(37.5, 127),
                         level: 4,
                         draggable: true
                     };
@@ -45,7 +45,8 @@ myApp
                             latitude: currentCenter.latitude,
                             longitude: currentCenter.longitude,
                             distance: currentCenter.distance || 5000,
-                            limit: currentCenter.limit || 50
+                            limit: currentCenter.limit || 50,
+                            eager: true
                         }).$promise
                             .then(function success(placesWrapper) {
                                 // placesWrapper = {places:[], more: true};
@@ -140,7 +141,8 @@ myApp
                                     DaumMapModel.currentPosition.longitude
                                 ));
 
-                                drawMarkers(currentCenter);
+                                // No longer needed as when map's center is moved it will draw.
+                                // drawMarkers(currentCenter);
                                 Message.loading.hide();
                             }, function error(err) {});
                     };
@@ -177,7 +179,8 @@ myApp
                                 longitude: data.places[0].longitude
                             };
 
-                            drawMarkers(currentCenter);
+                            // No longer needed as when map's center is moved it will draw.
+                            // drawMarkers(currentCenter);
 
                             Message.loading.hide();
                         }, function(err) {

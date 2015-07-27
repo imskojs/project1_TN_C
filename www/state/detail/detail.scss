@@ -1,119 +1,110 @@
 #detail {
+    .row + .row {
+        margin: 0;
+    }
 
-    // Container
-    $bg: #e2d6fc;
-
-    // row1
-    $r1Height: 55vw;
-    $r1BgColor: pink;
-
-    // row2
-    // .r2.row-items height set by item-height attribute of collection-repeat
-    $r2BgColor: #e2d6fc;
-    $r2BorderColor: #e2d6fc;
-
-    ion-content {
-        background: $bg;
-        .col-sub-title {
-            padding: {
-                left: 2vw;
-            }
-            span {
-                color: $dark;
+    .non-row-slide-box {
+        .row-slides {
+            height: 61.5vw;
+            .place-image {
+                height: 100%;
+                width: 100vw;
             }
         }
-        .r1.non-row-slide-box {
-            height: $r1Height;
-            background: $r1BgColor;
-            .row-slides {
-                .c1 {
+    }
 
-                }
-            }
-        }
-
-        .r2 {
-
-        }
-
-        .col-80 {
+    .detail-container {
+        width: 90%;
+        margin-top: 2vw;
+        p {
+            margin-bottom: 1.5vw;
             font-size: 3.5vw;
-            color: #444;
+            font-weight: bold;
         }
+        .product-list {
+            @extend p;
+            margin-bottom: 2vw;
+        }
+        .col-title {
+            color: $dark;
+        }
+        .col-text {
+            color: $dark-grey;
 
-        .r21 {
-            margin: {
-                top: 2vw;
+        }
+    }
+
+    .portfolio-scroll {
+        height: 37vw;
+        margin-top: 1px;
+        .inner-scroll-item {
+            flex: 0 0 74vw;
+            img {
+                width: 100%;
+                height: 37vw;
             }
         }
+    }
 
+    .row-reserve-title {
+        background: $positive;
+    }
 
-        .portfolio {
-            height: 30vw;
-            margin-top: 2px;
-            width: 100%;
+    .date-picker-container {
+        background: $stable;
+        padding: 1px;
+    }
 
-            .port-container {
-                width: 240vw;
-                img {
-                    display: block;
-                    width: 80vw;
-                    height: 30vw;
-                    float: left;
-                }
-            }
-        }
-
-
-        .r3 {
-            margin: {
-                top: 4vw;
-            }
-            padding:{
-                top: 5px;
-            }
-        }
+    $date-text-color: #fffff8;
         .date-picker {
             margin: {
                 top: 5vw;
                 bottom: 55px;
             }
             table {
-                background: $positive;
                 width: 90%;
                 margin: 0 auto;
                 * {
-                    background: $positive;
+                    background: $stable;
                     border: 0;
                 }
                 thead {
                     * {
                         border: 0;
-                        background: $positive;
+                        background: $stable;
                     }
                     // Date title
                     .btn {
                         position: relative;
-                        top: 3vw;
+                        top: 2.5vw;
+                        color: $date-text-color;
+                    }
+                    .icon {
+                        color: $date-text-color;
+                    }
+                    small {
+                        color: $date-text-color;
                     }
                 }
                 tbody {
                     td {
+                        height: 13vw;
                         button {
-                            height: 12vw;
+                            height: 12.5vw;
                             border-radius: 100%;
                             span {
                                 background: transparent;
-                                color: $light;
+                                color: $date-text-color;
+                                font-weight: bold
                             }
                             span.text-muted {
                                 color: #888;
                             }
                         }
                         button.active {
-                            background: $light;
+                            background: $date-text-color;
                             span {
-                                color: black;
+                                color: $positive;
                             }
                         }
                     }
@@ -121,5 +112,4 @@
             }
         }
 
-    }
 }

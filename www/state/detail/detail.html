@@ -5,120 +5,93 @@
     hide-back-button="false"
     hide-nav-bar="false"
 >
-    <!-- Set navigation header -->
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-android-share-alt">
-        </button>
-    </ion-nav-buttons>
+<ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-heart">
+    </button>
+</ion-nav-buttons>
+
 
     <!-- List Detail Content -->
     <ion-content class="has-header">
 
-        <!-- Slide box of details photos -->
-        <ion-slide-box class="r1 non-row-slide-box">
-            <ion-slide class="row-slides row"
+        <ion-slide-box class="non-row-slide-box" show-pager="true">
+            <ion-slide class="row-slides zero"
+                ng-repeat="photo in Detail.Model.currentPlace.photos"
             >
-                <div class="c1 col">
-                    <img ng-src="{{Detail.currentPlace.photos[0].url}}">
-                </div>
-            </ion-slide>
-            <ion-slide class="row-slides row"
-            >
-                <div class="c1 col">
-                    <img ng-src="{{Detail.currentPlace.photos[1].url}}">
-                </div>
-            </ion-slide>
-            <ion-slide class="row-slides row"
-            >
-                <div class="c1 col">
-                    <img ng-src="{{Detail.currentPlace.photos[2].url}}">
-                </div>
+                <img class="place-image"
+                    ng-src="{{photo.url}}"
+                >
             </ion-slide>
         </ion-slide-box>
 
-        <!-- Details Section -->
-        <div class="r2 row-detail-title row title-bar">
+        <!-- 상세정보 -->
+        <div class="row row-title-bar">
             <div class="c1 col">
                 <h3>상세정보</h3>
             </div>
         </div>
-            <div class="r21 row-desc1 row">
-                <div class="c1 col-20 col-sub-title">
-                    <span class="sub-title">이용시간</span>
+        <div class="detail-container auto">
+            <div class="row">
+                <div class="col-21 col-title">
+                    <p class="zero">이용시간</p>
+                    <p class="zero">전화번호</p>
+                    <p class="zero">주소</p>
+                    <p class="zero">가격정보</p>
                 </div>
-                <div class="c2 col-80">
-                    <span>{{ Detail.currentPlace.hours[0] | hourToString }}</span>
-                    <span> ~ </span>
-                    <span>{{ Detail.currentPlace.hours[1] | hourToString }}</span>
-                </div>
-            </div>
-            <div class="r22 row-desc2 row">
-                <div class="c1 col-20 col-sub-title">
-                    <span class="sub-title">전화번호</span>
-                </div>
-                <div class="c2 col-80">
-                    <span>{{ Detail.currentPlace.phone }}</span>
-                </div>
-            </div>
-            <div class="r23 row-desc3 row">
-                <div class="c1 col-20 col-sub-title">
-                    <span class="sub-title">주소</span>
-                </div>
-                <div class="c2 col-80">
-                    <span>{{Detail.currentPlace.address}}</span>
-                </div>
-            </div>
-            <div class="r24 row-desc4 row">
-                <div class="c1 col-20 col-sub-title">
-                    <span class="sub-title">가격정보</span>
-                </div>
-                <div class="c2 col-80">
-                    <ul class="service-list">
-                        <li class="service-items"
-                            ng-repeat="service in Detail.currentPlace.services"
+                <div class="col-79 col-text">
+                    <p class="zero">TODO: 10:00 ~ 21:00</p>
+                    <p class="zero">{{Detail.Model.currentPlace.phone}}</p>
+                    <p class="zero text-overflow">{{Detail.Model.currentPlace.address}}</p>
+                    <ul class="product-list">
+                        <li class="product-item"
+                            ng-repeat="product in Detail.Model.currentPlace.products | orderBy:'price'"
                         >
-                            <span>{{ service.name }}</span>
-                            <span> - </span>
-                            <span> {{ service.price }} </span>
+                            {{product.name}} - {{product.price}}
                         </li>
                     </ul>
                 </div>
             </div>
+        </div>
 
 
-        <div class="row-detail-title row title-bar">
-            <div class="c1 col">
-                <h3>포트폴리오</h3>
+        <!-- 포트폴리오 -->
+        <div class="row row-title-bar zero flex">
+            <div class="c1 col zero">
+                <h3 class="zero">포트폴리오</h3>
             </div>
         </div>
-
-        <div>
-            <ion-scroll class="portfolio"
-                zooming="false"
-                direction="x"
-                scrollbar-x="false"
+        <ion-scroll class="portfolio-scroll"
+            zooming="false"
+            direction="x"
+            parent-scroll
+        >
+            <div class="portfolio-inner-scroll row zero"
             >
-                <div class="port-container">
-                    <img ng-src="{{portfolioPhoto.url}}"
-                        ng-repeat="portfolioPhoto in Detail.currentPlace.portfolioPhotos"
-                    >
+                <div class="col inner-scroll-item zero"
+                    ng-repeat="portfolioPhoto in Detail.Model.currentPlace.photos"
+                >
+                    <img ng-src="{{portfolioPhoto.url}}">
                 </div>
-            </ion-scroll>
-        </div>
-        <!--Additional Section: SCHEDULER -->
-        <div class="r3 row-detail-title row title-bar">
-            <div class="c1 col">
-                <h3>예약현황</h3>
+            </div>
+        </ion-scroll>
+
+
+        <!-- 예약현황 -->
+        <div class="row row-title-bar row-reserve-title">
+            <div class="col">
+                <h3>원하는 날짜를 선택해주세요.</h3>
             </div>
         </div>
 
         {{}}
-        <datepicker class="date-picker"
-            ng-model="Detail.date"
-            show-weeks="false"
-            custom-class="Detail.dateStyler(date, mode)"
-        >
-        </datepicker>
+        <div class="date-picker-container">
+            <datepicker class="date-picker"
+                ng-model="Detail.date"
+                show-weeks="false"
+                custom-class="Detail.dateStyler(date, mode)"
+            >
+            </datepicker>
+        </div>
 
 
 

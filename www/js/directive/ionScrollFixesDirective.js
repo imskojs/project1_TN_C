@@ -4,7 +4,7 @@
 // Usage
 // ion-scroll[direction="x" scroll-parent]
 myApp
-    .directive('scrollParent', [
+    .directive('parentScroll', [
 
         '$ionicScrollDelegate', '$timeout', '$window',
 
@@ -79,4 +79,4 @@ myApp
                 }
             }
         }
-    ]);
+    ])
