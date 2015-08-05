@@ -13,10 +13,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content class="has-header"
-        data-tap-disable="true"
-        scroll="false"
-    >
+    <ion-header-bar class="bar-subheader zero">
         <div class="r1 row row-search flex zero">
             <div class="c1 col-82 zero">
                 <input id="daum-map-search-input" type="text"
@@ -31,7 +28,12 @@
                 <i class="ion-search"></i>
             </div>
         </div>
+    </ion-header-bar>
 
+    <ion-content class="has-subheader"
+        data-tap-disable="true"
+        scroll="false"
+    >
         <div class="r2 row row-daum-map zero">
             <div class="c1 col zero">
                 <div daum-map

@@ -1,98 +1,113 @@
-#reserveModal {
-    background: transparent;
-    .reserveModal-content {
-        .row-container {
-            width: 90vw;
-            margin: {
-                top: 12vw;
-                left: auto;
-                right: auto;
-            }
-            background: rgba(0, 0, 0, 0.9);
-            .button-icon {
-                position: absolute;
-                top: 0;
-                right: 8vw;
-                &:before {
-                    color: white;
-                    font-size: 15vw;
-                }
-            }
-            .r1 {
-                .service-container {
-                    height: 9vw;
-                    &:first-of-type {
-                        margin: {
-                            top: 4vw;
-                        }
-                    }
-                    &.selected {
-                        .circle {
-                            background: $positive;
-                        }
-                    }
-                    .circle {
-                        display: inline-block;
-                        width: 4vw;
-                        height: 4vw;
-                        border: 2px solid white;
-                        border-radius: 100%;
-                        margin: {
-                            right: 4vw;
-                            left: 4vw;
-                        }
+#reserve-modal {
+    background: rgba(0, 0, 0, 0.5);
+    .reserve-modal-content {
+        top: 88px;
+    }
 
-                    }
-                    span {
-                        color: white;
-                        font-size: 4.5vw;
-                    }
+    .content-wrapper {
+        width: 90%;
+        top: 44px;
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.9);
+        padding:1px;
+    }
+
+    .row-close {
+        .col-x-icon {
+            margin: {
+                left: 85%;
+            }
+            .ion-ios-close-empty {
+                &::before {
+                    font-size: 40px;
+                    color: white;
                 }
             }
-            .r2, .r3, .r4, .r5 {
-                margin-top: 4vw;
-                .c1 {
-                    margin: {
-                        left: 7vw; 
-                    }
-                    span {
-                        font-size: 4vw;
-                        color: white;
-                    }
-                    p {
-                        font-size: 3vw;
-                        color: white;
-                        margin:0;
-                    }
-                }
-                .c2 {
-                    input {
-                        height: 6.2vw;
-                        border: 1px solid white;
-                        width: 100%;
-                    }
-                }
+        }
+    }
+
+    .row-service-container {
+        height: 30px;
+        &.selected {
+            .circle {
+                background: $positive;
             }
-            .r2 {
-                .c1 {
-                    span {
-                        color: white;
-                    }
-                }
+        }
+        .circle {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid white;
+            border-radius: 100%;
+            margin: {
+                right: 14px;
+                left: 14px;
             }
-            .r5 {
-                margin-top: 8vw;
-                margin-bottom: 8vw;
-                .c1 {
-                    margin-left: 0;
-                    border: 1px solid white;
-                    text-align: center;
-                    padding: 2vw;
-                    span {
-                        font-size: 5vw;
-                    }
-                }
+
+        }
+        p {
+            margin: 0;
+            color: white;
+            font-size: 16px;
+            line-height: 16px;
+        }
+    }
+
+    .row-name {
+        margin: {
+            top: 20px;
+        }
+        .col-name {
+            color: white;
+        }
+        .col-input {
+            input {
+                height: 25px;
+                border: 1px solid white;
+                width: 100%;
             }
+        }
+    }
+
+    .row-phone {
+        margin: {
+            top: 20px;
+        }
+        .col-phone {
+            color: white;
+        }
+        .col-phone-input {
+            input {
+                height: 25px;
+                border: 1px solid white;
+                width: 100%;
+            }
+        }
+    }
+
+    .row-foot-note {
+        .col-wrapper {
+            flex: 0 0 auto;
+        }
+        p {
+            color: white;
+            font-size: 12px;
+        }
+        margin: {
+            top: 30px;
+        }
+    }
+
+    .row-reserve {
+        margin:{
+            top: 44px;
+            bottom: 22px;
+        }
+        .col-button {
+            border: 2px solid white;
+            color: white;
+            text-align: center;
+            height: 33px;
         }
     }
 }

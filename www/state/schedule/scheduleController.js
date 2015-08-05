@@ -1,86 +1,153 @@
 myApp
     .controller('ScheduleController', [
 
-        'DetailModel', 'ScheduleModel', '$ionicLoading',
-        '$scope', '$ionicModal', '$ionicPopup', '$q',
+        'DetailModel', 'ScheduleModel', 'Places', 'Message',
+        '$scope', '$ionicModal', '$q', '$stateParams',
 
-        function(DetailModel, ScheduleModel, $ionicLoading,
-            $scope, $ionicModal, $ionicPopup, $q) {
+        function(DetailModel, ScheduleModel, Places, Message,
+            $scope, $ionicModal, $q, $stateParams) {
 
             var Schedule = this;
-            //==========================================================================
-            //              List View
-            //==========================================================================
-            var UserModel = {
-                username: 'TODO'
+            Schedule.Model = ScheduleModel;
+
+
+            Schedule.selectSlotHandler = function(reserveSlot) {
+                ScheduleModel.selectedSlot = reserveSlot;
+                Schedule.modal.show();
+
+                ScheduleModel.form.datetime = reserveSlot.toDate();
+
+                console.log(reserveSlot);
+            };
+            Schedule.isSelectedSlot = function(reserveSlot) {
+                var selectedHourString = ScheduleModel.selectedSlot.get && ScheduleModel.selectedSlot.get('hour');
+                var selectedMinuteString = ScheduleModel.selectedSlot.get && ScheduleModel.selectedSlot.get('minute');
+                var selectedTimeString = selectedHourString + ':' + selectedMinuteString;
+
+                var reserveSlotHourString = reserveSlot.get && reserveSlot.get('hour');
+                var reserveSlotMinuteString = reserveSlot.get && reserveSlot.get('minute');
+                var reserveSlotTimeString = reserveSlotHourString + ':' + reserveSlotMinuteString;
+
+                return selectedTimeString === reserveSlotTimeString;
+            };
+
+            Schedule.selectProductHandler = function(product) {
+                ScheduleModel.form.products = [product];
+            };
+            Schedule.isSelectedProduct = function(product) {
+                return ((ScheduleModel.form.products && ScheduleModel.form.products[0].id) === product.id);
             }
 
-            var hours = DetailModel.currentPlace.hours;
-            var viewSlots = _.range(hours[0], hours[1], 0.5);
-            var schedules = DetailModel.selectedDate.schedules;
-            var viewSlots = _.map(viewSlots, function(hour, i, viewSlots) {
-                    var obj = {};
-                    // hour intervum
-                    obj.hour = hour;
-                    schedules.forEach(function(objVal, i, schedules) {
-                        if (objVal.time == hour) {
-                            // booked time
-                            obj.time = objVal.time;
-                            obj.fullyBooked = objVal.fullyBooked;
-                        }
-                    })
-                    //obj = {hour, time, fullyBooked}
-                    return obj;
+            Schedule.closeModalHandler = function() {
+                angular.copy({}, ScheduleModel.form);
+                Schedule.modal.hide();
+            }
+            Schedule.bookingHandler = function() {
+                ScheduleModel.form.place = $stateParams.id;
+            }
+
+
+            $scope.$on('$ionicView.beforeEnter', function() {
+                Message.loading.default();
+                Places.findById({
+                    id: $stateParams.id
+                }).$promise
+                    .then(function success(data) {
+                        Message.loading.hide();
+                        ScheduleModel.currentPlace = data;
+                        console.log(data);
+                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, 30, true);
+                    }, function error(err) {
+                        Message.loading.hide();
+                        Message.popUp.alert.default();
+                    });
+            });
+
+            $scope.$on('$ionicView.afterEnter', function() {
+                // Set Modal
+                $ionicModal.fromTemplateUrl('state/schedule/reserveModal.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
                 })
-                // [{hour, time, fullyBooked}]
-            Schedule.viewSlots = viewSlots;
-            Schedule.reserveModel = {};
-            Schedule.itemHandler = function(itemObj) {
-                Schedule.reserveModel.time = itemObj.hour;
-                Schedule.reserveModel.services = DetailModel.currentPlace.services;
-                Schedule.reserveModel.username = UserModel.username;
-                Schedule.reserveModel.id = DetailModel.currentPlace.id;
-                Schedule.modal.show();
-            };
+                    .then(function(modal) {
+                        Schedule.modal = modal;
+                    });
+            });
 
-            // Schedule.reserveModel = {
-            //     time: Schedule.clickedTime,
-            //     services: DetailModel.currentPlace.services,
-            //     username: UserModel.username
-            // };
 
-            Schedule.selectedService = {
-                name: null,
-                price: null,
-                duration: null,
-                username: null,
-                // user input to check
-                realname: null,
-                userPhone: null
-            };
+            //------------------------
+            // HELPER FUNCTIONS
+            //------------------------
+
+            function generateReserveMomentSlots(selectedDateString, interval, ableToBookAtEndTimeBool) {
+                // get day of reservedDate, in UTC+9
+                var reserveMoment = moment(selectedDateString).set({
+                    hour: 0,
+                    minute: 0,
+                    second: 0
+                });
+                // get day of selected date
+                var dayOfWeek = reserveMoment.day();
+                // Get opening hours of that day
+                //{start: '07:00', end: '20:00'}
+                var hoursObj = ScheduleModel.currentPlace.openingHours[dayOfWeek];
+
+                // Convert strings to date object.
+                var startTimeArray = hoursObj.start.split(':');
+                var endTimeArray = hoursObj.end.split(':');
+
+                var startHour = startTimeArray[0];
+                var startMinute = startTimeArray[1];
+                var endHour = endTimeArray[0];
+                var endMinute = endTimeArray[1];
+
+                var startInMinutes = Number(startHour) * 60 + Number(startMinute)
+                var endInMinutes = ableToBookAtEndTimeBool ? Number(endHour) * 60 + Number(endMinute) + interval :
+                    Number(endHour) * 60 + Number(endMinute)
+
+                var arrayOfSlotsInMinutes = _.range(startInMinutes, endInMinutes, interval)
+
+                var arrayOfSlotsInMoment = [];
+                angular.forEach(arrayOfSlotsInMinutes, function(minutes, i, self) {
+                    var reserveMomentCopy = reserveMoment.clone();
+                    var slot = reserveMomentCopy.set({
+                        minute: minutes,
+                        second: 0
+                    })
+                    arrayOfSlotsInMoment.push(slot);
+                })
+                // console.log(arrayOfSlotsInMoment);
+                return arrayOfSlotsInMoment;
+            }
+
+            // get schedules of the currentPlace
+            // populate status of generated intervals of time slots
+            // if unavailable disable popup click, style unavailable
+            // if available style available attach on-click event.
+
+
+
 
             Schedule.doReserve = function() {
 
-                Schedule.selectedService.username = UserModel.username;
-                console.log(Schedule.selectedService)
-
                 // Validation
-                if (Schedule.selectedService.duration == null) {
+                if (ScheduleModel.form.products[0] == null) {
                     return reserveErrorHelper('서비스란');
-                } else if (Schedule.selectedService.realname == null) {
+                } else if (ScheduleModel.form.userKoreanName == null) {
                     return reserveErrorHelper('이름란');
-                } else if (Schedule.selectedService.userPhone == null) {
+                } else if (ScheduleModel.form.userPhoneNumber == null) {
                     return reserveErrorHelper('연락처란');
                 }
+                Message.loading.default();
 
                 // Request shop by id
-                ScheduleModel.queryById({
-                    id: DetailModel.currentPlace.id
+                Places.findById({
+                    id: $stateParams.id
                 })
                 // Update DetailModel.currentPlace
                 .then(function success(response) {
-                    angular.copy(response, DetailModel.currentPlace);
-                    console.log(DetailModel.currentPlace);
+                    Message.loading.hide();
+                    DetailModel.currentPlace = response;
                     // Find a object that matches clicked time
                     for (var i = 0; i < DetailModel.currentPlace.schedules.length; i++) {
                         var bookDateObj = DetailModel.currentPlace.schedules[i];
@@ -123,25 +190,15 @@ myApp
             //==========================================================================
             //              On AfterEnter.
             //==========================================================================
-            $scope.$on('$ionicView.afterEnter', function() {
-                // Set Modal
-                $ionicModal.fromTemplateUrl('state/schedule/reserveModal.html', {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                })
-                    .then(function(modal) {
-                        Schedule.modal = modal;
-                    })
-            });
 
             //==========================================================================
             //              Check reserve inputs
             //==========================================================================
             function reserveErrorHelper(korean) {
-                $ionicPopup.alert({
-                    title: korean + '이 비었습니다.',
-                    template: korean + '을 입력해주세요.'
-                });
+                Message.popUp.alert.default(
+                    korean + '이 비었습니다.',
+                    korean + '을 입력/골라 주세요.'
+                )
             }
 
             function closeModal(modal) {
@@ -154,4 +211,4 @@ myApp
 
 
         }
-    ])
+    ]);

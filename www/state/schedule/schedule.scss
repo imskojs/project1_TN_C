@@ -1,11 +1,25 @@
 #schedule {
-    ion-list, ion-content {
+    ion-content {
         background: $light;
     }
+    .row + .row {
+        margin-top: 0;
+    }
     .r1 {
+        height: 44px;
+        border: {
+            bottom: 2px solid $positive;
+        }
         .col {
             text-align: center;
-            font-size: 4vw;
+            font-size: 18px;
+            line-height: 18px;
+        }
+        .c1 {
+            color: $positive;
+        }
+
+        .c2 {
             .not-available {
                 color: red;
             }

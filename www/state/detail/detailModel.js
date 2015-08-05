@@ -8,9 +8,29 @@ myApp
             var DetailModel = {
 
                 currentPlace: {
-                    // shop properties from response of queryById
+                    openingHours: [{
+                        start: '00:00',
+                        end: '00:00'
+                    }, {
+                        start: '07:00',
+                        end: '20:00'
+                    }, {
+                        start: '07:00',
+                        end: '20:00'
+                    }, {
+                        start: '07:00',
+                        end: '20:00'
+                    }, {
+                        start: '07:00',
+                        end: '20:00'
+                    }, {
+                        start: '09:00',
+                        end: '22:00'
+                    }, {
+                        start: '09:00',
+                        end: '22:00'
+                    }]
                 },
-
                 selectedDate: {
                     // dt from datepickeruibootstrap
                     current: 'BOOL',
@@ -21,22 +41,20 @@ myApp
                 //Coupled with ui-BootStrap.datePicker and
                 //DetailModel.selectedDate
                 dayClickHandler: function(dt) {
+                    // copies selected date then do below;
                     var shopId = $stateParams.id;
-                    //TODO: setUTCHours(0)
-                    var selectedDay = moment.utc(dt.date)
-                        .set({
-                            hour: 0,
-                            minute: 0,
-                            second: 0
-                        })
-                        .format('YYYY-MM-DD')
-                    var bookings = DetailModel.currentPlace.bookings;
+                    console.log(shopId);
+
+                    // selectedDate = 2015-08-04
+                    var selectedDate = moment(dt.date)
+
+                    // var bookings = DetailModel.currentPlace.bookings;
 
                     // Parameters needed to requery a shop detail
                     //as things might have changed since shop details.
                     $state.go('main.schedule', {
                         id: shopId,
-                        dateTime: moment.utc(selectedDay)
+                        selectedDate: selectedDate.format('YYYY-MM-DD')
                     })
                 },
 

@@ -11,7 +11,7 @@ myApp
                     markerWidth: '@',
                     markerHeight: '@',
                 },
-                link: function(scope, element, attr) {
+                compile: function(element, attr) {
                     //==========================================================================
                     //              Global Map Property
                     //==========================================================================
@@ -22,18 +22,15 @@ myApp
                         level: 4,
                         draggable: true
                     };
+                    daum.maps.disableHD();
                     var map = new daum.maps.Map(DOM, mapOptions);
                     // place service
                     var ps = new daum.maps.services.Places();
-                    // Marker style properties.
-                    var markerSize = new daum.maps.Size(scope.markerWidth, scope.markerHeight);
-                    var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
-                    var markerClickedImg = new daum.maps.MarkerImage(scope.markerClickedSrc, markerSize);
                     // ==========================================================================
                     //              HELPER FUNCTIONS
                     // ==========================================================================
                     // Draw Markers after query
-                    var drawMarkers = function(currentCenter) {
+                    var drawMarkers = function(currentCenter, markerImg, markerClickedImg, scope) {
                         // Reset previous markers;
                         angular.forEach(DaumMapModel.markers, function(marker, i, self) {
                             marker.setMap(null);
@@ -45,8 +42,8 @@ myApp
                             latitude: currentCenter.latitude,
                             longitude: currentCenter.longitude,
                             distance: currentCenter.distance || 5000,
-                            limit: currentCenter.limit || 50,
-                            eager: true
+                            limit: currentCenter.limit || 50
+                            // eager: false
                         }).$promise
                             .then(function success(placesWrapper) {
                                 // placesWrapper = {places:[], more: true};
@@ -91,27 +88,6 @@ myApp
                                 console.log(err);
                             });
                     };
-
-                    // ------------------------
-                    //  Search when moved
-                    // ------------------------
-
-                    daum.maps.event.addListener(map, 'idle', function() {
-
-                        var currentCenter = {
-                            longitude: map.getCenter().getLng(),
-                            latitude: map.getCenter().getLat()
-                        }
-
-                        angular.extend(currentCenter, {
-                            distance: 2000,
-                            limit: 20
-                        });
-
-                        console.log(currentCenter);
-                        drawMarkers(currentCenter)
-
-                    });
 
                     //==========================================================================
                     //              Find Current location and search nearby
@@ -185,6 +161,34 @@ myApp
                             Message.loading.hide();
                         }, function(err) {
                             console.log(err);
+                        });
+                    };
+                    return function(scope, element, attr) {
+                        // Marker style properties.
+                        var markerSize = new daum.maps.Size(scope.markerWidth, scope.markerHeight);
+                        var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
+                        var markerClickedImg = new daum.maps.MarkerImage(scope.markerClickedSrc, markerSize);
+                        map.relayout();
+                        DaumMapModel.domMap = map;
+                        // ------------------------
+                        //  Search when moved
+                        // ------------------------
+
+                        daum.maps.event.addListener(map, 'idle', function() {
+
+                            var currentCenter = {
+                                longitude: map.getCenter().getLng(),
+                                latitude: map.getCenter().getLat()
+                            }
+
+                            angular.extend(currentCenter, {
+                                distance: 2000,
+                                limit: 20
+                            });
+
+                            console.log(currentCenter);
+                            drawMarkers(currentCenter, markerImg, markerClickedImg, scope);
+
                         });
                     };
                 }

@@ -97,7 +97,7 @@ var myApp = angular.module('todayNail', [
         })
 
         .state('main.schedule', {
-            url: '/schdule/:id',
+            url: '/schdule/:id/:selectedDate',
             views: {
                 main: {
                     templateUrl: 'state/schedule/schedule.html',
