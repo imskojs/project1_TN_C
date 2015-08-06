@@ -7,9 +7,9 @@
     <ion-content class="has-header">
         <ul ng-if="Schedule.Model.viewSlots.length > 1 ">
             <li class="r1 row-items row flex"
-                ng-class="{selected: Schedule.isSelectedSlot(reserveSlot)}"
                 ng-repeat="reserveSlot in Schedule.Model.viewSlots track by $index"
-                ng-click="Schedule.selectSlotHandler(reserveSlot)"
+                ng-class="{selected: Schedule.isSelectedSlot(reserveSlot)}"
+                ng-click="Schedule.selectSlotHandler(reserveSlot, $index)"
             >
                 <div class="c1 col zero">
                     <span>
@@ -19,12 +19,12 @@
                 <div class="c2 col zero"
                 >
                     <span class="not-available"
-                        ng-if="itemObj.fullyBooked"
+                        ng-if="!Schedule.isAvailableSlot(reserveSlot)"
                     >
                         예약불가
                     </span>
                     <span class="available"
-                        ng-if="!itemObj.fullyBooked"
+                        ng-if="Schedule.isAvailableSlot(reserveSlot);"
                     >
                         예약가능
                     </span>

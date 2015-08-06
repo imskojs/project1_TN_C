@@ -46,7 +46,7 @@ myApp
             }
 
             function popUpAlertDefault(title, message) {
-                $ionicPopup.alert({
+                return $ionicPopup.alert({
                     title: title || '인터넷이 끊겼습니다.',
                     template: message || '인터넷을 켜주세요.'
                 });

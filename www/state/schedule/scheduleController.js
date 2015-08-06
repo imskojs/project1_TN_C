@@ -9,112 +9,162 @@ myApp
 
             var Schedule = this;
             Schedule.Model = ScheduleModel;
+            ScheduleModel.currentPlace = DetailModel.currentPlace;
+            var interval = 30;
 
 
-            Schedule.selectSlotHandler = function(reserveSlot) {
+            //------------------------
+            //  Select Reserve Slot Logic
+            //------------------------
+            Schedule.selectSlotHandler = function(reserveSlot, index) {
                 ScheduleModel.selectedSlot = reserveSlot;
+                ScheduleModel.selectedIndex = index;
+
+                if (reserveSlot.bookingCount >= DetailModel.currentPlace.employee) {
+                    Message.popUp.alert.default(
+                        '예약불가 알림',
+                        '예약이 꽉 차있는 시간입니다.'
+                    )
+                    return false;
+                }
                 Schedule.modal.show();
-
                 ScheduleModel.form.datetime = reserveSlot.toDate();
-
-                console.log(reserveSlot);
             };
+
             Schedule.isSelectedSlot = function(reserveSlot) {
                 var selectedHourString = ScheduleModel.selectedSlot.get && ScheduleModel.selectedSlot.get('hour');
                 var selectedMinuteString = ScheduleModel.selectedSlot.get && ScheduleModel.selectedSlot.get('minute');
                 var selectedTimeString = selectedHourString + ':' + selectedMinuteString;
-
                 var reserveSlotHourString = reserveSlot.get && reserveSlot.get('hour');
                 var reserveSlotMinuteString = reserveSlot.get && reserveSlot.get('minute');
                 var reserveSlotTimeString = reserveSlotHourString + ':' + reserveSlotMinuteString;
-
                 return selectedTimeString === reserveSlotTimeString;
             };
 
+            Schedule.isAvailableSlot = function(reserveSlot) {
+                if (reserveSlot.bookingCount != null && DetailModel.currentPlace.employee != null) {
+                    return Number(DetailModel.currentPlace.employee) > reserveSlot.bookingCount;
+                } else {
+                    return true;
+                }
+            };
+
+            //------------------------
+            // Logic inside Modal.
+            //------------------------
             Schedule.selectProductHandler = function(product) {
-                ScheduleModel.form.products = [product];
+                ScheduleModel.form.products = [{
+                    product: product
+                }];
             };
             Schedule.isSelectedProduct = function(product) {
-                return ((ScheduleModel.form.products && ScheduleModel.form.products[0].id) === product.id);
-            }
+                return ((ScheduleModel.form.products && ScheduleModel.form.products[0] && ScheduleModel.form.products[0].product.id) === product.id);
+            };
 
             Schedule.closeModalHandler = function() {
-                angular.copy({}, ScheduleModel.form);
-                Schedule.modal.hide();
+                Bookings.getBookings({
+                    placeId: $stateParams.id,
+                    from: moment($stateParams.selectedDate).toDate().getTime(),
+                    to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
+                }).$promise
+                    .then(function success(data) {
+                        // update viewSlots
+                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, false);
+                        updateSlotsWithBookings(data);
+                        angular.copy({}, ScheduleModel.form);
+                        Schedule.modal.hide();
+                    });
             }
             Schedule.bookingHandler = function() {
                 ScheduleModel.form.place = $stateParams.id;
+                // Validation
+                if (ScheduleModel.form.products[0] == null) {
+                    return reserveErrorHelper('서비스란');
+                } else if (ScheduleModel.form.userKoreanName == null) {
+                    return reserveErrorHelper('이름란');
+                } else if (ScheduleModel.form.userPhoneNumber == null) {
+                    return reserveErrorHelper('연락처란');
+                }
+
+                Message.loading.default();
+
+                Bookings.getBookings({
+                    placeId: $stateParams.id,
+                    from: moment($stateParams.selectedDate).toDate().getTime(),
+                    to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
+                }).$promise
+                    .then(function success(data) {
+                            // update viewSlots
+                            ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, false);
+                            updateSlotsWithBookings(data);
+
+                            // booking availabilty logic
+                            var index = ScheduleModel.selectedIndex;
+                            var duration = ScheduleModel.form.products[0].product.duration
+                            var numberOfSlots = Math.ceil(duration / interval);
+                            console.log(duration);
+                            console.log(ScheduleModel.viewSlots.length);
+                            for (var i = index; i < index + numberOfSlots; i++) {
+                                // service crashes with other times
+                                var bookingCounts = ScheduleModel.viewSlots[i].bookingCount ? ScheduleModel.viewSlots[i].bookingCount : 0;
+                                if (bookingCounts >= Number(DetailModel.currentPlace.employee)) {
+                                    Message.loading.hide();
+                                    Message.popUp.alert.default(
+                                        '예약 불가 안내',
+                                        '고르신 서비스의 시간이 다음 예약시간과 겹치게 되어 예약이 불가합니다.'
+                                    );
+                                    return false;
+                                }
+                                // service goes out of business hours
+                                if (index + numberOfSlots > ScheduleModel.viewSlots.length) {
+                                    Message.loading.hide();
+                                    Message.popUp.alert.default(
+                                        '예약 불가 안내',
+                                        '고르신 서비스의 시간이 영업 종료시간을 넘기어 예약이 불가합니다.'
+                                    );
+                                    return false;
+                                }
+
+                            }
+
+                            // make reservation.
+                            Bookings.createBooking({},
+                                Schedule.Model.form
+                            ).$promise
+                                .then(function success(data) {
+                                    Message.loading.hide();
+                                    Message.popUp.alert.default(
+                                        '예약 완료 알림',
+                                        '예약이 완료 되었습니다.'
+                                    ).then(function(response) {
+                                        Schedule.closeModalHandler();
+                                    })
+                                    console.log(data);
+                                }, function err(error) {
+                                    console.log(error);
+                                })
+                        },
+                        function err(error) {
+                            console.log(error);
+                        });
             }
 
 
             $scope.$on('$ionicView.beforeEnter', function() {
 
-                // get currentPlace from DetailModel.
-                // Generate reservation slots.
-                var openingHours = DetailModel.currentPlace.openingHours
+                var openingHours = DetailModel.currentPlace.openingHours;
                 ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, openingHours, 30, true);
-
-                var begDate = moment($stateParams.selectedDate)
-                    .toDate()
-                    .getTime();
-
-                var endDate = moment($stateParams.selectedDate).add(1, 'days')
-                    .toDate()
-                    .getTime();
-
                 Bookings.getBookings({
                     placeId: $stateParams.id,
-                    newerThan: begDate,
-                    olderThan: endDate
+                    from: moment($stateParams.selectedDate).toDate().getTime(),
+                    to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
                 }).$promise
                     .then(function success(data) {
-                        var viewSlots = ScheduleModel.viewSlots;
-                        var bookings = ScheduleModel.bookings = data;
-                        var employee = DetailModel.currentPlace.employee;
-                        var interval = 30;
-                        // If employee =< number of bookings within given time
-
-                        // Given time;
-                        angular.forEach(bookings, function(booking, i, self) {
-                            // get beginning time(inclusive) and end time(exclusive)
-                            var begBookingMoment = moment.utc(booking.datetime).local()
-                                .add(1, 'seconds');
-                            var duration = booking.products[0].duration;
-                            var endBookingMoment = begBookingMoment
-                                .add(Number(duration), 'minutes')
-                                .subtract(1, 'seconds');
-                            // if begTime is gte begTimeSlot
-                            for (var i = 0; i < viewSlots.length - 1; i++) {
-                                if (begBookingMoment.isBetween(viewSlots[i], viewSlots[i + 1])) {
-                                    var numberOfSlotsTaken = Math.ceil(duration / interval)
-                                    for (var j = 0; j < numberOfSlotsTaken; j++) {
-                                        if (!viewSlots[i + j].bookingCount) {
-                                            viewSlots[i + j].bookingCount = 1;
-                                        } else {
-                                            viewSlots[i + j].bookingCount += 1;
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                        })
-                        // add bookingCount + 1 to that time slot
-                        // if endTime is lt begTimeSlot
-                        // add bookingCount + 1 to timeSlot before that.
-                        // set un-available
-                        // else set available
-
-
-
-
-
-
-
-
-
+                        updateSlotsWithBookings(data);
                     }, function err(error) {
                         console.log(error);
                     });
+
             });
 
             $scope.$on('$ionicView.afterEnter', function() {
@@ -174,6 +224,38 @@ myApp
                 return arrayOfSlotsInMoment;
             }
 
+            function updateSlotsWithBookings(data) {
+                var viewSlots = ScheduleModel.viewSlots;
+                var bookings = ScheduleModel.bookings = data.bookings;
+                var employee = DetailModel.currentPlace.employee;
+                // var interval = 30;
+
+                angular.forEach(bookings, function(booking, i, self) {
+                    // get beginning time(inclusive)
+                    var begBookingMoment = moment.utc(booking.datetime).local()
+                        .add(1, 'seconds');
+                    var duration = booking.products[0].product && booking.products[0].product.duration;
+                    // if begTime is between reserveSlot
+                    // for each viewslots
+                    for (var i = 0; i < viewSlots.length - 2; i++) {
+                        // if beginning of booking time is between reserveSlot
+                        if (begBookingMoment.isBetween(viewSlots[i], viewSlots[i + 1])) {
+                            // get number of slots to increament booking count;
+                            var numberOfSlotsTaken = Math.ceil(Number(duration) / Number(interval));
+                            // increment affected slots bookingCount;
+                            for (var j = 0; j < numberOfSlotsTaken; j++) {
+                                if (!viewSlots[i + j].bookingCount) {
+                                    viewSlots[i + j].bookingCount = 1;
+                                } else {
+                                    viewSlots[i + j].bookingCount += 1;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                });
+            }
+
             // get schedules of the currentPlace
             // populate status of generated intervals of time slots
             // if unavailable disable popup click, style unavailable
@@ -182,62 +264,6 @@ myApp
 
 
 
-            Schedule.doReserve = function() {
-
-                // Validation
-                if (ScheduleModel.form.products[0] == null) {
-                    return reserveErrorHelper('서비스란');
-                } else if (ScheduleModel.form.userKoreanName == null) {
-                    return reserveErrorHelper('이름란');
-                } else if (ScheduleModel.form.userPhoneNumber == null) {
-                    return reserveErrorHelper('연락처란');
-                }
-                Message.loading.default();
-
-                // Request shop by id
-                Places.findById({
-                    id: $stateParams.id
-                })
-                // Update DetailModel.currentPlace
-                .then(function success(response) {
-                    Message.loading.hide();
-                    DetailModel.currentPlace = response;
-                    // Find a object that matches clicked time
-                    for (var i = 0; i < DetailModel.currentPlace.schedules.length; i++) {
-                        var bookDateObj = DetailModel.currentPlace.schedules[i];
-                        if (Schedule.reserveModel.date == bookDateObj.date) {
-                            // if employee > bookedServices.length
-                            if (DetailModel.currentPlace.employee > bookDateObj.bookedServices.length) {
-                                // update bookedServices array in the server.
-                                ScheduleModel.updateSchedule(Schedule.selectedService, {
-                                    id: DetailModel.currentPlace.id,
-                                    time: Schedule.reserveModel.time
-                                })
-                                // if update was successful;
-                                .then(function success(response) {
-                                    // update bookedServices array in currentPlace
-                                    bookDateObj.bookedServices.push(Schedule.selectedService)
-                                    console.log(DetailModel.currentPlace);
-                                    // close modal
-                                    closeModal(Schedule.modal);
-                                }, function err(error) {
-                                    // else something went wrong message.
-                                    console.dir(error);
-                                    console.log('Someone just tookt that place')
-                                    // close modal
-                                    closeModal(Schedule.modal);
-                                })
-                            }
-                        }
-                    }
-                }, function err(error) {
-                    // else send someone just took that place error message.
-                    console.dir(error);
-                    console.log('Server down.')
-                    // close modal
-                    closeModal(Schedule.modal);
-                })
-            };
 
 
 
@@ -255,11 +281,6 @@ myApp
                 )
             }
 
-            function closeModal(modal) {
-                Schedule.selectedService.realname = null;
-                Schedule.selectedService.userPhone = null;
-                modal.hide();
-            }
 
 
 

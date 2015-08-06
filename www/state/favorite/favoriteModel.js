@@ -1,8 +1,15 @@
 myApp
-.factory('FavoriteModel', [
+    .factory('FavoriteModel', [
 
 
 
-function(){
-    
-}]);
+        function() {
+
+            var FavoriteModel = {
+
+            };
+
+            return FavoriteModel;
+
+        }
+    ]);

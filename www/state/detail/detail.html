@@ -13,7 +13,10 @@
     {{Detail.Model.currentPlace.name}}
 </ion-nav-title>
 <ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-heart">
+    <button class="button button-icon icon ion-heart"
+        ng-click="Detail.toggleSavePlace()"
+        ng-class="{'favorite-place': Detail.styleStar}"
+    >
     </button>
 </ion-nav-buttons>
 
