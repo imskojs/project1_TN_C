@@ -74,11 +74,25 @@ myApp
                                             });
                                             marker.setImage(markerClickedImg);
                                             // on click: show modal which will be filled with place info
-                                            DaumMapModel.modal.show();
                                             // modal references DaumMapModel.selectedPlace to fill in the info
                                             var index = Number(marker.getTitle());
-                                            DaumMapModel.selectedPlace = DaumMapModel.places[index];
-                                            console.log(DaumMapModel.selectedPlace)
+                                            Message.loading.default();
+
+                                            Places.findById({
+                                                id: DaumMapModel.places[index].id,
+                                                populates: 'photos'
+                                            }).$promise
+                                                .then(function success(data) {
+                                                    Message.loading.hide();
+                                                    DaumMapModel.selectedPlace = data;
+                                                    console.log(DaumMapModel.selectedPlace)
+                                                    DaumMapModel.modal.show();
+                                                }, function err(error) {
+                                                    Message.loading.hide();
+                                                    Message.popUp.alert.default();
+
+                                                });
+                                            // DaumMapModel.selectedPlace = DaumMapModel.places[index];
                                         });
                                     });
                                     // Save converted place with click event added.

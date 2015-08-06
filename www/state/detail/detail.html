@@ -1,5 +1,4 @@
 <ion-view id="detail"
-    view-title="{{Detail.currentPlace.name}}"
     cache-view="true"
     can-swipe-back="false"
     hide-back-button="true"
@@ -10,6 +9,9 @@
     >
     </button>
 </ion-nav-buttons>
+<ion-nav-title>
+    {{Detail.Model.currentPlace.name}}
+</ion-nav-title>
 <ion-nav-buttons side="right">
     <button class="button button-icon icon ion-heart">
     </button>

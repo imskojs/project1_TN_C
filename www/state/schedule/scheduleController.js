@@ -1,10 +1,10 @@
 myApp
     .controller('ScheduleController', [
 
-        'DetailModel', 'ScheduleModel', 'Places', 'Message',
+        'DetailModel', 'ScheduleModel', 'Places', 'Bookings', 'Message',
         '$scope', '$ionicModal', '$q', '$stateParams',
 
-        function(DetailModel, ScheduleModel, Places, Message,
+        function(DetailModel, ScheduleModel, Places, Bookings, Message,
             $scope, $ionicModal, $q, $stateParams) {
 
             var Schedule = this;
@@ -48,18 +48,72 @@ myApp
 
 
             $scope.$on('$ionicView.beforeEnter', function() {
-                Message.loading.default();
-                Places.findById({
-                    id: $stateParams.id
+
+                // get currentPlace from DetailModel.
+                // Generate reservation slots.
+                var openingHours = DetailModel.currentPlace.openingHours
+                ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, openingHours, 30, true);
+
+                var begDate = moment($stateParams.selectedDate)
+                    .toDate()
+                    .getTime();
+
+                var endDate = moment($stateParams.selectedDate).add(1, 'days')
+                    .toDate()
+                    .getTime();
+
+                Bookings.getBookings({
+                    placeId: $stateParams.id,
+                    newerThan: begDate,
+                    olderThan: endDate
                 }).$promise
                     .then(function success(data) {
-                        Message.loading.hide();
-                        ScheduleModel.currentPlace = data;
-                        console.log(data);
-                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, 30, true);
-                    }, function error(err) {
-                        Message.loading.hide();
-                        Message.popUp.alert.default();
+                        var viewSlots = ScheduleModel.viewSlots;
+                        var bookings = ScheduleModel.bookings = data;
+                        var employee = DetailModel.currentPlace.employee;
+                        var interval = 30;
+                        // If employee =< number of bookings within given time
+
+                        // Given time;
+                        angular.forEach(bookings, function(booking, i, self) {
+                            // get beginning time(inclusive) and end time(exclusive)
+                            var begBookingMoment = moment.utc(booking.datetime).local()
+                                .add(1, 'seconds');
+                            var duration = booking.products[0].duration;
+                            var endBookingMoment = begBookingMoment
+                                .add(Number(duration), 'minutes')
+                                .subtract(1, 'seconds');
+                            // if begTime is gte begTimeSlot
+                            for (var i = 0; i < viewSlots.length - 1; i++) {
+                                if (begBookingMoment.isBetween(viewSlots[i], viewSlots[i + 1])) {
+                                    var numberOfSlotsTaken = Math.ceil(duration / interval)
+                                    for (var j = 0; j < numberOfSlotsTaken; j++) {
+                                        if (!viewSlots[i + j].bookingCount) {
+                                            viewSlots[i + j].bookingCount = 1;
+                                        } else {
+                                            viewSlots[i + j].bookingCount += 1;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        })
+                        // add bookingCount + 1 to that time slot
+                        // if endTime is lt begTimeSlot
+                        // add bookingCount + 1 to timeSlot before that.
+                        // set un-available
+                        // else set available
+
+
+
+
+
+
+
+
+
+                    }, function err(error) {
+                        console.log(error);
                     });
             });
 
@@ -79,7 +133,7 @@ myApp
             // HELPER FUNCTIONS
             //------------------------
 
-            function generateReserveMomentSlots(selectedDateString, interval, ableToBookAtEndTimeBool) {
+            function generateReserveMomentSlots(selectedDateString, openingHoursArray, interval, ableToBookAtEndTimeBool) {
                 // get day of reservedDate, in UTC+9
                 var reserveMoment = moment(selectedDateString).set({
                     hour: 0,
@@ -90,7 +144,7 @@ myApp
                 var dayOfWeek = reserveMoment.day();
                 // Get opening hours of that day
                 //{start: '07:00', end: '20:00'}
-                var hoursObj = ScheduleModel.currentPlace.openingHours[dayOfWeek];
+                var hoursObj = openingHoursArray[dayOfWeek];
 
                 // Convert strings to date object.
                 var startTimeArray = hoursObj.start.split(':');

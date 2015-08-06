@@ -34,6 +34,12 @@ myApp
                     //moment object
                 },
                 viewSlots: ['moment', 'moment', 'moment'],
+                bookings: [{
+                    datetime: 'datetime',
+                    products: [{
+                        duration: "30"
+                    }]
+                }],
 
                 form: {
                     products: [''],

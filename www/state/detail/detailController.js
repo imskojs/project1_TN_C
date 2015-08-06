@@ -15,13 +15,16 @@ myApp
                 Message.loading.default();
 
                 Places.findById({
-                    id: $stateParams.id
+                    id: $stateParams.id,
+                    populates: 'photos,products,bookings'
                 }).$promise
                     .then(function success(place) {
                         DetailModel.currentPlace = place;
                         Message.loading.hide();
                         // console.log(DetailModel.currentPlace);
                         $ionicSlideBoxDelegate.update();
+                        console.log('this is detail');
+                        console.log(place);
 
                     }, function error(err) {
                         Message.popUp.alert.default(
