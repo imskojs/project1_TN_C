@@ -69,7 +69,7 @@ myApp
                 }).$promise
                     .then(function success(data) {
                         // update viewSlots
-                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, false);
+                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, true);
                         updateSlotsWithBookings(data);
                         angular.copy({}, ScheduleModel.form);
                         Schedule.modal.hide();
@@ -88,14 +88,14 @@ myApp
 
                 Message.loading.default();
 
-                Bookings.getBookings({
+                Bookings.getBookingsDateBetween({
                     placeId: $stateParams.id,
                     from: moment($stateParams.selectedDate).toDate().getTime(),
                     to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
                 }).$promise
                     .then(function success(data) {
                             // update viewSlots
-                            ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, false);
+                            ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, true);
                             updateSlotsWithBookings(data);
 
                             // booking availabilty logic
@@ -237,9 +237,17 @@ myApp
                     var duration = booking.products[0].product && booking.products[0].product.duration;
                     // if begTime is between reserveSlot
                     // for each viewslots
-                    for (var i = 0; i < viewSlots.length - 2; i++) {
+                    for (var i = 0; i < viewSlots.length; i++) {
+
+                        if (i < viewSlots.length - 1) {
+                            var viewSlotEnd = viewSlots[i + 1];
+                            // if index is the last one.
+                        } else if (i === viewSlots.length - 1) {
+                            var viewSlotEnd = viewSlots[i].clone().add(interval, 'minutes')
+                        }
+
                         // if beginning of booking time is between reserveSlot
-                        if (begBookingMoment.isBetween(viewSlots[i], viewSlots[i + 1])) {
+                        if (begBookingMoment.isBetween(viewSlots[i], viewSlotEnd)) {
                             // get number of slots to increament booking count;
                             var numberOfSlotsTaken = Math.ceil(Number(duration) / Number(interval));
                             // increment affected slots bookingCount;
@@ -252,6 +260,8 @@ myApp
                             }
                             break;
                         }
+
+
                     }
                 });
             }

@@ -7,12 +7,13 @@ myApp
     function($resource, governorUrl, $cordovaFileTransfer) {
 
         var bookingUrl = governorUrl + '/booking' + '/:list' +
-            '/:image' + '/:mine';
+            '/:image' + '/:mine' + '/:dateBetween';
 
         var params = {
             list: '@list',
             image: '@image',
-            mine: '@mine'
+            mine: '@mine',
+            dateBetween: '@dateBetween'
         };
 
         var actions = {
@@ -27,6 +28,12 @@ myApp
                 params: {
                     list: 'list',
                     mine: 'mine'
+                }
+            },
+            getBookingsDateBetween: {
+                method: 'GET',
+                params: {
+                    dateBetween: 'dateBetween'
                 }
             },
 

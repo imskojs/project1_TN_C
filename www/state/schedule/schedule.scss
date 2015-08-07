@@ -1,6 +1,9 @@
+.popup {
+    background: white !important;
+}
 #schedule {
     ion-content {
-        background: $light;
+        background: white;
     }
     .row + .row {
         margin-top: 0;
