@@ -41,8 +41,16 @@ myApp
                         var arrayOfPromises = _.map(arrayOfIds, function(id, i, self) {
                             return Bookings.getBookingsDateBetween({
                                 placeId: id,
-                                from: currentMoment.clone().toDate().getTime(),
-                                to: currentMoment.clone().add(rangeMinutes, 'minutes').toDate().getTime()
+                                from: currentMoment.clone().set({
+                                    hour: 0,
+                                    minute: 0,
+                                    second: 0
+                                }).toDate().getTime(),
+                                to: currentMoment.clone().set({
+                                    hour: 23,
+                                    minute: 59,
+                                    second: 59
+                                }).toDate().getTime()
                             }).$promise
                         });
 
@@ -50,6 +58,10 @@ myApp
                             .then(function success(arrayOfBookingsWrapper) {
 
                                 var availabilities = checkAvailableSlots(places, arrayOfBookingsWrapper, interval, currentMoment, rangeMinutes);
+
+                                if (availabilities.length === 0) {
+                                    return [];
+                                }
                                 for (var i = places.length - 1; i >= 0; i--) {
                                     if (availabilities[i] === 'unavailable') {
                                         places.splice(i, 1);
@@ -79,9 +91,46 @@ myApp
                     }
 
                     function checkAvailableSlots(places, arrayOfBookingsWrapper, interval, currentMoment, rangeMinutes) {
+                        var todayInt = currentMoment.clone().get('day');
+
+                        var closingMomentsForToday = [];
+                        angular.forEach(places, function(place, i) {
+                            console.log(place);
+                            var endHourArray = place.openingHours[todayInt].end.split(':')
+                            var hours = endHourArray[0];
+                            var minutes = endHourArray[1];
+                            var closingMoment = moment().set({
+                                hour: hours,
+                                minutes: minutes
+                            });
+                            if (place.openingHours[todayInt].start === place.openingHours[todayInt].end) {
+                                places.splice(i, 1, null)
+                                arrayOfBookingsWrapper.splice(i, 1, null);
+                            } else if (currentMoment.isAfter(closingMoment)) {
+                                places.splice(i, 1, null);
+                                arrayOfBookingsWrapper.splice(i, 1, null);
+                            } else {
+                                closingMomentsForToday.push(closingMoment);
+                            }
+                        })
+                        for (var i = places.length - 1; i >= 0; i--) {
+                            if (places[i] === null) {
+                                places.splice(i, 1);
+                                arrayOfBookingsWrapper.splice(i, 1);
+                            }
+                        };
+                        if (places.length === 0) {
+                            Message.popUp.alert.default('바로검색 알림', '지금은 검색주위의 샵들이 모두 닫았습니다, 내일 이용해주시거나, 다른지역을 검색해주세요')
+                            return [];
+                        }
+
+
+
                         var arrayOfBookings = _.map(arrayOfBookingsWrapper, function(bookingsWrapper) {
                             return bookingsWrapper.bookings;
                         });
+                        console.log('arrayOfBookings');
+                        console.log(arrayOfBookings);
                         var employees = _.map(places, function(place) {
                             return place.employee
                         })
@@ -96,22 +145,24 @@ myApp
                             var bookings = arrayOfBookings[i];
                             var durations = arrayOfDurations[i];
                             var place = places[i];
+                            console.log('place');
+                            console.log(place);
                             for (var j = 0; j < durations.length; j++) {
                                 var booking = bookings[i];
                                 var datetime = booking.datetime
                                 var bookingMoment = moment(datetime);
-
-                                // if(bookingMoment.isAfter(currentMoment.clone())){
-                                resultArray_i.push(bookingMoment);
-                                // }
-
-
+                                if (bookingMoment.isBetween(currentMoment.clone(), currentMoment.clone().add(rangeMinutes, 'minutes')) &&
+                                    bookingMoment.isBefore(closingMoment.clone())) {
+                                    resultArray_i.push(bookingMoment);
+                                }
                                 var duration = durations[i];
+                                var closingMoment = closingMomentsForToday[i];
                                 var slotsTaken = Math.ceil(duration / interval);
                                 for (var k = 0; k < slotsTaken; k++) {
                                     var minutesToAdd = interval * (k + 1);
                                     var trailingBookingMoment = bookingMoment.clone().add(minutesToAdd, 'minutes');
-                                    if (trailingBookingMoment.isBefore(currentMoment.clone().add(rangeMinutes, 'minutes'))) {
+                                    if (trailingBookingMoment.isBetween(currentMoment.clone(), currentMoment.clone().add(rangeMinutes, 'minutes')) &&
+                                        trailingBookingMoment.isBefore(closingMoment.clone())) {
                                         resultArray_i.push(trailingBookingMoment);
                                     }
                                 }
@@ -132,6 +183,9 @@ myApp
                                 var timeString = String(hours) + ':' + String(minutes);
                                 return timeString;
                             });
+                            if (timeStrings.length === 0) {
+                                timeStrings = ['available']
+                            }
                             arrayOfTimeStrings.push(timeStrings);
                         }
                         console.log('arrayOfTimeStrings');
@@ -152,7 +206,7 @@ myApp
                             var availabilityFlag = false;
                             var place = places[i];
                             for (var key in arrayOfGroupedTimeStrings[i]) {
-                                if (arrayOfGroupedTimeStrings[i][key].length < place.employee) {
+                                if (arrayOfGroupedTimeStrings[i][key].length < place.employee || key === 'available') {
                                     availabilities.push('available')
                                     availabilityFlag = true;
                                     break
