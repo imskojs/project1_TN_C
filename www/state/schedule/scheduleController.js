@@ -27,6 +27,7 @@ myApp
                     )
                     return false;
                 }
+                // this is a new line
                 Schedule.modal.show();
                 ScheduleModel.form.datetime = reserveSlot.toDate();
             };
