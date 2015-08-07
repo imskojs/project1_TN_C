@@ -2,8 +2,9 @@ myApp
     .directive('daumMap', [
 
         'DaumMapModel', 'Places', 'Bookings', '$state', '$cordovaGeolocation', 'Message', '$q',
+        '$stateParams',
 
-        function(DaumMapModel, Places, Bookings, $state, $cordovaGeolocation, Message, $q) {
+        function(DaumMapModel, Places, Bookings, $state, $cordovaGeolocation, Message, $q, $stateParams) {
             return {
                 scope: {
                     markerSrc: '@',
@@ -16,6 +17,7 @@ myApp
                     //              Global Map Property
                     //==========================================================================
                     // Initiate map
+                    var interval = 30;
                     var DOM = element[0];
                     var mapOptions = {
                         center: new daum.maps.LatLng(37.5, 127),
@@ -31,6 +33,37 @@ myApp
                     // ==========================================================================
                     // filter query
                     function filterPlaces(places, rangeMinutes) {
+
+                        var currentMoment = setCurrentMoment();
+
+                        var arrayOfIds = _.pluck(places, 'id');
+
+                        var arrayOfPromises = _.map(arrayOfIds, function(id, i, self) {
+                            return Bookings.getBookingsDateBetween({
+                                placeId: id,
+                                from: currentMoment.clone().toDate().getTime(),
+                                to: currentMoment.clone().add(rangeMinutes, 'minutes').toDate().getTime()
+                            }).$promise
+                        });
+
+                        return $q.all(arrayOfPromises)
+                            .then(function success(arrayOfBookingsWrapper) {
+
+                                var availabilities = checkAvailableSlots(places, arrayOfBookingsWrapper, interval, currentMoment, rangeMinutes);
+                                for (var i = places.length - 1; i >= 0; i--) {
+                                    if (availabilities[i] === 'unavailable') {
+                                        places.splice(i, 1);
+                                    }
+                                };
+
+                                return places
+
+                            }, function err(arrayOfErrors) {
+                                console.log(arrayOfErrors);
+                            });
+                    }
+
+                    function setCurrentMoment() {
                         var currentHour = moment().get('hour');
                         var currentMinute = moment().get('minute');
                         if (currentMinute <= 30) {
@@ -42,40 +75,96 @@ myApp
                                 minutes: 59
                             });
                         }
-                        var arrayOfIds = _.pluck(places, 'id');
-                        var arrayOfPromises = _.map(arrayOfIds, function(id, i, self) {
-                            return Bookings.getBookingsDateBetween({
-                                placeId: id,
-                                from: currentMoment.toDate().getTime(),
-                                to: currentMoment.add(rangeMinutes, 'minutes').toDate().getTime()
-                            }).$promise
-                        });
-                        return $q.all(arrayOfPromises)
-                            .then(function success(arrayOfBookingsWrapper) {
-                                angular.forEach(arrayOfBookingsWrapper, function(bookingsWrapper, i, self) {
-                                    var bookingsArray = bookingsWrapper.bookings;
-                                    var bookingsMomentArray = _.map(bookingsArray, function(booking) {
-                                        return moment(booking.datetime);
-                                    });
-                                    // interval = 30
-                                    var numberOfSlots = rangeMinutes / 30;
-                                    // TODO: check booking beginning, duration, and employee to figure out..
-                                    var saturatingNumber = numberOfSlots * places[i].employee;
-                                    //remove places;
-                                    if (bookingsArray.length >= saturatingNumber) {
-                                        places.splice(i, 1, null);
-                                    }
-                                });
-                                for (var i = places.length - 1; i >= 0; i--) {
-                                    if (places[i] == null) {
-                                        places.splice(i, 1);
-                                    }
-                                };
-                                return places
+                        return currentMoment;
+                    }
 
-                            }, function err(arrayOfErrors) {
-                                console.log(arrayOfErrors);
+                    function checkAvailableSlots(places, arrayOfBookingsWrapper, interval, currentMoment, rangeMinutes) {
+                        var arrayOfBookings = _.map(arrayOfBookingsWrapper, function(bookingsWrapper) {
+                            return bookingsWrapper.bookings;
+                        });
+                        var employees = _.map(places, function(place) {
+                            return place.employee
+                        })
+                        var arrayOfDurations = _.map(arrayOfBookings, function(bookings) {
+                            return _.map(bookings, function(booking) {
+                                return booking.products[0].product.duration
+                            })
+                        })
+                        var arrayOfBookingsMoment = []; // [ [newbooking, newbooking,... ], []]
+                        for (var i = 0; i < arrayOfDurations.length; i++) {
+                            var resultArray_i = []; // inner [] of resultArray = [ [], [], ... ]
+                            var bookings = arrayOfBookings[i];
+                            var durations = arrayOfDurations[i];
+                            var place = places[i];
+                            for (var j = 0; j < durations.length; j++) {
+                                var booking = bookings[i];
+                                var datetime = booking.datetime
+                                var bookingMoment = moment(datetime);
+
+                                // if(bookingMoment.isAfter(currentMoment.clone())){
+                                resultArray_i.push(bookingMoment);
+                                // }
+
+
+                                var duration = durations[i];
+                                var slotsTaken = Math.ceil(duration / interval);
+                                for (var k = 0; k < slotsTaken; k++) {
+                                    var minutesToAdd = interval * (k + 1);
+                                    var trailingBookingMoment = bookingMoment.clone().add(minutesToAdd, 'minutes');
+                                    if (trailingBookingMoment.isBefore(currentMoment.clone().add(rangeMinutes, 'minutes'))) {
+                                        resultArray_i.push(trailingBookingMoment);
+                                    }
+                                }
+                            }
+                            arrayOfBookingsMoment.push(resultArray_i);
+                        }
+                        console.log('arrayOfBookingsMoment');
+                        console.log(arrayOfBookingsMoment);
+
+
+                        var arrayOfTimeStrings = [];
+                        for (var i = 0; i < arrayOfBookingsMoment.length; i++) {
+                            var bookingsMoment = arrayOfBookingsMoment[i];
+                            console.log(bookingsMoment);
+                            var timeStrings = _.map(bookingsMoment, function(bookingMoment) {
+                                var hours = bookingMoment.get('hours');
+                                var minutes = bookingMoment.get('minutes')
+                                var timeString = String(hours) + ':' + String(minutes);
+                                return timeString;
                             });
+                            arrayOfTimeStrings.push(timeStrings);
+                        }
+                        console.log('arrayOfTimeStrings');
+                        console.log(arrayOfTimeStrings);
+
+                        var arrayOfGroupedTimeStrings = [];
+                        angular.forEach(arrayOfTimeStrings, function(timeStrings) {
+                            var groupedTimeStrings = _.groupBy(timeStrings, function(timeString) {
+                                return timeString;
+                            })
+                            arrayOfGroupedTimeStrings.push(groupedTimeStrings);
+                        })
+                        console.log('arrayOfGroupedTimeStrings');
+                        console.log(arrayOfGroupedTimeStrings);
+
+                        var availabilities = [];
+                        for (var i = 0; i < arrayOfGroupedTimeStrings.length; i++) {
+                            var availabilityFlag = false;
+                            var place = places[i];
+                            for (var key in arrayOfGroupedTimeStrings[i]) {
+                                if (arrayOfGroupedTimeStrings[i][key].length < place.employee) {
+                                    availabilities.push('available')
+                                    availabilityFlag = true;
+                                    break
+                                }
+                            }
+                            if (availabilityFlag === false) {
+                                availabilities.push('unavailable');
+                            }
+                        }
+                        console.log('availabilities');
+                        console.log(availabilities);
+                        return availabilities;
                     }
 
                     function processPin(markerImg, markerClickedImg, scope) {
@@ -142,11 +231,10 @@ myApp
                             longitude: currentCenter.longitude,
                             distance: currentCenter.distance || 5000,
                             limit: currentCenter.limit || 50
-                            // eager: false
                         }).$promise
                             .then(function success(placesWrapper) {
 
-                                if (true) {
+                                if ($stateParams.from === 'quick') {
 
                                     filterPlaces(placesWrapper.places, 60)
                                         .then(function success(places) {

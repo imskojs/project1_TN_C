@@ -24,10 +24,9 @@ myApp
                     Message.popUp.alert.default(
                         '예약불가 알림',
                         '예약이 꽉 차있는 시간입니다.'
-                    )
+                    );
                     return false;
                 }
-                // this is a new line
                 Schedule.modal.show();
                 ScheduleModel.form.datetime = reserveSlot.toDate();
             };
@@ -63,10 +62,10 @@ myApp
             };
 
             Schedule.closeModalHandler = function() {
-                Bookings.getBookings({
+                Bookings.getBookingsDateBetween({
                     placeId: $stateParams.id,
-                    from: moment($stateParams.selectedDate).toDate().getTime(),
-                    to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
+                    from: moment($stateParams.selectedDate).clone().toDate().getTime(),
+                    to: moment($stateParams.selectedDate).clone().add(1, 'days').toDate().getTime()
                 }).$promise
                     .then(function success(data) {
                         // update viewSlots
@@ -91,63 +90,58 @@ myApp
 
                 Bookings.getBookingsDateBetween({
                     placeId: $stateParams.id,
-                    from: moment($stateParams.selectedDate).toDate().getTime(),
-                    to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
-                }).$promise
-                    .then(function success(data) {
-                            // update viewSlots
-                            ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, true);
-                            updateSlotsWithBookings(data);
+                    from: moment($stateParams.selectedDate).clone().toDate().getTime(),
+                    to: moment($stateParams.selectedDate).clone().add(1, 'days').toDate().getTime()
+                }).$promise.then(function success(data) {
+                        // update viewSlots
+                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, true);
+                        updateSlotsWithBookings(data);
 
-                            // booking availabilty logic
-                            var index = ScheduleModel.selectedIndex;
-                            var duration = ScheduleModel.form.products[0].product.duration
-                            var numberOfSlots = Math.ceil(duration / interval);
-                            console.log(duration);
-                            console.log(ScheduleModel.viewSlots.length);
-                            for (var i = index; i < index + numberOfSlots; i++) {
-                                // service crashes with other times
-                                var bookingCounts = ScheduleModel.viewSlots[i].bookingCount ? ScheduleModel.viewSlots[i].bookingCount : 0;
-                                if (bookingCounts >= Number(DetailModel.currentPlace.employee)) {
-                                    Message.loading.hide();
-                                    Message.popUp.alert.default(
-                                        '예약 불가 안내',
-                                        '고르신 서비스의 시간이 다음 예약시간과 겹치게 되어 예약이 불가합니다.'
-                                    );
-                                    return false;
-                                }
-                                // service goes out of business hours
-                                if (index + numberOfSlots > ScheduleModel.viewSlots.length) {
-                                    Message.loading.hide();
-                                    Message.popUp.alert.default(
-                                        '예약 불가 안내',
-                                        '고르신 서비스의 시간이 영업 종료시간을 넘기어 예약이 불가합니다.'
-                                    );
-                                    return false;
-                                }
-
+                        // booking availabilty logic
+                        var index = ScheduleModel.selectedIndex;
+                        var duration = ScheduleModel.form.products[0].product.duration
+                        var numberOfSlots = Math.ceil(duration / interval);
+                        for (var i = index; i < index + numberOfSlots; i++) {
+                            // service crashes with other times
+                            var bookingCounts = ScheduleModel.viewSlots[i].bookingCount ? ScheduleModel.viewSlots[i].bookingCount : 0;
+                            if (bookingCounts >= Number(DetailModel.currentPlace.employee)) {
+                                Message.loading.hide();
+                                Message.popUp.alert.default(
+                                    '예약 불가 안내',
+                                    '고르신 서비스의 시간이 다음 예약시간과 겹치게 되어 예약이 불가합니다.'
+                                );
+                                return false;
                             }
+                            // service goes out of business hours
+                            if (index + numberOfSlots > ScheduleModel.viewSlots.length) {
+                                Message.loading.hide();
+                                Message.popUp.alert.default(
+                                    '예약 불가 안내',
+                                    '고르신 서비스의 시간이 영업 종료시간을 넘기어 예약이 불가합니다.'
+                                );
+                                return false;
+                            }
+                        }
 
-                            // make reservation.
-                            Bookings.createBooking({},
-                                Schedule.Model.form
-                            ).$promise
-                                .then(function success(data) {
-                                    Message.loading.hide();
-                                    Message.popUp.alert.default(
-                                        '예약 완료 알림',
-                                        '예약이 완료 되었습니다.'
-                                    ).then(function(response) {
-                                        Schedule.closeModalHandler();
-                                    })
-                                    console.log(data);
-                                }, function err(error) {
-                                    console.log(error);
+                        // make reservation.
+                        Bookings.createBooking({}, Schedule.Model.form).$promise
+                            .then(function success(data) {
+                                Message.loading.hide();
+                                Message.popUp.alert.default(
+                                    '예약 완료 알림',
+                                    '예약이 완료 되었습니다.'
+                                ).then(function(response) {
+                                    Schedule.closeModalHandler();
                                 })
-                        },
-                        function err(error) {
-                            console.log(error);
-                        });
+                                console.log(data);
+                            }, function err(error) {
+                                console.log(error);
+                            });
+                    },
+                    function err(error) {
+                        console.log(error);
+                    });
+
             }
 
 
@@ -155,13 +149,14 @@ myApp
 
                 var openingHours = DetailModel.currentPlace.openingHours;
                 ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, openingHours, 30, true);
-                Bookings.getBookings({
+                Bookings.getBookingsDateBetween({
                     placeId: $stateParams.id,
-                    from: moment($stateParams.selectedDate).toDate().getTime(),
-                    to: moment($stateParams.selectedDate).add(1, 'days').toDate().getTime()
+                    from: moment($stateParams.selectedDate).clone().toDate().getTime(),
+                    to: moment($stateParams.selectedDate).clone().add(1, 'days').toDate().getTime()
                 }).$promise
-                    .then(function success(data) {
-                        updateSlotsWithBookings(data);
+                    .then(function success(bookingsWrapper) {
+                        console.log(bookingsWrapper);
+                        updateSlotsWithBookings(bookingsWrapper);
                     }, function err(error) {
                         console.log(error);
                     });
@@ -225,13 +220,13 @@ myApp
                 return arrayOfSlotsInMoment;
             }
 
-            function updateSlotsWithBookings(data) {
+            function updateSlotsWithBookings(bookingsWrapper) {
                 var viewSlots = ScheduleModel.viewSlots;
-                var bookings = ScheduleModel.bookings = data.bookings;
+                var bookings = ScheduleModel.bookings = bookingsWrapper.bookings;
                 var employee = DetailModel.currentPlace.employee;
                 // var interval = 30;
 
-                angular.forEach(bookings, function(booking, i, self) {
+                angular.forEach(bookings, function(booking, index, self) {
                     // get beginning time(inclusive)
                     var begBookingMoment = moment.utc(booking.datetime).local()
                         .add(1, 'seconds');
@@ -239,7 +234,6 @@ myApp
                     // if begTime is between reserveSlot
                     // for each viewslots
                     for (var i = 0; i < viewSlots.length; i++) {
-
                         if (i < viewSlots.length - 1) {
                             var viewSlotEnd = viewSlots[i + 1];
                             // if index is the last one.
@@ -261,26 +255,9 @@ myApp
                             }
                             break;
                         }
-
-
                     }
                 });
             }
-
-            // get schedules of the currentPlace
-            // populate status of generated intervals of time slots
-            // if unavailable disable popup click, style unavailable
-            // if available style available attach on-click event.
-
-
-
-
-
-
-
-            //==========================================================================
-            //              On AfterEnter.
-            //==========================================================================
 
             //==========================================================================
             //              Check reserve inputs

@@ -8,13 +8,15 @@ myApp
             Home.search = ''
 
 
-            Home.goToHandler = function(state) {
-                $state.go(state);
+            Home.goToHandler = function(state, params) {
+                $state.go(state, params);
             }
 
             // APP SPECIFIC
             Home.searchHandler = function(search) {
-                $state.go('main.daumMap', {from: 'homeInput'})
+                $state.go('main.daumMap', {
+                    from: 'homeInput'
+                })
             }
 
 
