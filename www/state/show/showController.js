@@ -2,10 +2,10 @@ myApp
     .controller('ShowController', [
 
         'ShowModel', 'Posts', '$state', '$ionicModal', '$scope', 'ShowListModel',
-        '$cordovaCamera', 'Message', '$timeout',
+        '$cordovaCamera', 'Message', '$timeout', '$window', '$cordovaFile',
 
         function(ShowModel, Posts, $state, $ionicModal, $scope, ShowListModel,
-            $cordovaCamera, Message, $timeout
+            $cordovaCamera, Message, $timeout, $window, $cordovaFile
         ) {
 
             var Show = this;
@@ -43,6 +43,11 @@ myApp
 
                 // photoLibrary: 0,
                 // camera: 1
+                // try {
+                //     $cordovaCamera.cleanup();
+                // } catch (err) {
+                //     console.log(err);
+                // }
 
                 if (sourceType === undefined) {
                     sourceType = 1;
@@ -50,9 +55,10 @@ myApp
 
                 console.log(sourceType);
                 var options = {
-                    quality: 50,
-                    destinationType: Camera.DestinationType.FILE_URI,
                     allowEdit: true,
+                    quality: 50,
+                    // destinationType: Camera.DestinationType.DATA_URL,
+                    destinationType: Camera.DestinationType.FILE_URI,
                     encodingType: Camera.EncodingType.JPEG, // PNG do not work
                     correctOrientation: true,
                     targetWidth: 500,
@@ -63,15 +69,25 @@ myApp
                 };
 
                 $cordovaCamera.getPicture(options)
-                    .then(function success(imageData) {
-                        Show.writeImageSrc = imageData;
-                        console.log(Show.writeImageSrc);
+                    .then(function success(imageUrl) {
+                        Show.writeImageFile = imageUrl;
+
+                        var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
+                        var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
+
+                        $cordovaFile.readAsDataURL(namePath, name)
+                            .then(function(dataUri) {
+                                console.log(dataUri);
+                                Show.writeImageSrc = dataUri;
+                            }, function(error) {
+                                console.log(error);
+                            })
+
                     }, function error(err) {
                         console.log(err);
                     });
 
             };
-
 
 
             Show.postHandler = function() {
@@ -81,7 +97,7 @@ myApp
                     category: 'SHOW-POST',
                     title: Show.writeTitle,
                     content: Show.writeContent,
-                    file: Show.writeImageSrc
+                    file: Show.writeImageFile
                 };
 
                 Posts.createPostWithImage({}, postWithFile).$promise
@@ -97,7 +113,8 @@ myApp
                                 reload: true
                             });
                         }, 1500);
-                    }, function error() {
+                    }, function err(error) {
+                        console.log(error);
                         Message.loading.hide();
                         Message.message.error('다시 시도해주세요.');
                     }, function progress(prog) {

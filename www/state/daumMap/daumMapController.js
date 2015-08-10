@@ -26,6 +26,9 @@ myApp
                     id: DaumMapModel.selectedPlace.id
                 });
             };
+            Map.goToHandler = function(state, params) {
+                $state.go(state, params);
+            }
 
             // Make currently selected place from DaumMapDirective available at ModalView
             Map.selectedPlace = DaumMapModel.selectedPlace;

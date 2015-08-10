@@ -39,12 +39,12 @@ myApp
             updatePost: {
                 method: 'PUT'
             },
-            // listPost: {
-            //     method: 'PUT',
-            //     params: {
-            //         like: 'like'
-            //     }
-            // },
+            likePost: {
+                method: 'PUT',
+                params: {
+                    like: 'like'
+                }
+            },
             removePost: {
                 method: 'DELETE'
             }
@@ -57,14 +57,14 @@ myApp
         //------------------------
         Posts.createPostWithImage = function(parameters, post) {
             angular.extend(post, parameters);
-            var filePath = post.file;
+            var filePath = post.file ? post.file : '[]';
             delete post.file;
             var options = {
                 params: post,
                 chunkedMode: false
             };
             return {
-                '$promise': $cordovaFileTransfer.upload(governorUrl + '/post/image', filePath, options)
+                '$promise': $cordovaFileTransfer.upload(governorUrl + '/post', filePath, options)
             };
         };
 

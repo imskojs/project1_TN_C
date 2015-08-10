@@ -151,12 +151,12 @@ myApp
                                 var booking = bookings[i];
                                 var datetime = booking.datetime
                                 var bookingMoment = moment(datetime);
+                                var duration = durations[i];
+                                var closingMoment = closingMomentsForToday[i];
                                 if (bookingMoment.isBetween(currentMoment.clone(), currentMoment.clone().add(rangeMinutes, 'minutes')) &&
                                     bookingMoment.isBefore(closingMoment.clone())) {
                                     resultArray_i.push(bookingMoment);
                                 }
-                                var duration = durations[i];
-                                var closingMoment = closingMomentsForToday[i];
                                 var slotsTaken = Math.ceil(duration / interval);
                                 for (var k = 0; k < slotsTaken; k++) {
                                     var minutesToAdd = interval * (k + 1);

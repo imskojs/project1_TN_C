@@ -8,7 +8,7 @@
     <ion-nav-buttons side="right">
         <button class="button button-icon icon ion-ios-star-outline"
             ng-click="ShowDetail.toggleSavePost()"
-            ng-class="{'favorite-post': ShowDetail.styleStar}"
+            ng-class="{'favorite-post': ShowDetail.styleFavorite}"
         >
         </button>
     </ion-nav-buttons>
@@ -16,13 +16,13 @@
     <ion-content class="has-header">
         <div class="r1 row zero">
             <div class="c1 col zero">
-                <img ng-src="{{ShowDetail.Model.post.photos[0]&& ShowDetail.Model.post.photos[0].url}}">
+                <img ng-src="{{ShowDetail.Model.current.photos[0].url}}">
             </div>
         </div>
         <div class="r2 row">
             <div class="c1 col">
-                <h3 class="title">{{ShowDetail.Model.post.title}}</h3>
-                <p class="username">TODO:{{ShowDetail.Model.post.createdBy.nickname}}</p>
+                <h3 class="title">{{ShowDetail.Model.current.title}}</h3>
+                <p class="username">TODO:{{ShowDetail.Model.current.createdBy.nickname}}</p>
                 <div class="row counts zero">
                     <div class="col-5 flex icon-container zero"
                         toggle
@@ -56,7 +56,7 @@
         </div>
 
         <div class="r4 row"
-            ng-repeat="comment in ShowDetail.Model.post.comments"
+            ng-repeat="comment in ShowDetail.Model.current.comments"
         >
             <div class="c1 col">
                 <h3 class="username">{{ comment.createdBy.nickname }}</h3>

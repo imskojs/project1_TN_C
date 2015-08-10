@@ -2,9 +2,15 @@
     view-title="전체보기"
     cache-view="true"
     can-swipe-back="false"
-    hide-back-button="false"
+    hide-back-button="true"
     hide-nav-bar="false"
 >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-android-arrow-back"
+            ng-click="Map.goToHandler('main.home')"
+        >
+        </button>
+    </ion-nav-buttons>
 
     <ion-nav-buttons side="right">
         <button class="button button-icon icon ion-pinpoint"

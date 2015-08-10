@@ -4,7 +4,7 @@ myApp
         function() {
 
             var ShowDetailModel = {
-                post: {
+                current: {
                     id: '',
                     comments: [],
                     photos: [{

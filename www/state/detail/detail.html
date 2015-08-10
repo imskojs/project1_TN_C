@@ -1,15 +1,16 @@
 <ion-view id="detail"
-    cache-view="true"
+    cache-view="false"
     can-swipe-back="false"
-    hide-back-button="true"
+    hide-back-button="false"
 >
-<ion-nav-buttons side="left">
+<!-- <ion-nav-buttons side="left">
     <button class="button button-icon icon ion-android-arrow-back"
         ng-click="Detail.goBackHandler();"
     >
     </button>
 </ion-nav-buttons>
-<ion-nav-title>
+ -->
+ <ion-nav-title>
     {{Detail.Model.currentPlace.name}}
 </ion-nav-title>
 <ion-nav-buttons side="right">
@@ -26,13 +27,14 @@
 
         <ion-slide-box class="non-row-slide-box" show-pager="true">
             <ion-slide class="row-slides zero"
-                ng-repeat="photo in Detail.Model.currentPlace.photos"
+                ng-repeat="photo in Detail.Model.currentPlace.photos track by $index"
             >
                 <img class="place-image"
                     ng-src="{{photo.url}}"
                 >
             </ion-slide>
         </ion-slide-box>
+        <div></div>
 
         <!-- 상세정보 -->
         <div class="row row-title-bar">
@@ -95,7 +97,6 @@
 
         <!-- {{Detail.Model.test}} -->
         <div class="date-picker-container">
-            <!--  -->
             <datepicker class="date-picker"
                 ng-model="Detail.date"
                 show-weeks="false"

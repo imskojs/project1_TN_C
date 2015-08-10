@@ -2,66 +2,16 @@ myApp
     .controller('DetailController', [
 
         'DetailModel', '$stateParams', '$scope', 'Message', 'Places',
-        '$ionicSlideBoxDelegate', '$state',
+        '$ionicSlideBoxDelegate', '$state', 'Favorite',
 
 
         function(DetailModel, $stateParams, $scope, Message, Places,
-            $ionicSlideBoxDelegate, $state
+            $ionicSlideBoxDelegate, $state, Favorite
         ) {
             var Detail = this;
             Detail.Model = DetailModel;
-
-
-            Detail.toggleSavePlace = function() {
-                // get NAIL_SAVED_PLACES from localStorage
-                var placesString = localStorage.getItem('NAIL_SAVED_PLACES');
-                // make it object using angular.fromJson
-                var placesArray = angular.fromJson(placesString);
-                // if null create array
-                if (!Array.isArray(placesArray)) {
-                    placesArray = [];
-                }
-                // check whether place already exist
-                for (var i = 0; i < placesArray.length; i++) {
-                    var place = placesArray[i];
-                    console.log(place.id);
-                    console.log($stateParams.id);
-                    // if exists delete savedplace
-                    if (place.id === $stateParams.id) {
-                        placesArray.splice(i, 1);
-                        placesString = angular.toJson(placesArray);
-                        localStorage.setItem('NAIL_SAVED_PLACES', placesString);
-                        // style star
-                        Detail.styleStar = false;
-                        Message.popUp.alert.default('담아두기 알림', '담아두기에서 삭제되었습니다.');
-                        return false;
-                    }
-                }
-                // if not save current places necessary attributes(savedList)
-                var currentPlace = DetailModel.currentPlace;
-                var placeToSave = {
-                    id: currentPlace.id,
-                    photos: [{
-                        url: currentPlace.photos[0] && currentPlace.photos[0].url
-                    }],
-                    name: currentPlace.name,
-                    location: {
-                        coordinates: currentPlace.location.coordinates
-                    },
-                    address: currentPlace.address
-                };
-                placesArray.push(placeToSave);
-                // convert to json, save toNAIL_SAVED_PLACES
-                placesString = angular.toJson(placesArray);
-                localStorage.setItem('NAIL_SAVED_PLACES', placesString);
-                // style right button star icon to indicate saved sate
-                Detail.styleStar = true;
-                Message.popUp.alert.default('담아두기 알림', '포스트를 담아두었습니다.');
-            };
-
-
-
             $scope.$on('$ionicView.beforeEnter', function() {
+                $ionicSlideBoxDelegate.update();
                 Message.loading.default();
 
                 Places.findById({
@@ -80,7 +30,7 @@ myApp
                             }
                         });
 
-                        console.log(place);
+                        // console.log(place);
 
 
                     }, function error(err) {
@@ -90,6 +40,59 @@ myApp
                         );
                     });
             });
+
+
+            Detail.toggleSavePlace = function() {
+
+                // Favorite.saveToFavorite('NAIL_SAVED_PLACES', Detail, DetailModel);
+                // // get NAIL_SAVED_PLACES from localStorage
+                // var placesString = localStorage.getItem('NAIL_SAVED_PLACES');
+                // // make it object using angular.fromJson
+                // var placesArray = angular.fromJson(placesString);
+                // // if null create array
+                // if (!Array.isArray(placesArray)) {
+                //     placesArray = [];
+                // }
+                // // check whether place already exist
+                // for (var i = 0; i < placesArray.length; i++) {
+                //     var place = placesArray[i];
+                //     console.log(place.id);
+                //     console.log($stateParams.id);
+                //     // if exists delete savedplace
+                //     if (place.id === $stateParams.id) {
+                //         placesArray.splice(i, 1);
+                //         placesString = angular.toJson(placesArray);
+                //         localStorage.setItem('NAIL_SAVED_PLACES', placesString);
+                //         // style star
+                //         Detail.styleStar = false;
+                //         Message.popUp.alert.default('담아두기 알림', '담아두기에서 삭제되었습니다.');
+                //         return false;
+                //     }
+                // }
+                // // if not save current places necessary attributes(savedList)
+                // var currentPlace = DetailModel.currentPlace;
+                // var placeToSave = {
+                //     id: currentPlace.id,
+                //     photos: [{
+                //         url: currentPlace.photos[0] && currentPlace.photos[0].url
+                //     }],
+                //     name: currentPlace.name,
+                //     location: {
+                //         coordinates: currentPlace.location.coordinates
+                //     },
+                //     address: currentPlace.address
+                // };
+                // placesArray.push(placeToSave);
+                // // convert to json, save toNAIL_SAVED_PLACES
+                // placesString = angular.toJson(placesArray);
+                // localStorage.setItem('NAIL_SAVED_PLACES', placesString);
+                // // style right button star icon to indicate saved sate
+                // Detail.styleStar = true;
+                // Message.popUp.alert.default('담아두기 알림', '포스트를 담아두었습니다.');
+            };
+
+
+
 
             Detail.goBackHandler = function() {
                 $state.go('main.daumMap');
