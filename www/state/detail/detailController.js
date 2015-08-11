@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('DetailController', DetailController);
 
     DetailController.$inject = [

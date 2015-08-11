@@ -1,20 +1,30 @@
 //==========================================================================
 //              Style for user selection.
 //==========================================================================
-myApp
-    .directive('touch', ['$timeout',
-        function($timeout) {
-            return {
-                restrict: 'A',
-                link: function(scope, element, attrs) {
-                    element.on('click', function(e) {
-                        element.addClass('touch');
-                        $timeout(function() {
-                            element.removeClass('touch');
-                        }, 50);
 
-                    })
-                }
-            }
+(function() {
+    'use strict';
+
+    angular.module('app')
+        .directive('touch', touch);
+
+    touch.$inject = ['$timeout'];
+
+    function touch($timeout) {
+        return {
+            restrict: 'A',
+            link: link
+        };
+
+        function link(scope, element, attrs) {
+            element.on('click', function(e) {
+                element.addClass('touch');
+                $timeout(function() {
+                    element.removeClass('touch');
+                }, 50);
+
+            });
         }
-    ])
+    }
+
+})();

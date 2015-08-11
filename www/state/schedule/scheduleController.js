@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .controller('ScheduleController', ScheduleController);
 
     ScheduleController = ['DetailModel', 'ScheduleModel', 'Places', 'Bookings', 'Message',

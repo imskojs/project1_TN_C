@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .controller('ShowListController', ShowListController);
 
     ShowListController.$inject = ['ShowListModel', 'Posts', '$state', '$scope',

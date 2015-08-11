@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .controller('AnnouncementsController', AnnouncementsController);
 
     AnnouncementsController.$inject = ['$state'];

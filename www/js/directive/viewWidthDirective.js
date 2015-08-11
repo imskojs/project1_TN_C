@@ -10,21 +10,29 @@
 // 3) function controller(IndexModel){
 //     console.log(IndexModel.vw);
 //    }
-myApp
-    .directive('vw', [
-        '$rootScope', '$window',
-        function($rootScope, $window) {
-            return {
-                link: function(scope, element, attrs) {
+(function() {
+    'use strict';
 
-                    $rootScope.vw = element.prop('offsetWidth');
+    angular.module('app')
+        .directive('vw', vw);
 
-                    $window.addEventListener('resize', function() {
-                        $rootScope.$apply(function() {
-                            $rootScope.vw = element.prop('offsetWidth');
-                        });
-                    });
-                }
-            }
+    vw.$inject = ['$rootScope', '$window'];
+
+    function vw($rootScope, $window) {
+        return {
+            link: link
         }
-    ]);
+
+        function link(scope, element, attrs) {
+            $rootScope.vw = element.prop('offsetWidth');
+
+            $window.addEventListener('resize', function() {
+                $rootScope.$apply(function() {
+                    $rootScope.vw = element.prop('offsetWidth');
+                });
+            });
+        }
+    }
+
+
+})();

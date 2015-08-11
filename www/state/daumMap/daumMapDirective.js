@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .directive('daumMap', daumMap);
 
     daumMap = ['DaumMapModel', 'Places', 'Bookings', '$state', '$cordovaGeolocation', 'Message', '$q',

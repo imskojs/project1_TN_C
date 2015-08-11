@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('CancelController', CancelController);
 
     CancelController.$inject = ['CancelModel', 'Bookings', 'Message', '$scope'];

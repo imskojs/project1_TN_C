@@ -2,7 +2,7 @@
     'use strict';
 
 
-    myApp
+    angular.module('app')
         .controller('EventListController', EventListController);
 
     EventListController.$inject = ['EventListModel', 'Posts', '$state', '$scope', 'Message'];

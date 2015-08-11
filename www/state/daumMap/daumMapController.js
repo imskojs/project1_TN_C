@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('DaumMapController', DaumMapController);
 
     DaumMapController.$inject = ['DaumMapModel', '$ionicModal', '$scope', '$state',

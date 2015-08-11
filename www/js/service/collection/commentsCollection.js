@@ -1,22 +1,26 @@
-myApp
-    .factory('Comments', [
+(function() {
+    'use strict';
 
-        '$resource', 'governorUrl',
+    angular.module('app')
+        .factory('Comments', Comments);
 
-        function($resource, governorUrl) {
+    Comments.$inject = ['$resource', 'governorUrl']
 
-            var commentUrl = governorUrl + '/post/comment';
+    function Comments($resource, governorUrl) {
 
-            var params = {};
+        var commentUrl = governorUrl + '/post/comment';
 
-            var actions = {
-                addCommentToPost: {
-                    method: 'POST'
-                }
-            };
+        var params = {};
 
-            var Comments = $resource(commentUrl, params, actions)
+        var actions = {
+            addCommentToPost: {
+                method: 'POST'
+            }
+        };
 
-            return Comments;
-        }
-    ]);
+        var service = $resource(commentUrl, params, actions)
+
+        return service;
+    }
+
+})();

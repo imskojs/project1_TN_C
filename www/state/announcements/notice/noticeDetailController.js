@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .controller('NoticeDetailController', NoticeDetailController);
 
     NoticeDetailController.$inject = ['NoticeDetailModel', 'Posts', '$stateParams', '$scope', 'Message']

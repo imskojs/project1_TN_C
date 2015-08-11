@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .controller('ListController', ListController);
 
     ListController.$inject = ['ListModel', '$state', '$scope', '$timeout'];

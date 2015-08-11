@@ -1,10 +1,11 @@
-myApp
+(function() {
+    'use strict';
+    angular.module('app')
+        .factory('Products', Products);
 
-.factory('Products', [
+    Products.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
 
-    '$resource', 'governorUrl', '$cordovaFileTransfer',
-
-    function($resource, governorUrl, $cordovaFileTransfer) {
+    function Products($resource, governorUrl, $cordovaFileTransfer) {
 
         var productUrl = governorUrl + '/product' + '/:list' +
             '/:image' + '/:mine' + '/:checkProductCode';
@@ -50,12 +51,12 @@ myApp
             }
         };
 
-        var Products = $resource(productUrl, params, actions);
+        var service = $resource(productUrl, params, actions);
 
         //------------------------
         //  CUSTOM NON-HTTP METHODS
         //------------------------
-        Products.createProductWithImage = function(parameters, product) {
+        service.createProductWithImage = function(parameters, product) {
             angular.extend(product, parameters);
             var filePath = product.file;
             delete product.file;
@@ -68,7 +69,7 @@ myApp
             };
         };
 
-        Products.updateProductWithImage = function(parameters, product) {
+        service.updateProductWithImage = function(parameters, product) {
             angular.extend(product, parameters);
             var filePath = product.file;
             delete product.file;
@@ -83,20 +84,22 @@ myApp
 
         }
 
-        return Products;
+        return service;
     }
-]);
 
-// Product.get({
-//     list: 'list',
-//     category: 'SHOW-POST'
-// }).$promise
-//     .then(function success() {}, function err() {})
+    // Product.get({
+    //     list: 'list',
+    //     category: 'SHOW-POST'
+    // }).$promise
+    //     .then(function success() {}, function err() {})
 
-// Products.createProductWithImage({}, productWithFile).$promise
-//     .then(function success() {}, function error() {}, function progress(progress) {})
+    // Products.createProductWithImage({}, productWithFile).$promise
+    //     .then(function success() {}, function error() {}, function progress(progress) {})
 
-// require id in productWithFile sails' req.param('id') not only look at url params but
-//also looks at the body of req, it is a sails spcific feature.
-// Products.createProductWithImage({}, productWithFile).$promise
-//     .then(function success() {}, function error() {}, function progress(progress) {})
+    // require id in productWithFile sails' req.param('id') not only look at url params but
+    //also looks at the body of req, it is a sails spcific feature.
+    // Products.createProductWithImage({}, productWithFile).$promise
+    //     .then(function success() {}, function error() {}, function progress(progress) {})
+
+
+})();

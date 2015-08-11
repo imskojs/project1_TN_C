@@ -1,10 +1,11 @@
-myApp
+(function() {
+    'use strict';
+    angular.module('app')
+        .factory('Posts', Posts);
 
-.factory('Posts', [
+    Posts.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
 
-    '$resource', 'governorUrl', '$cordovaFileTransfer',
-
-    function($resource, governorUrl, $cordovaFileTransfer) {
+    function Posts($resource, governorUrl, $cordovaFileTransfer) {
 
         var postUrl = governorUrl + '/post' + '/:list' +
             '/:image' + '/:mine' + '/:like';
@@ -50,12 +51,12 @@ myApp
             }
         };
 
-        var Posts = $resource(postUrl, params, actions);
+        var service = $resource(postUrl, params, actions);
 
         //------------------------
         //  CUSTOM NON-HTTP METHODS
         //------------------------
-        Posts.createPostWithImage = function(parameters, post) {
+        service.createPostWithImage = function(parameters, post) {
             angular.extend(post, parameters);
             var filePath = post.file ? post.file : '[]';
             delete post.file;
@@ -68,7 +69,7 @@ myApp
             };
         };
 
-        Posts.updatePostWithImage = function(parameters, post) {
+        service.updatePostWithImage = function(parameters, post) {
             angular.extend(post, parameters);
             var filePath = post.file;
             delete post.file;
@@ -83,20 +84,22 @@ myApp
 
         }
 
-        return Posts;
+        return service;
     }
-]);
 
-// Post.get({
-//     list: 'list',
-//     category: 'SHOW-POST'
-// }).$promise
-//     .then(function success() {}, function err() {})
+    // Post.get({
+    //     list: 'list',
+    //     category: 'SHOW-POST'
+    // }).$promise
+    //     .then(function success() {}, function err() {})
 
-// Posts.createPostWithImage({}, postWithFile).$promise
-//     .then(function success() {}, function error() {}, function progress(progress) {})
+    // Posts.createPostWithImage({}, postWithFile).$promise
+    //     .then(function success() {}, function error() {}, function progress(progress) {})
 
-// require id in postWithFile sails' req.param('id') not only look at url params but
-//also looks at the body of req, it is a sails spcific feature.
-// Posts.createPostWithImage({}, postWithFile).$promise
-//     .then(function success() {}, function error() {}, function progress(progress) {})
+    // require id in postWithFile sails' req.param('id') not only look at url params but
+    //also looks at the body of req, it is a sails spcific feature.
+    // Posts.createPostWithImage({}, postWithFile).$promise
+    //     .then(function success() {}, function error() {}, function progress(progress) {})
+
+
+})();

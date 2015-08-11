@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .factory('DetailModel', DetailModel);
 
     DetailModel.$inject = ['$q', '$state', '$stateParams'];

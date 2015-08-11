@@ -4,7 +4,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .factory('Favorite', Favorite);
 
     Favorite.$inject = ['$stateParams', 'Message', 'Posts'];

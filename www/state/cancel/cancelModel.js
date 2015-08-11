@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .factory('CancelModel', CancelModel);
 
     // CancelModel.$inject = [];

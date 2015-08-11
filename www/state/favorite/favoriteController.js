@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('FavoriteController', FavoriteController);
 
     FavoriteController.$inject = ['FavoriteModel', '$scope', '$state'];

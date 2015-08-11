@@ -1,10 +1,12 @@
-myApp
+(function() {
+    'use strict';
 
-.factory('Bookings', [
+    angular.module('app')
+        .factory('Bookings', Bookings);
 
-    '$resource', 'governorUrl', '$cordovaFileTransfer',
+    Bookings.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
 
-    function($resource, governorUrl, $cordovaFileTransfer) {
+    function Bookings($resource, governorUrl, $cordovaFileTransfer) {
 
         var bookingUrl = governorUrl + '/booking' + '/:list' +
             '/:image' + '/:mine' + '/:dateBetween';
@@ -51,12 +53,12 @@ myApp
             }
         };
 
-        var Bookings = $resource(bookingUrl, params, actions);
+        var service = $resource(bookingUrl, params, actions);
 
         //------------------------
         //  CUSTOM NON-HTTP METHODS
         //------------------------
-        Bookings.createBookingWithImage = function(parameters, booking) {
+        service.createBookingWithImage = function(parameters, booking) {
             angular.extend(booking, parameters);
             var filePath = booking.file;
             delete booking.file;
@@ -69,7 +71,7 @@ myApp
             };
         };
 
-        Bookings.updateBookingWithImage = function(parameters, booking) {
+        service.updateBookingWithImage = function(parameters, booking) {
             angular.extend(booking, parameters);
             var filePath = booking.file;
             delete booking.file;
@@ -84,20 +86,21 @@ myApp
 
         }
 
-        return Bookings;
+        return service;
     }
-]);
 
-// Booking.get({
-//     list: 'list',
-//     category: 'SHOW-POST'
-// }).$promise
-//     .then(function success() {}, function err() {})
+    // Booking.get({
+    //     list: 'list',
+    //     category: 'SHOW-POST'
+    // }).$promise
+    //     .then(function success() {}, function err() {})
 
-// Bookings.createBookingWithImage({}, bookingWithFile).$promise
-//     .then(function success() {}, function error() {}, function progress(progress) {})
+    // Bookings.createBookingWithImage({}, bookingWithFile).$promise
+    //     .then(function success() {}, function error() {}, function progress(progress) {})
 
-// require id in bookingWithFile sails' req.param('id') not only look at url params but
-//also looks at the body of req, it is a sails spcific feature.
-// Bookings.createBookingWithImage({}, bookingWithFile).$promise
-//     .then(function success() {}, function error() {}, function progress(progress) {})
+    // require id in bookingWithFile sails' req.param('id') not only look at url params but
+    //also looks at the body of req, it is a sails spcific feature.
+    // Bookings.createBookingWithImage({}, bookingWithFile).$promise
+    //     .then(function success() {}, function error() {}, function progress(progress) {})
+
+})();

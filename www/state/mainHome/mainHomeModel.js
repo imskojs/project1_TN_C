@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .factory('MainHomeModel', MainHomeModel);
 
     function MainHomeModel() {

@@ -1,20 +1,23 @@
-myApp
-.factory('Users', [
+(function() {
+    'use strict';
+
+    angular.module('app')
+        .factory('Users', Users);
 
 
-    '$resource', 'governorUrl', '$cordovaFileTransfer',
+    Users.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
 
-    function($resource, governorUrl, $cordovaFileTransfer) {
+    function Users($resource, governorUrl, $cordovaFileTransfer) {
 
         var userUrl = governorUrl + '/user';
 
-        var params = {
-        };
+        var params = {};
 
-        var actions = {
-        };
+        var actions = {};
 
-        var Users = $resource(userUrl, params, actions);
+        var service = $resource(userUrl, params, actions);
 
-        return Users;
-}]);
+        return service;
+    }
+
+})();

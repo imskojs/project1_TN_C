@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .factory('ShowDetailModel', ShowDetailModel);
 
     function ShowDetailModel() {

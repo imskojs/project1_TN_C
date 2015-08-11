@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .controller('MainHomeController', MainHomeController);
     MainHomeController.$inject = ['MainHomeModel', '$state'];
 

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('ShowController', ShowController);
 
     ShowController.$inject = ['ShowModel', 'Posts', '$state', '$ionicModal', '$scope', 'ShowListModel',

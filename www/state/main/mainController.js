@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('MainController', MainController);
 
     MainController.$inject = ['$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('EventDetailController', EventDetailController);
 
     EventDetailController.$inject = ['EventDetailModel', 'Posts', 'Message', '$stateParams', '$scope'];

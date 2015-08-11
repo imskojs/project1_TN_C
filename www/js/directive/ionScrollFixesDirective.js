@@ -3,80 +3,85 @@
 
 // Usage
 // ion-scroll[direction="x" scroll-parent]
-myApp
-    .directive('parentScroll', [
+(function() {
+    'use strict';
 
-        '$ionicScrollDelegate', '$timeout', '$window',
+    angular.module('app')
+        .directive('parentScroll', parentScroll);
 
-        function($ionicScrollDelegate, $timeout, $window) {
-            return {
+    parentScroll.$inject = ['$ionicScrollDelegate', '$timeout', '$window'];
 
-                scope: true,
-                restrict: 'A',
-                compile: function(element, attr) {
+    function parentScroll($ionicScrollDelegate, $timeout, $window) {
+        return {
+            scope: true,
+            restrict: 'A',
+            compile: compile
+        };
 
-                    if (!$window.horizontalIonScrollCount) {
-                        $window.horizontalIonScrollCount = 0;
+        function compile(element, attr) {
+
+            if (!$window.horizontalIonScrollCount) {
+                $window.horizontalIonScrollCount = 0;
+            }
+
+            $window.horizontalIonScrollCount++
+            attr.delegateHandle = "horizontal" + $window.horizontalIonScrollCount;
+
+            return function(scope, element, attr) {
+                $timeout(function() {
+                    var horizontal = attr.delegateHandle;
+                    var sv = $ionicScrollDelegate.$getByHandle(horizontal).getScrollView();
+
+                    var container = sv.__container;
+
+                    var originaltouchStart = sv.touchStart;
+                    var originalmouseDown = sv.mouseDown;
+                    var originaltouchMove = sv.touchMove;
+                    var originalmouseMove = sv.mouseMove;
+
+                    container.removeEventListener('touchstart', sv.touchStart);
+                    container.removeEventListener('mousedown', sv.mouseDown);
+                    document.removeEventListener('touchmove', sv.touchMove);
+                    document.removeEventListener('mousemove', sv.mousemove);
+
+
+                    sv.touchStart = function(e) {
+                        e.preventDefault = function() {}
+                        originaltouchStart.apply(sv, [e]);
                     }
 
-                    $window.horizontalIonScrollCount++
-                    attr.delegateHandle = "horizontal" + $window.horizontalIonScrollCount;
+                    sv.touchMove = function(e) {
+                        e.preventDefault = function() {}
+                        originaltouchMove.apply(sv, [e]);
+                    }
 
-                    return function(scope, element, attr) {
-                        $timeout(function() {
-                            var horizontal = attr.delegateHandle;
-                            var sv = $ionicScrollDelegate.$getByHandle(horizontal).getScrollView();
+                    sv.mouseDown = function(e) {
+                        e.preventDefault = function() {}
 
-                            var container = sv.__container;
-
-                            var originaltouchStart = sv.touchStart;
-                            var originalmouseDown = sv.mouseDown;
-                            var originaltouchMove = sv.touchMove;
-                            var originalmouseMove = sv.mouseMove;
-
-                            container.removeEventListener('touchstart', sv.touchStart);
-                            container.removeEventListener('mousedown', sv.mouseDown);
-                            document.removeEventListener('touchmove', sv.touchMove);
-                            document.removeEventListener('mousemove', sv.mousemove);
-
-
-                            sv.touchStart = function(e) {
-                                e.preventDefault = function() {}
-                                originaltouchStart.apply(sv, [e]);
-                            }
-
-                            sv.touchMove = function(e) {
-                                e.preventDefault = function() {}
-                                originaltouchMove.apply(sv, [e]);
-                            }
-
-                            sv.mouseDown = function(e) {
-                                e.preventDefault = function() {}
-
-                                if (originalmouseDown) {
-                                    originalmouseDown.apply(sv, [e]);
-                                }
-
-                            }
-
-
-                            sv.mouseMove = function(e) {
-                                e.preventDefault = function() {}
-
-                                if (originalmouseMove) {
-                                    originalmouseMove.apply(sv, [e]);
-                                }
-
-                            }
-
-                            container.addEventListener("touchstart", sv.touchStart, false);
-                            container.addEventListener("mousedown", sv.mouseDown, false);
-                            document.addEventListener("touchmove", sv.touchMove, false);
-                            document.addEventListener("mousemove", sv.mouseMove, false);
-                        })
+                        if (originalmouseDown) {
+                            originalmouseDown.apply(sv, [e]);
+                        }
 
                     }
-                }
+
+
+                    sv.mouseMove = function(e) {
+                        e.preventDefault = function() {}
+
+                        if (originalmouseMove) {
+                            originalmouseMove.apply(sv, [e]);
+                        }
+
+                    }
+
+                    container.addEventListener("touchstart", sv.touchStart, false);
+                    container.addEventListener("mousedown", sv.mouseDown, false);
+                    document.addEventListener("touchmove", sv.touchMove, false);
+                    document.addEventListener("mousemove", sv.mouseMove, false);
+                })
+
             }
         }
-    ])
+    }
+
+})();

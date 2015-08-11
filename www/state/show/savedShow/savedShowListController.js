@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('SavedShowListController', SavedShowListController);
 
     SavedShowListController.$inject = ['SavedShowListModel', '$state', '$scope'];

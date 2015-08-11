@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    myApp
+    angular.module('app')
         .controller('BalanceDetailController', BalanceDetailController);
 
     BalanceDetailController.$inject = ['BalanceDetailModel'];

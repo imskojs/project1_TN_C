@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    myApp
+    angular.module('app')
         .filter('filterByTag', filterByTag)
 
     // filterByTag.$inject = [];
