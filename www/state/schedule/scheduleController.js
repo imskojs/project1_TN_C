@@ -3,7 +3,7 @@
     angular.module('app')
         .controller('ScheduleController', ScheduleController);
 
-    ScheduleController = ['DetailModel', 'ScheduleModel', 'Places', 'Bookings', 'Message',
+    ScheduleController.$inject = ['DetailModel', 'ScheduleModel', 'Places', 'Bookings', 'Message',
         '$scope', '$ionicModal', '$q', '$stateParams'
     ];
 

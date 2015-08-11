@@ -5,6 +5,7 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
+var inlinesource = require('gulp-inline-source');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 
@@ -33,9 +34,6 @@ gulp.task('libs', function(done) {
         .pipe(gulp.dest('./www/lib/'))
         .on('end', done);
 });
-
-
-
 
 
 var paths = {
@@ -89,6 +87,15 @@ gulp.task('js', function(done) {
         }))
         .pipe(gulp.dest('./www/js/'))
         .on('end', done);
+});
+
+gulp.task('inlinesource', function() {
+    return gulp.src('./www/index-dev.html')
+        .pipe(inlinesource({
+            compress: false
+        }))
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest('./www/'));
 });
 
 gulp.task('init', ['sass', 'libs', 'js']);
