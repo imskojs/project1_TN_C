@@ -63,7 +63,7 @@ myApp
                     correctOrientation: true,
                     targetWidth: 500,
                     mediaType: Camera.MediaType.PICTURE,
-                    saveToPhotoAlbum: true,
+                    // saveToPhotoAlbum: true,
                     cameraDirection: Camera.Direction.BACK, // FRONT do not work
                     sourceType: sourceType
                 };
@@ -104,7 +104,8 @@ myApp
                     .then(function success() {
                         Show.writeTitle = '';
                         Show.writeContent = '';
-                        Show.writeImageSrc = '';
+                        Show.writeImageSrc = null;
+                        Show.writeImageFile = '';
                         Message.loading.hide();
                         Message.message.success('포스트가 만들어졌습니다.');
                         Show.modal.hide();

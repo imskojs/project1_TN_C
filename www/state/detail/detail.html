@@ -11,12 +11,12 @@
 </ion-nav-buttons>
  -->
  <ion-nav-title>
-    {{Detail.Model.currentPlace.name}}
+    {{Detail.Model.current.name}}
 </ion-nav-title>
 <ion-nav-buttons side="right">
     <button class="button button-icon icon ion-heart"
         ng-click="Detail.toggleSavePlace()"
-        ng-class="{'favorite-place': Detail.styleStar}"
+        ng-class="{'favorite-place': Detail.isFavorite()}"
     >
     </button>
 </ion-nav-buttons>
@@ -27,7 +27,7 @@
 
         <ion-slide-box class="non-row-slide-box" show-pager="true">
             <ion-slide class="row-slides zero"
-                ng-repeat="photo in Detail.Model.currentPlace.photos track by $index"
+                ng-repeat="photo in Detail.interiorPhotos"
             >
                 <img class="place-image"
                     ng-src="{{photo.url}}"
@@ -52,11 +52,11 @@
                 </div>
                 <div class="col-79 col-text">
                     <p class="zero">TODO: 10:00 ~ 21:00</p>
-                    <p class="zero">{{Detail.Model.currentPlace.phone}}</p>
-                    <p class="zero text-overflow">{{Detail.Model.currentPlace.address}}</p>
+                    <p class="zero">{{Detail.Model.current.phone}}</p>
+                    <p class="zero text-overflow">{{Detail.Model.current.address}}</p>
                     <ul class="product-list">
                         <li class="product-item"
-                            ng-repeat="product in Detail.Model.currentPlace.products | orderBy:'price'"
+                            ng-repeat="product in Detail.Model.current.products | orderBy:'price'"
                         >
                             {{product.name}} - {{product.price}}
                         </li>
@@ -80,7 +80,7 @@
             <div class="portfolio-inner-scroll row zero"
             >
                 <div class="col inner-scroll-item zero"
-                    ng-repeat="portfolioPhoto in Detail.Model.currentPlace.photos"
+                    ng-repeat="portfolioPhoto in Detail.portFolioPhotos"
                 >
                     <img ng-src="{{portfolioPhoto.url}}">
                 </div>

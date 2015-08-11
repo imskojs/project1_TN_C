@@ -1,118 +1,57 @@
-myApp
-    .controller('DetailController', [
+(function() {
+    'use strict';
 
+    myApp
+        .controller('DetailController', DetailController);
+
+    DetailController.$inject = [
         'DetailModel', '$stateParams', '$scope', 'Message', 'Places',
-        '$ionicSlideBoxDelegate', '$state', 'Favorite',
+        '$ionicSlideBoxDelegate', '$state', 'Favorite', '$filter'
+    ]
 
+    function DetailController(DetailModel, $stateParams, $scope, Message, Places,
+        $ionicSlideBoxDelegate, $state, Favorite, $filter
+    ) {
+        var filterByTag = $filter('filterByTag');
 
-        function(DetailModel, $stateParams, $scope, Message, Places,
-            $ionicSlideBoxDelegate, $state, Favorite
-        ) {
-            var Detail = this;
-            Detail.Model = DetailModel;
-            $scope.$on('$ionicView.beforeEnter', function() {
-                $ionicSlideBoxDelegate.update();
-                Message.loading.default();
+        var Detail = this;
+        Detail.Model = DetailModel;
 
-                Places.findById({
-                    id: $stateParams.id,
-                    populates: 'photos,products,bookings'
-                }).$promise
-                    .then(function success(place) {
-                        DetailModel.currentPlace = place;
-                        Message.loading.hide();
-                        $ionicSlideBoxDelegate.update();
+        // Detail.date will update as user picks the date.
+        Detail.date = moment();
+        Detail.isFavorite = Favorite.isFavorite.bind(null, 'NAIL_SAVED_PLACES');
+        Detail.interiorPhotos = [];
+        Detail.portFolioPhotos = [];
+        Detail.toggleSavePlace = Favorite.saveToFavorite.bind(null, 'NAIL_SAVED_PLACES', Detail, DetailModel);
 
-                        var savedPlaces = angular.fromJson(localStorage.getItem('NAIL_SAVED_PLACES'));
-                        angular.forEach(savedPlaces, function(savedPlace, i, self) {
-                            if (savedPlace.id === DetailModel.currentPlace.id) {
-                                Detail.styleStar = true;
-                            }
-                        });
+        $scope.$on('$ionicView.beforeEnter', function() {
+            loadPlace();
+        });
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+        function loadPlace() {
+            Message.loading.default();
 
-                        // console.log(place);
+            Places.findById({
+                id: $stateParams.id,
+                populates: 'photos,products,bookings'
+            }).$promise
+                .then(function success(place) {
+                    DetailModel.current = place;
+                    Detail.interiorPhotos = filterByTag(DetailModel.current.photos, 'INTERIOR');
+                    Detail.portFolioPhotos = filterByTag(DetailModel.current.photos, 'PORTFOLIO');
 
+                    Message.loading.hide();
+                    $ionicSlideBoxDelegate.update();
 
-                    }, function error(err) {
-                        Message.popUp.alert.default(
-                            '네일샵정보 알림',
-                            '요청하신 네일샵은 더이상 존재하지 않습니다.'
-                        );
-                    });
-            });
-
-
-            Detail.toggleSavePlace = function() {
-
-                // Favorite.saveToFavorite('NAIL_SAVED_PLACES', Detail, DetailModel);
-                // // get NAIL_SAVED_PLACES from localStorage
-                // var placesString = localStorage.getItem('NAIL_SAVED_PLACES');
-                // // make it object using angular.fromJson
-                // var placesArray = angular.fromJson(placesString);
-                // // if null create array
-                // if (!Array.isArray(placesArray)) {
-                //     placesArray = [];
-                // }
-                // // check whether place already exist
-                // for (var i = 0; i < placesArray.length; i++) {
-                //     var place = placesArray[i];
-                //     console.log(place.id);
-                //     console.log($stateParams.id);
-                //     // if exists delete savedplace
-                //     if (place.id === $stateParams.id) {
-                //         placesArray.splice(i, 1);
-                //         placesString = angular.toJson(placesArray);
-                //         localStorage.setItem('NAIL_SAVED_PLACES', placesString);
-                //         // style star
-                //         Detail.styleStar = false;
-                //         Message.popUp.alert.default('담아두기 알림', '담아두기에서 삭제되었습니다.');
-                //         return false;
-                //     }
-                // }
-                // // if not save current places necessary attributes(savedList)
-                // var currentPlace = DetailModel.currentPlace;
-                // var placeToSave = {
-                //     id: currentPlace.id,
-                //     photos: [{
-                //         url: currentPlace.photos[0] && currentPlace.photos[0].url
-                //     }],
-                //     name: currentPlace.name,
-                //     location: {
-                //         coordinates: currentPlace.location.coordinates
-                //     },
-                //     address: currentPlace.address
-                // };
-                // placesArray.push(placeToSave);
-                // // convert to json, save toNAIL_SAVED_PLACES
-                // placesString = angular.toJson(placesArray);
-                // localStorage.setItem('NAIL_SAVED_PLACES', placesString);
-                // // style right button star icon to indicate saved sate
-                // Detail.styleStar = true;
-                // Message.popUp.alert.default('담아두기 알림', '포스트를 담아두었습니다.');
-            };
-
-
-
-
-            Detail.goBackHandler = function() {
-                $state.go('main.daumMap');
-            }
-
-
-            //==========================================================================
-            //              DATE PICKER
-            //==========================================================================
-            // Detail.date will update as user pick the date.
-            Detail.date = moment();
-
-            // Got from datepicker.bootstrap
-            // Detail.dater = DetailModel.selectedDate;
-
-
-
-
-
-
-
+                }, function error(err) {
+                    Message.popUp.alert.default(
+                        '네일샵정보 알림',
+                        '요청하신 네일샵은 더이상 존재하지 않습니다.'
+                    );
+                });
         }
-    ]);
+
+    }
+})();

@@ -302,6 +302,7 @@ myApp
                                     DaumMapModel.places = placesWrapper.places;
                                     processPin(markerImg, markerClickedImg, scope);
                                 }
+                                Message.loading.hide();
 
                             }, function error(err) {
                                 console.log(err);
@@ -313,15 +314,18 @@ myApp
                     //==========================================================================
                     DaumMapModel.findMeThenSearchNearBy = function() {
                         Message.loading.default();
-                        $cordovaGeolocation.getCurrentPosition()
+                        $cordovaGeolocation.getCurrentPosition({
+                            maximumAge: 3000,
+                            timeout: 5000
+                        })
                             .then(function success(position) {
 
                                 if (position.coords == null) {
                                     Message.loading.hide();
-                                    Message.popUp.alert.default({
-                                        title: '위치 공유가 꺼져있습니다.',
-                                        template: '위치 공유가 켜주세요.'
-                                    })
+                                    Message.popUp.alert.default(
+                                        '위치 공유가 꺼져있습니다.',
+                                        '위치 공유가 켜주세요.'
+                                    )
                                     return false;
                                 }
                                 var result = {
@@ -339,7 +343,14 @@ myApp
                                 // No longer needed as when map's center is moved it will draw.
                                 // drawMarkers(currentCenter);
                                 Message.loading.hide();
-                            }, function error(err) {});
+                            }, function error(err) {
+                                console.log(err);
+                                Message.loading.hide();
+                                Message.popUp.alert.default(
+                                    '위치 공유가 꺼져있습니다.',
+                                    '위치 공유가 켜주세요.'
+                                )
+                            });
                     };
                     //==========================================================================
                     //              Find specific location with value and search nearby
@@ -380,6 +391,12 @@ myApp
                             Message.loading.hide();
                         }, function(err) {
                             console.log(err);
+                            console.log(err);
+                            Message.loading.hide();
+                            Message.popUp.alert.default({
+                                title: '위치 공유가 꺼져있습니다.',
+                                template: '위치 공유가 켜주세요.'
+                            })
                         });
                     };
                     return function(scope, element, attr) {
@@ -395,6 +412,7 @@ myApp
 
                         daum.maps.event.addListener(map, 'idle', function() {
 
+                            Message.loading.default();
                             var currentCenter = {
                                 longitude: map.getCenter().getLng(),
                                 latitude: map.getCenter().getLat()

@@ -15,6 +15,7 @@ var paths = {
         './www/js/config/**/*.js',
         './www/js/service/**/*.js',
         './www/js/directive/**/*.js',
+        './www/js/filter/**/*.js',
         './www/state/**/*.js'
     ]
 };
@@ -46,6 +47,7 @@ gulp.task('js', function(done) {
         './www/js/config/**/*.js',
         './www/js/service/**/*.js',
         './www/js/directive/**/*.js',
+        './www/js/filter/**/*.js',
         './www/state/**/*.js'
     ])
         .pipe(concat('all.js'))

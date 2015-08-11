@@ -1,5 +1,5 @@
 <ion-view id="show-detail"
-    view-title="자랑하기"
+    view-title="네일 talk"
     can-swipe-back="false"
     hide-back-button="false"
     hide-nav-bar="false"
@@ -22,7 +22,7 @@
         <div class="r2 row">
             <div class="c1 col">
                 <h3 class="title">{{ShowDetail.Model.current.title}}</h3>
-                <p class="username">TODO:{{ShowDetail.Model.current.createdBy.nickname}}</p>
+                <p class="username">{{ShowDetail.Model.current.createdBy.username}}</p>
                 <div class="row counts zero">
                     <div class="col-5 flex icon-container zero"
                         toggle
@@ -30,13 +30,13 @@
                         <i class="icon ion-star"></i>
                     </div>
                     <div class="col-8 like-count count">
-                        <span> TODO:{{ ShowDetail.Model.post.likeCount }} </span>
+                        <span> {{ ShowDetail.Model.current.likes }} </span>
                     </div>
                     <div class="col-5 flex icon-container">
                         <i class="icon ion-ios-chatbubble"></i>
                     </div>
                     <div class="col-10 comment-count count">
-                        <span> {{ ShowDetail.Model.post.comments.length }} </span>
+                        <span> {{ ShowDetail.Model.current.comments.length }} </span>
                     </div>
                 </div>
             </div>

@@ -129,11 +129,5 @@
                     console.log(error);
                 });
         }
-
-
-
-
-
-
     } // Service END
 })();

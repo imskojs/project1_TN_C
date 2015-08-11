@@ -3,6 +3,7 @@
     can-swipe-back="false"
     hide-back-button="false"
     hide-nav-bar="false"
+    view-title="네일 talk"
 >
     <!-- List Content -->
     <ion-content class="has-header">
@@ -27,7 +28,7 @@
                     <img class="title-image" ng-src="{{ post.photos[0].url || 'http://placehold.it/500x500'}}"
                     >
                     <p class="title">{{ post.title }}</p>
-                    <p class="user-id">{{ post.createdBy }}</p>
+                    <p class="user-id">{{ post.createdBy.username }}</p>
                     <div class="row counts">
                         <div class="col-10 flex icon-container"
                             toggle
@@ -35,7 +36,7 @@
                             <i class="icon ion-star"></i>
                         </div>
                         <div class="col-20 like-count count">
-                            <span> TODO:{{post.likeCount}} </span>
+                            <span> {{post.likes}} </span>
                         </div>
                         <div class="col-10 flex icon-container">
                             <i class="icon ion-ios-chatbubble"></i>

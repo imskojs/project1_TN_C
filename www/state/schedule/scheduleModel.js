@@ -6,7 +6,7 @@ myApp
         function() {
 
             var ScheduleModel = {
-                currentPlace: {
+                current: {
                     openingHours: [{
                         start: '00:00',
                         end: '00:00'

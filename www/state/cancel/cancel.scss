@@ -1,12 +1,10 @@
 #cancel {
     .row-list {
-        width: 98vw;
+        width: 98%;
+        margin: 5px auto !important;
         border: 1px solid #aaa;
-        margin: {
-            top: 1vw;
-        }
         .shop-name {
-            font-size: 5vw;
+            font-size: 18px;
             span {
                 color: $positive;
             }

@@ -9,7 +9,7 @@ myApp
 
             var Schedule = this;
             Schedule.Model = ScheduleModel;
-            ScheduleModel.currentPlace = DetailModel.currentPlace;
+            ScheduleModel.current = DetailModel.current;
             var interval = 30;
 
 
@@ -20,7 +20,7 @@ myApp
                 ScheduleModel.selectedSlot = reserveSlot;
                 ScheduleModel.selectedIndex = index;
 
-                if (reserveSlot.bookingCount >= DetailModel.currentPlace.employee) {
+                if (reserveSlot.bookingCount >= DetailModel.current.employee) {
                     Message.popUp.alert.default(
                         '예약불가 알림',
                         '예약이 꽉 차있는 시간입니다.'
@@ -42,8 +42,8 @@ myApp
             };
 
             Schedule.isAvailableSlot = function(reserveSlot) {
-                if (reserveSlot.bookingCount != null && DetailModel.currentPlace.employee != null) {
-                    return Number(DetailModel.currentPlace.employee) > reserveSlot.bookingCount;
+                if (reserveSlot.bookingCount != null && DetailModel.current.employee != null) {
+                    return Number(DetailModel.current.employee) > reserveSlot.bookingCount;
                 } else {
                     return true;
                 }
@@ -69,7 +69,7 @@ myApp
                 }).$promise
                     .then(function success(data) {
                         // update viewSlots
-                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, true);
+                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, true);
                         updateSlotsWithBookings(data);
                         angular.copy({}, ScheduleModel.form);
                         Schedule.modal.hide();
@@ -94,7 +94,7 @@ myApp
                     to: moment($stateParams.selectedDate).clone().add(1, 'days').toDate().getTime()
                 }).$promise.then(function success(data) {
                         // update viewSlots
-                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.currentPlace.openingHours, 30, true);
+                        ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, true);
                         updateSlotsWithBookings(data);
 
                         // booking availabilty logic
@@ -104,7 +104,7 @@ myApp
                         for (var i = index; i < index + numberOfSlots; i++) {
                             // service crashes with other times
                             var bookingCounts = ScheduleModel.viewSlots[i].bookingCount ? ScheduleModel.viewSlots[i].bookingCount : 0;
-                            if (bookingCounts >= Number(DetailModel.currentPlace.employee)) {
+                            if (bookingCounts >= Number(DetailModel.current.employee)) {
                                 Message.loading.hide();
                                 Message.popUp.alert.default(
                                     '예약 불가 안내',
@@ -147,7 +147,7 @@ myApp
 
             $scope.$on('$ionicView.beforeEnter', function() {
 
-                var openingHours = DetailModel.currentPlace.openingHours;
+                var openingHours = DetailModel.current.openingHours;
                 ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, openingHours, 30, true);
                 Bookings.getBookingsDateBetween({
                     placeId: $stateParams.id,
@@ -223,7 +223,7 @@ myApp
             function updateSlotsWithBookings(bookingsWrapper) {
                 var viewSlots = ScheduleModel.viewSlots;
                 var bookings = ScheduleModel.bookings = bookingsWrapper.bookings;
-                var employee = DetailModel.currentPlace.employee;
+                var employee = DetailModel.current.employee;
                 // var interval = 30;
 
                 angular.forEach(bookings, function(booking, index, self) {
