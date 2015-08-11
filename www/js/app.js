@@ -1,243 +1,247 @@
 // Ionic Starter App
+(function() {
+    'use strict';
 
-var myApp = angular.module('app', [
-    'ionic',
-    'ngCordova',
-    'ngResource',
+    angular.module('app', [
+        'ionic',
+        'ngCordova',
+        'ngResource',
 
-    "ui.bootstrap.tpls",
-    "ui.bootstrap.datepicker"
-])
+        "ui.bootstrap.tpls",
+        "ui.bootstrap.datepicker"
+    ])
 
-.run([
+    .run([
 
-    '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService',
+        '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService',
 
-    function($ionicPlatform, $rootScope, $stateParams, $state, AuthService) {
+        function($ionicPlatform, $rootScope, $stateParams, $state, AuthService) {
 
-        $ionicPlatform.ready(function() {
-            if (window.cordova && window.cordova.plugins.Keyboard) {
-                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-            }
-            if (window.StatusBar) {
-                StatusBar.styleDefault();
-            }
-        });
-
-        AuthService.login('admin', 'admin1234');
-
-        $state.go('main.home');
-    }
-])
-
-.config([
-
-    '$stateProvider', '$httpProvider',
-
-    function($stateProvider, $httpProvider) {
-
-        // Security handler
-        $httpProvider.interceptors.push('AuthInterceptor');
-
-        // Allow session
-        // $httpProvider.defaults.withCredentials = true;
-
-        $stateProvider
-
-        .state('login', {
-            url: '/login',
-            templateUrl: 'state/login/login.html',
-            controller: 'LoginController as Login'
-        })
-
-        .state('main', {
-            url: '/main',
-            templateUrl: 'state/main/main.html',
-            controller: 'MainController as Main'
-        })
-
-        .state('main.home', {
-            url: '/home',
-            views: {
-                main: {
-                    templateUrl: 'state/mainHome/mainHome.html',
-                    controller: 'MainHomeController as Home'
+            $ionicPlatform.ready(function() {
+                if (window.cordova && window.cordova.plugins.Keyboard) {
+                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 }
-            }
-        })
-
-        .state('main.list', {
-            url: '/list',
-            views: {
-                main: {
-                    templateUrl: 'state/list/list.html',
-                    controller: 'ListController as List'
+                if (window.StatusBar) {
+                    StatusBar.styleDefault();
                 }
-            }
-        })
+            });
 
-        .state('main.daumMap', {
-            url: '/daumMap/:from',
-            views: {
-                main: {
-                    templateUrl: 'state/daumMap/daumMap.html',
-                    controller: 'DaumMapController as Map'
-                }
-            }
-        })
+            AuthService.login('admin', 'admin1234');
 
-        .state('main.detail', {
-            url: '/detail/:id',
-            views: {
-                main: {
-                    templateUrl: 'state/detail/detail.html',
-                    controller: 'DetailController as Detail'
-                }
-            }
-        })
+            $state.go('main.home');
+        }
+    ])
 
-        .state('main.schedule', {
-            url: '/schdule/:id/:selectedDate',
-            views: {
-                main: {
-                    templateUrl: 'state/schedule/schedule.html',
-                    controller: 'ScheduleController as Schedule'
-                }
-            }
-        })
+    .config([
 
-        .state('main.balance', {
-            url: '/balance',
-            abstract: true,
-            views: {
-                main: {
-                    templateUrl: 'state/balance/balance.html',
-                    controller: 'BalanceController as Balance'
+        '$stateProvider', '$httpProvider',
+
+        function($stateProvider, $httpProvider) {
+
+            // Security handler
+            $httpProvider.interceptors.push('AuthInterceptor');
+
+            // Allow session
+            // $httpProvider.defaults.withCredentials = true;
+
+            $stateProvider
+
+            .state('login', {
+                url: '/login',
+                templateUrl: 'state/login/login.html',
+                controller: 'LoginController as Login'
+            })
+
+            .state('main', {
+                url: '/main',
+                templateUrl: 'state/main/main.html',
+                controller: 'MainController as Main'
+            })
+
+            .state('main.home', {
+                url: '/home',
+                views: {
+                    main: {
+                        templateUrl: 'state/mainHome/mainHome.html',
+                        controller: 'MainHomeController as Home'
+                    }
                 }
-            }
-        })
-            .state('main.balance.list', {
+            })
+
+            .state('main.list', {
                 url: '/list',
                 views: {
-                    balance: {
-                        templateUrl: 'state/balance/list/balanceList.html',
-                        controller: 'BalanceListController as BalanceList'
-                    }
-                }
-            })
-            .state('main.balance.detail', {
-                url: '/detail',
-                views: {
-                    balance: {
-                        templateUrl: 'state/balance/detail/balanceDetail.html',
-                        controller: 'BalanceDetailController as BalanceDetail'
+                    main: {
+                        templateUrl: 'state/list/list.html',
+                        controller: 'ListController as List'
                     }
                 }
             })
 
-        .state('main.cancel', {
-            url: '/cancel',
-            views: {
-                main: {
-                    templateUrl: 'state/cancel/cancel.html',
-                    controller: 'CancelController as Cancel'
-                }
-            }
-        })
-
-        .state('main.favorite', {
-            url: '/favorite',
-            views: {
-                main: {
-                    templateUrl: 'state/favorite/favorite.html',
-                    controller: 'FavoriteController as Favorite'
-                }
-            }
-        })
-
-        .state('main.show', {
-            url: '/show',
-            abstract: true,
-            views: {
-                main: {
-                    templateUrl: 'state/show/show.html',
-                    controller: 'ShowController as Show'
-                }
-            }
-        })
-            .state('main.show.list', {
-                url: '/list',
+            .state('main.daumMap', {
+                url: '/daumMap/:from',
                 views: {
-                    show: {
-                        templateUrl: 'state/show/list/showList.html',
-                        controller: 'ShowListController as ShowList'
+                    main: {
+                        templateUrl: 'state/daumMap/daumMap.html',
+                        controller: 'DaumMapController as Map'
                     }
                 }
             })
-            .state('main.show.savedList', {
-                url: '/savedList',
-                views: {
-                    show: {
-                        templateUrl: 'state/show/savedShow/savedShowList.html',
-                        controller: 'SavedShowListController as SavedShowList'
-                    }
-                }
-            })
-            .state('main.show.detail', {
+
+            .state('main.detail', {
                 url: '/detail/:id',
                 views: {
-                    show: {
-                        templateUrl: 'state/show/detail/showDetail.html',
-                        controller: 'ShowDetailController as ShowDetail'
+                    main: {
+                        templateUrl: 'state/detail/detail.html',
+                        controller: 'DetailController as Detail'
                     }
                 }
             })
 
-        .state('main.announcements', {
-            abstract: true,
-            url: '/announcements',
-            views: {
-                main: {
-                    templateUrl: 'state/announcements/announcements.html',
-                    controller: 'AnnouncementsController as Announcements'
-                }
-            }
-        })
-            .state('main.announcements.eventList', {
-                url: '/eventList',
+            .state('main.schedule', {
+                url: '/schdule/:id/:selectedDate',
                 views: {
-                    announcements: {
-                        templateUrl: 'state/announcements/event/eventList.html',
-                        controller: 'EventListController as EventList'
+                    main: {
+                        templateUrl: 'state/schedule/schedule.html',
+                        controller: 'ScheduleController as Schedule'
                     }
                 }
             })
-            .state('main.announcements.eventDetail', {
-                url: '/eventDetail/:id',
+
+            .state('main.balance', {
+                url: '/balance',
+                abstract: true,
                 views: {
-                    announcements: {
-                        templateUrl: 'state/announcements/event/eventDetail.html',
-                        controller: 'EventDetailController as EventDetail'
+                    main: {
+                        templateUrl: 'state/balance/balance.html',
+                        controller: 'BalanceController as Balance'
                     }
                 }
             })
-            .state('main.announcements.noticeList', {
-                url: '/noticeList',
+                .state('main.balance.list', {
+                    url: '/list',
+                    views: {
+                        balance: {
+                            templateUrl: 'state/balance/list/balanceList.html',
+                            controller: 'BalanceListController as BalanceList'
+                        }
+                    }
+                })
+                .state('main.balance.detail', {
+                    url: '/detail',
+                    views: {
+                        balance: {
+                            templateUrl: 'state/balance/detail/balanceDetail.html',
+                            controller: 'BalanceDetailController as BalanceDetail'
+                        }
+                    }
+                })
+
+            .state('main.cancel', {
+                url: '/cancel',
                 views: {
-                    announcements: {
-                        templateUrl: 'state/announcements/notice/noticeList.html',
-                        controller: 'NoticeListController as NoticeList'
+                    main: {
+                        templateUrl: 'state/cancel/cancel.html',
+                        controller: 'CancelController as Cancel'
                     }
                 }
             })
-            .state('main.announcements.noticeDetail', {
-                url: '/noticeDetail/:id',
+
+            .state('main.favorite', {
+                url: '/favorite',
                 views: {
-                    announcements: {
-                        templateUrl: 'state/announcements/notice/noticeDetail.html',
-                        controller: 'NoticeDetailController as NoticeDetail'
+                    main: {
+                        templateUrl: 'state/favorite/favorite.html',
+                        controller: 'FavoriteController as Favorite'
                     }
                 }
             })
-    } //END
-]);
+
+            .state('main.show', {
+                url: '/show',
+                abstract: true,
+                views: {
+                    main: {
+                        templateUrl: 'state/show/show.html',
+                        controller: 'ShowController as Show'
+                    }
+                }
+            })
+                .state('main.show.list', {
+                    url: '/list',
+                    views: {
+                        show: {
+                            templateUrl: 'state/show/list/showList.html',
+                            controller: 'ShowListController as ShowList'
+                        }
+                    }
+                })
+                .state('main.show.savedList', {
+                    url: '/savedList',
+                    views: {
+                        show: {
+                            templateUrl: 'state/show/savedShow/savedShowList.html',
+                            controller: 'SavedShowListController as SavedShowList'
+                        }
+                    }
+                })
+                .state('main.show.detail', {
+                    url: '/detail/:id',
+                    views: {
+                        show: {
+                            templateUrl: 'state/show/detail/showDetail.html',
+                            controller: 'ShowDetailController as ShowDetail'
+                        }
+                    }
+                })
+
+            .state('main.announcements', {
+                abstract: true,
+                url: '/announcements',
+                views: {
+                    main: {
+                        templateUrl: 'state/announcements/announcements.html',
+                        controller: 'AnnouncementsController as Announcements'
+                    }
+                }
+            })
+                .state('main.announcements.eventList', {
+                    url: '/eventList',
+                    views: {
+                        announcements: {
+                            templateUrl: 'state/announcements/event/eventList.html',
+                            controller: 'EventListController as EventList'
+                        }
+                    }
+                })
+                .state('main.announcements.eventDetail', {
+                    url: '/eventDetail/:id',
+                    views: {
+                        announcements: {
+                            templateUrl: 'state/announcements/event/eventDetail.html',
+                            controller: 'EventDetailController as EventDetail'
+                        }
+                    }
+                })
+                .state('main.announcements.noticeList', {
+                    url: '/noticeList',
+                    views: {
+                        announcements: {
+                            templateUrl: 'state/announcements/notice/noticeList.html',
+                            controller: 'NoticeListController as NoticeList'
+                        }
+                    }
+                })
+                .state('main.announcements.noticeDetail', {
+                    url: '/noticeDetail/:id',
+                    views: {
+                        announcements: {
+                            templateUrl: 'state/announcements/notice/noticeDetail.html',
+                            controller: 'NoticeDetailController as NoticeDetail'
+                        }
+                    }
+                })
+        } //END
+    ]);
+
+})();
