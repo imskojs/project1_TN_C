@@ -6,34 +6,9 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var inlinesource = require('gulp-inline-source');
+var ngTemplate = require('gulp-ng-template');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-
-
-//------------------------
-//  Add library paths here
-//------------------------
-var libPaths = [
-    './www/lib/underscore/underscore.js',
-    './www/lib/moment/moment.js',
-    './www/lib/ionic/js/ionic.bundle.js',
-    './www/lib/angular-resource/angular-resource.js',
-    './www/lib/uiBootstrapDatePicker/ui-bootstrap-custom-tpls-0.13.0.js',
-    './www/lib/ngCordova/dist/ng-cordova.js'
-];
-
-gulp.task('libs', function(done) {
-    gulp.src(libPaths)
-        .pipe(concat('libs.all.js'))
-        .pipe(uglify({
-            mangle: true
-        }))
-        .pipe(rename({
-            extname: '.min.js'
-        }))
-        .pipe(gulp.dest('./www/lib/'))
-        .on('end', done);
-});
 
 
 var paths = {
@@ -47,6 +22,41 @@ var paths = {
         './www/state/**/*.js'
     ]
 };
+//------------------------
+//  Add library paths here
+//------------------------
+var libPaths = [
+    './www/lib/underscore/underscore.js',
+    './www/lib/moment/moment.js',
+    './www/lib/ionic/js/ionic.bundle.js',
+    './www/lib/angular-resource/angular-resource.js',
+    './www/lib/uiBootstrapDatePicker/ui-bootstrap-custom-tpls-0.13.0.js',
+    './www/lib/ngCordova/dist/ng-cordova.js'
+];
+
+gulp.task('lib', function(done) {
+    gulp.src(libPaths)
+        .pipe(concat('libs.all.js'))
+    // .pipe(uglify({
+    //     mangle: true
+    // }))
+    .pipe(rename({
+        extname: '.min.js'
+    }))
+        .pipe(gulp.dest('./www/lib/'))
+        .on('end', done);
+});
+
+gulp.task('template', function() {
+    return gulp.src('./www/**/*.html')
+        .pipe(ngTemplate({
+            standalone: true,
+            filePath: 'tpl.js'
+        }))
+        .pipe(gulp.dest('./www/state/'));
+});
+
+
 
 
 gulp.task('sass', function(done) {
@@ -79,24 +89,26 @@ gulp.task('js', function(done) {
         './www/state/**/*.js'
     ])
         .pipe(concat('app.all.js'))
-        .pipe(uglify({
-            mangle: true
-        }))
-        .pipe(rename({
-            extname: '.min.js'
-        }))
+    // .pipe(uglify({
+    //     mangle: true
+    // }))
+    .pipe(rename({
+        extname: '.min.js'
+    }))
         .pipe(gulp.dest('./www/js/'))
         .on('end', done);
 });
 
-gulp.task('inlinesource', function() {
-    return gulp.src('./www/index-dev.html')
-        .pipe(inlinesource({
-            compress: false
-        }))
-        .pipe(rename('index.html'))
-        .pipe(gulp.dest('./www/'));
-});
+
+
+// gulp.task('inlinesource', function() {
+//     return gulp.src('./www/index-dev.html')
+//         .pipe(inlinesource({
+//             compress: false
+//         }))
+//         .pipe(rename('index.html'))
+//         .pipe(gulp.dest('./www/'));
+// });
 
 gulp.task('init', ['sass', 'libs', 'js']);
 gulp.task('default', ['sass', 'js']);
