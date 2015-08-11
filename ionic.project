@@ -8,7 +8,7 @@
   ],
   "watchPatterns": [
     "www/**/*.html",
-    "www/js/all.min.js",
+    "www/js/app.all.min.js",
     "www/css/ionic.app.all.min.css",
     "!www/lib/**/*"
   ],
