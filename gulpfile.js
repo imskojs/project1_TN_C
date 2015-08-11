@@ -24,7 +24,9 @@ var libPaths = [
 gulp.task('libs', function(done) {
     gulp.src(libPaths)
         .pipe(concat('libs.all.js'))
-        .pipe(uglify())
+        .pipe(uglify({
+            mangle: true
+        }))
         .pipe(rename({
             extname: '.min.js'
         }))
@@ -48,7 +50,6 @@ var paths = {
     ]
 };
 
-gulp.task('default', ['sass', 'js']);
 
 gulp.task('sass', function(done) {
     gulp.src([
@@ -80,7 +81,9 @@ gulp.task('js', function(done) {
         './www/state/**/*.js'
     ])
         .pipe(concat('app.all.js'))
-        .pipe(uglify())
+        .pipe(uglify({
+            mangle: true
+        }))
         .pipe(rename({
             extname: '.min.js'
         }))
@@ -88,6 +91,8 @@ gulp.task('js', function(done) {
         .on('end', done);
 });
 
+gulp.task('init', ['sass', 'libs', 'js']);
+gulp.task('default', ['sass', 'js']);
 
 gulp.task('watch', function() {
     gulp.watch(paths.sass, ['sass']);

@@ -4,7 +4,7 @@
     angular.module('app')
         .directive('daumMap', daumMap);
 
-    daumMap = ['DaumMapModel', 'Places', 'Bookings', '$state', '$cordovaGeolocation', 'Message', '$q',
+    daumMap.$inject = ['DaumMapModel', 'Places', 'Bookings', '$state', '$cordovaGeolocation', 'Message', '$q',
         '$stateParams'
     ];
 
