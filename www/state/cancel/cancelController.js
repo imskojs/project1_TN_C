@@ -15,7 +15,7 @@
         Cancel.isNotCancelled = isNotCancelled;
 
         $scope.$on('$ionicView.beforeEnter', function() {
-            // getMyBookings();
+            getMyBookings();
         })
 
 

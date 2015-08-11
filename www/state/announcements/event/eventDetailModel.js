@@ -1,28 +1,29 @@
-myApp
-    .factory('EventDetailModel', [
+(function() {
+    'use strict';
+    myApp
+        .factory('EventDetailModel', EventDetailModel);
 
 
 
-        function() {
-
-            var EventDetailModel = {
-
-                post: {
-                    id: '',
-                    comments: [],
-                    photos: [{
-                        url: ''
-                    }],
-                    content: '',
-                    title: '',
-                    category: 'SHOW-POST',
-                    createdBy: {
-                        nickname: ''
-                    }
+    function EventDetailModel() {
+        var model = {
+            post: {
+                id: '',
+                comments: [],
+                photos: [{
+                    url: ''
+                }],
+                content: '',
+                title: '',
+                category: 'SHOW-POST',
+                createdBy: {
+                    nickname: ''
                 }
-            };
+            }
+        };
 
-            return EventDetailModel;
+        return model;
+    }
 
-        }
-    ]);
+
+})();

@@ -1,10 +1,14 @@
-myApp
-.factory('MainHomeModel', [
+(function() {
+    'use strict';
 
-function(){
+    myApp
+        .factory('MainHomeModel', MainHomeModel);
 
-    var MainHomeModel = {
+    function MainHomeModel() {
 
-    };
-    return MainHomeModel;
-}])
+        var model = {
+
+        };
+        return model;
+    }
+})();

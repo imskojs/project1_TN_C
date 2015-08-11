@@ -1,30 +1,16 @@
-myApp
-    .factory('ShowModel', [
-        '$http', 'governorUrl',
-        function($http, governorUrl) {
+(function() {
+    'use strict';
 
-            var ShowModel = {
-                //------------------------
-                //  post to server, then update again with image.
-                //------------------------
-                postHandler: function(post) {
-                    $http({
-                        url: governorUrl + '/post',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        data: post
-                    }).then(function success(response) {
-                        console.log(response);
-                    }, function err(error) {
-                        console.log(error);
-                    })
-                }
+    angular.module('app')
+        .factory('ShowModel', ShowModel);
 
-            };
+    // ShowModel.$inject = [];
 
-            return ShowModel;
+    function ShowModel() {
 
-        }
-    ]);
+        var model = {
+
+        };
+        return model;
+    }
+})();

@@ -1,6 +1,6 @@
 // Ionic Starter App
 
-var myApp = angular.module('todayNail', [
+var myApp = angular.module('app', [
     'ionic',
     'ngCordova',
     'ngResource',

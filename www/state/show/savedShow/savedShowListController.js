@@ -1,38 +1,42 @@
-myApp
-    .controller('SavedShowListController', [
+(function() {
+    'use strict';
 
-        'SavedShowListModel', '$state', '$scope',
+    myApp
+        .controller('SavedShowListController', SavedShowListController);
 
-        function(SavedShowListModel, $state, $scope) {
+    SavedShowListController.$inject = ['SavedShowListModel', '$state', '$scope'];
 
-            var SavedShowList = this;
+    function SavedShowListController(SavedShowListModel, $state, $scope) {
 
-            SavedShowList.Model = SavedShowListModel;
-            $scope.$on('$ionicView.beforeEnter', function() {
-                SavedShowListModel.posts =
-                    angular.fromJson(localStorage.getItem('NAIL_SAVED_POSTS'));
-            })
+        var SavedShowList = this;
+
+        SavedShowList.Model = SavedShowListModel;
+        $scope.$on('$ionicView.beforeEnter', function() {
+            SavedShowListModel.posts =
+                angular.fromJson(localStorage.getItem('NAIL_SAVED_POSTS'));
+        })
 
 
 
 
-            SavedShowList.goToDetailHandler = function(post) {
-                $state.go('main.show.detail', {
-                    id: post.id
-                });
-                //MVP2: resave. likeCounts, and commentCounts.
-            };
+        SavedShowList.goToDetailHandler = function(post) {
+            $state.go('main.show.detail', {
+                id: post.id
+            });
+            //MVP2: resave. likeCounts, and commentCounts.
+        };
 
-            var savedList = [{
-                id: '',
-                titile: '',
-                createdBy: {
-                    nickname: ''
-                },
-                photos: [],
-                // Check if updated
-                likeCount: '',
-                commentCount: ''
-            }];
-        }
-    ]);
+        var savedList = [{
+            id: '',
+            titile: '',
+            createdBy: {
+                nickname: ''
+            },
+            photos: [],
+            // Check if updated
+            likeCount: '',
+            commentCount: ''
+        }];
+    }
+
+})();

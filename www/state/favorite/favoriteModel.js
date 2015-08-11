@@ -1,15 +1,19 @@
-myApp
-    .factory('FavoriteModel', [
+(function() {
+    'use strict';
+
+    myApp
+        .factory('FavoriteModel', FavoriteModel);
 
 
 
-        function() {
+    function FavoriteModel() {
 
-            var FavoriteModel = {
+        var model = {
 
-            };
+        };
 
-            return FavoriteModel;
+        return model;
 
-        }
-    ]);
+    }
+
+})();

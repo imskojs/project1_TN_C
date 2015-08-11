@@ -1,49 +1,54 @@
-myApp
-    .controller('MainController', [
+(function() {
+    'use strict';
 
-        '$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
-        '$ionicNavBarDelegate', '$ionicHistory',
+    myApp
+        .controller('MainController', MainController);
 
-        function($ionicSideMenuDelegate, MainModel, $state, $timeout,
-            $ionicNavBarDelegate, $ionicHistory
-        ) {
+    MainController.$inject = ['$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
+        '$ionicNavBarDelegate', '$ionicHistory'
+    ];
 
-            var Main = this;
+    function MainController($ionicSideMenuDelegate, MainModel, $state, $timeout,
+        $ionicNavBarDelegate, $ionicHistory
+    ) {
 
-            Main.Model = MainModel;
+        var Main = this;
 
-            Main.toggleSideMenu = function() {
-                $ionicSideMenuDelegate.toggleLeft();
+        Main.Model = MainModel;
+
+        Main.toggleSideMenu = function() {
+            $ionicSideMenuDelegate.toggleLeft();
+        }
+
+
+        Main.menuSelectHandler = function(item) {
+            MainModel.currentItem = item;
+            $state.go(item.state)
+            $ionicSideMenuDelegate.toggleLeft(false);
+        }
+
+        Main.getCurrentState = function() {
+            return $ionicHistory.currentStateName()
+        }
+
+        Main.toggleAccordion = function() {
+            Main.settingSubMenu = !Main.settingSubMenu;
+        }
+
+        Main.toggleSettingHandler = function(setting) {
+            if (MainModel.setting[setting] === 'on') {
+                MainModel.setting[setting] = 'off'
+            } else {
+                MainModel.setting[setting] = 'on'
             }
 
+            //req server to turn off setting.
+        }
 
-            Main.menuSelectHandler = function(item) {
-                MainModel.currentItem = item;
-                $state.go(item.state)
-                $ionicSideMenuDelegate.toggleLeft(false);
-            }
+        Main.goToDaumMapHandler = function() {
+            $state.go('main.daumMap');
+        }
 
-            Main.getCurrentState = function () {
-                return $ionicHistory.currentStateName()
-            }
+    } // END
 
-            Main.toggleAccordion = function() {
-                Main.settingSubMenu = !Main.settingSubMenu;
-            }
-
-            Main.toggleSettingHandler = function (setting){
-                if(MainModel.setting[setting] === 'on'){
-                    MainModel.setting[setting] = 'off'
-                } else {
-                    MainModel.setting[setting] = 'on'
-                }
-
-                //req server to turn off setting.
-            }
-
-            Main.goToDaumMapHandler = function (){
-                $state.go('main.daumMap');
-            }
-
-        }// END
-    ]);
+})();

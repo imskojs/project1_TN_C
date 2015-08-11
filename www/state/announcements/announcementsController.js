@@ -1,18 +1,21 @@
-myApp
-    .controller('AnnouncementsController', [
+(function() {
+    'use strict';
+    myApp
+        .controller('AnnouncementsController', AnnouncementsController);
 
-        '$state',
+    AnnouncementsController.$inject = ['$state'];
 
-        function($state) {
+    function AnnouncementsController($state) {
 
-            var Announcements = this;
+        var Announcements = this;
 
-            Announcements.goToEventListHandler = function() {
-                $state.go('main.announcements.eventList')
-            }
-            Announcements.goToNoticeListHandler = function() {
-                $state.go('main.announcements.noticeList')
-            }
-
+        Announcements.goToEventListHandler = function() {
+            $state.go('main.announcements.eventList')
         }
-    ]);
+        Announcements.goToNoticeListHandler = function() {
+            $state.go('main.announcements.noticeList')
+        }
+    }
+
+
+})();

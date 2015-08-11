@@ -1,28 +1,28 @@
-myApp
-    .factory('NoticeDetailModel', [
+(function() {
+    'use strict';
+    myApp
+        .factory('NoticeDetailModel', NoticeDetailModel);
 
+    function NoticeDetailModel() {
 
-
-        function() {
-
-            var NoticeDetailModel = {
-                post: {
-                    id: '',
-                    comments: [],
-                    photos: [{
-                        url: ''
-                    }],
-                    content: '',
-                    title: '',
-                    category: 'SHOW-POST',
-                    createdBy: {
-                        nickname: ''
-                    }
+        var model = {
+            post: {
+                id: '',
+                comments: [],
+                photos: [{
+                    url: ''
+                }],
+                content: '',
+                title: '',
+                category: 'SHOW-POST',
+                createdBy: {
+                    nickname: ''
                 }
-            };
+            }
+        };
 
-            return NoticeDetailModel;
+        return model;
+    }
 
 
-        }
-    ]);
+})();

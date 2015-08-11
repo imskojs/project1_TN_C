@@ -23,6 +23,9 @@
         function isFavorite(localStorageItem) {
             var favoritesString = localStorage.getItem(localStorageItem);
             var favoritesArray = angular.fromJson(favoritesString);
+            if (!Array.isArray(favoritesArray)) {
+                favoritesArray = [];
+            };
             for (var i = 0; i < favoritesArray.length; i++) {
                 var favorite = favoritesArray[i];
                 if (favorite.id === $stateParams.id) {

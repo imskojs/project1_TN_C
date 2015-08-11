@@ -1,13 +1,17 @@
-myApp
-    .controller('BalanceListController', [
+(function() {
+    'use strict';
 
-        'BalanceListModel',
+    myApp
+        .controller('BalanceListController', BalanceListController);
 
-        function(BalanceListModel) {
+    BalanceListController.$inject = ['BalanceListModel'];
 
-            var BalanceList = this;
+    function BalanceListController(BalanceListModel) {
 
-            BalanceList.places = BalanceListModel.places;
+        var BalanceList = this;
 
-        }
-    ]);
+        BalanceList.places = BalanceListModel.places;
+
+    }
+
+})();

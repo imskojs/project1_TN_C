@@ -1,33 +1,34 @@
-myApp
-    .controller('NoticeDetailController', [
+(function() {
+    'use strict';
+    myApp
+        .controller('NoticeDetailController', NoticeDetailController);
 
-        'NoticeDetailModel', 'Posts', '$stateParams', '$scope', 'Message',
+    NoticeDetailController.$inject = ['NoticeDetailModel', 'Posts', '$stateParams', '$scope', 'Message']
 
 
-        function(NoticeDetailModel, Posts, $stateParams, $scope, Message) {
+    function NoticeDetailController(NoticeDetailModel, Posts, $stateParams, $scope, Message) {
 
-            var NoticeDetail = this;
+        var NoticeDetail = this;
 
-            NoticeDetail.Model = NoticeDetailModel;
+        NoticeDetail.Model = NoticeDetailModel;
 
-            $scope.$on('$ionicView.beforeEnter', function() {
+        $scope.$on('$ionicView.beforeEnter', function() {
 
-                //------------------------
-                //  Load post with id
-                //------------------------
-                Message.loading.default();
-                Posts.findById({
-                    id: $stateParams.id
-                }).$promise
-                    .then(function success(data) {
-                        console.log(JSON.stringify(data, null, 2));
-                        NoticeDetailModel.post = data;
-                        Message.loading.hide();
+            //------------------------
+            //  Load post with id
+            //------------------------
+            Message.loading.default();
+            Posts.findById({
+                id: $stateParams.id
+            }).$promise
+                .then(function success(data) {
+                    console.log(JSON.stringify(data, null, 2));
+                    NoticeDetailModel.post = data;
+                    Message.loading.hide();
 
-                    }, function error(err) {
-                        Message.popUp.alert.default('해당포스트가 없습니다', '지워진 포스트이거나 인터넷이 꺼져있습니다.');
-                    });
-            });
-
-        }
-    ]);
+                }, function error(err) {
+                    Message.popUp.alert.default('해당포스트가 없습니다', '지워진 포스트이거나 인터넷이 꺼져있습니다.');
+                });
+        });
+    }
+})();

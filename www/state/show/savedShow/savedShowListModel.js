@@ -1,13 +1,16 @@
-myApp
-    .factory('SavedShowListModel', [
+(function() {
+    'use strict';
 
-        function() {
+    angular.module('app')
+        .factory('SavedShowListModel', SavedShowListModel);
 
-            var SavedShowListModel = {
+    SavedShowListModel.$inject = [];
 
-            };
+    function SavedShowListModel() {
 
-            return SavedShowListModel;
+        var model = {
 
-        }
-    ]);
+        };
+        return model;
+    }
+})();

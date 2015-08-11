@@ -1,25 +1,29 @@
-myApp
-    .factory('ShowDetailModel', [
+(function() {
+    'use strict';
+    myApp
+        .factory('ShowDetailModel', ShowDetailModel);
 
-        function() {
+    function ShowDetailModel() {
 
-            var ShowDetailModel = {
-                current: {
-                    id: '',
-                    comments: [],
-                    photos: [{
-                        url: ''
-                    }],
-                    content: '',
-                    title: '',
-                    category: 'SHOW-POST',
-                    createdBy: {
-                        nickname: ''
-                    }
+        var model = {
+            current: {
+                id: '',
+                comments: [],
+                photos: [{
+                    url: ''
+                }],
+                content: '',
+                title: '',
+                category: 'SHOW-POST',
+                createdBy: {
+                    nickname: ''
                 }
-            };
+            }
+        };
 
-            return ShowDetailModel;
+        return model;
 
-        }
-    ]);
+    }
+
+
+})();

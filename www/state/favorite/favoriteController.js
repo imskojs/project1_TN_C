@@ -1,26 +1,26 @@
-myApp
-    .controller('FavoriteController', [
+(function() {
+    'use strict';
 
-        'FavoriteModel', '$scope', '$state',
+    myApp
+        .controller('FavoriteController', FavoriteController);
 
-        function(FavoriteModel, $scope, $state) {
-            var Favorite = this;
-            Favorite.Model = FavoriteModel;
+    FavoriteController.$inject = ['FavoriteModel', '$scope', '$state'];
 
-            $scope.$on('$ionicView.loaded', function() {
-                Favorite.goToDetailHandler = function(place) {
-                    $state.go('main.detail', {
-                        id: place.id
-                    });
-                };
-            });
+    function FavoriteController(FavoriteModel, $scope, $state) {
+        var Favorite = this;
+        Favorite.Model = FavoriteModel;
 
-            $scope.$on('$ionicView.beforeEnter', function() {
-                FavoriteModel.placeList = angular.fromJson(localStorage.getItem('NAIL_SAVED_PLACES'));
-            })
+        $scope.$on('$ionicView.loaded', function() {
+            Favorite.goToDetailHandler = function(place) {
+                $state.go('main.detail', {
+                    id: place.id
+                });
+            };
+        });
 
+        $scope.$on('$ionicView.beforeEnter', function() {
+            FavoriteModel.placeList = angular.fromJson(localStorage.getItem('NAIL_SAVED_PLACES'));
+        });
+    }
 
-
-        }
-
-    ]);
+})();

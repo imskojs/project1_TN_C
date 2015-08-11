@@ -1,8 +1,16 @@
-myApp
-.factory('LoginModel', [
+(function() {
+    'use strict';
 
+    angular.module('app')
+        .factory('LoginModel', LoginModel);
 
+    // LoginModel.$inject = [];
 
-function (){
+    function LoginModel() {
 
-}]);
+        var model = {
+
+        };
+        return model;
+    }
+})();

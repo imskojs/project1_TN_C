@@ -1,14 +1,18 @@
-myApp
-    .factory('AnnouncementsModel', [
+(function() {
+    'use strict';
+    myApp
+        .factory('AnnouncementsModel', AnnouncementsModel);
 
 
 
-        function() {
-            var AnnouncementsModel = {
+    function AnnouncementsModel() {
+        var model = {
 
-            };
+        };
 
-            return AnnoucementsModel;
+        return model;
 
-        }
-    ]);
+    }
+
+
+})();

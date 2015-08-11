@@ -1,24 +1,26 @@
-myApp
-    .factory('EventListModel', [
+(function() {
+    'use strict';
 
+    myApp
+        .factory('EventListModel', EventListModel)
 
-
-        function() {
-            var EventListModel = {
-                postsWrapper: {
-                    posts: [{
-                        title: '',
-                        content: '',
-                        category: '',
-                        comments: [],
-                        photos: [{
-                            url: ''
-                        }]
-                    }],
-                    more: true
-                }
+    function EventListModel() {
+        var model = {
+            postsWrapper: {
+                posts: [{
+                    title: '',
+                    content: '',
+                    category: '',
+                    comments: [],
+                    photos: [{
+                        url: ''
+                    }]
+                }],
+                more: true
             }
-
-            return EventListModel;
         }
-    ]);
+
+        return model;
+    }
+
+})();

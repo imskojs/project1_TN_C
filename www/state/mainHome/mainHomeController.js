@@ -1,24 +1,27 @@
-myApp
-    .controller('MainHomeController', [
-        'MainHomeModel', '$state',
-        function(MainHomeModel, $state) {
+(function() {
+    'use strict';
+    myApp
+        .controller('MainHomeController', MainHomeController);
+    MainHomeController.$inject = ['MainHomeModel', '$state'];
 
-            var Home = this;
+    function MainHomeController(MainHomeModel, $state) {
 
-            Home.search = ''
+        var Home = this;
 
-
-            Home.goToHandler = function(state, params) {
-                $state.go(state, params);
-            }
-
-            // APP SPECIFIC
-            Home.searchHandler = function(search) {
-                $state.go('main.daumMap', {
-                    from: 'homeInput'
-                })
-            }
+        Home.search = ''
 
 
+        Home.goToHandler = function(state, params) {
+            $state.go(state, params);
         }
-    ])
+
+        // APP SPECIFIC
+        Home.searchHandler = function(search) {
+            $state.go('main.daumMap', {
+                from: 'homeInput'
+            })
+        }
+    }
+
+
+})();

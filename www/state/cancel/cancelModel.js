@@ -3,14 +3,14 @@
     myApp
         .factory('CancelModel', CancelModel);
 
-    CancelModel.$inject = ['$stateParams'];
+    // CancelModel.$inject = [];
 
-    function CancelModel($stateParams) {
+    function CancelModel() {
         var data = {
             current: {
                 bookings: [{
                     datetime: new Date(),
-                    order: [{
+                    products: [{
                         product: {
                             name: '우늘 네일'
                         },
@@ -22,7 +22,7 @@
                     status: 'CANCELLED'
                 }, {
                     datetime: new Date(),
-                    order: [{
+                    products: [{
                         product: {
                             name: '오늘 네일 2'
                         },

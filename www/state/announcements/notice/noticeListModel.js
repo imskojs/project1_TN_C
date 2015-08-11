@@ -1,26 +1,28 @@
-myApp
-    .factory('NoticeListModel', [
+(function() {
+    'use strict';
 
+    myApp
+        .factory('NoticeListModel', NoticeListModel);
 
+    function NoticeListModel() {
 
-        function() {
+        var model = {
+            postsWrapper: {
+                posts: [{
+                    title: '',
+                    content: '',
+                    category: '',
+                    comments: [],
+                    photos: [{
+                        url: ''
+                    }]
+                }],
+                more: true
+            }
+        };
 
-            var NoticeListModel = {
-                postsWrapper: {
-                    posts: [{
-                        title: '',
-                        content: '',
-                        category: '',
-                        comments: [],
-                        photos: [{
-                            url: ''
-                        }]
-                    }],
-                    more: true
-                }
-            };
+        return model;
 
-            return NoticeListModel;
+    }
 
-        }
-    ]);
+})();
