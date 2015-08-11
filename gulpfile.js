@@ -8,6 +8,34 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 
+
+//------------------------
+//  Add library paths here
+//------------------------
+var libPaths = [
+    './www/lib/underscore/underscore.js',
+    './www/lib/moment/moment.js',
+    './www/lib/ionic/js/ionic.bundle.js',
+    './www/lib/angular-resource/angular-resource.js',
+    './www/lib/uiBootstrapDatePicker/ui-bootstrap-custom-tpls-0.13.0.js',
+    './www/lib/ngCordova/dist/ng-cordova.js'
+];
+
+gulp.task('libs', function(done) {
+    gulp.src(libPaths)
+        .pipe(concat('libs.all.js'))
+        .pipe(uglify())
+        .pipe(rename({
+            extname: '.min.js'
+        }))
+        .pipe(gulp.dest('./www/lib/'))
+        .on('end', done);
+});
+
+
+
+
+
 var paths = {
     sass: ['./scss/**/*.scss', './www/state/**/*.scss'],
     js: [
@@ -32,32 +60,34 @@ gulp.task('sass', function(done) {
         .pipe(sass({
             errLogToConsole: true
         }))
-    // .pipe(minifyCss({
-    //     keepSpecialComments: 0
-    // }))
-    .pipe(rename({
-        extname: '.min.css'
-    }))
+        .pipe(minifyCss({
+            keepSpecialComments: 0
+        }))
+        .pipe(rename({
+            extname: '.min.css'
+        }))
         .pipe(gulp.dest('./www/css/'))
         .on('end', done);
 });
 
 gulp.task('js', function(done) {
     gulp.src([
+        './www/js/app.js',
         './www/js/config/**/*.js',
         './www/js/service/**/*.js',
         './www/js/directive/**/*.js',
         './www/js/filter/**/*.js',
         './www/state/**/*.js'
     ])
-        .pipe(concat('all.js'))
-    // .pipe(uglify())
-    .pipe(rename({
-        extname: '.min.js'
-    }))
+        .pipe(concat('app.all.js'))
+        .pipe(uglify())
+        .pipe(rename({
+            extname: '.min.js'
+        }))
         .pipe(gulp.dest('./www/js/'))
         .on('end', done);
 });
+
 
 gulp.task('watch', function() {
     gulp.watch(paths.sass, ['sass']);
