@@ -5,49 +5,66 @@
         .controller('MainController', MainController);
 
     MainController.$inject = ['$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
-        '$ionicNavBarDelegate', '$ionicHistory'
+        '$ionicNavBarDelegate', '$ionicHistory', 'localStorage', '$scope', 'appName'
     ];
 
     function MainController($ionicSideMenuDelegate, MainModel, $state, $timeout,
-        $ionicNavBarDelegate, $ionicHistory
+        $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName
     ) {
 
         var Main = this;
-
         Main.Model = MainModel;
 
-        Main.toggleSideMenu = function() {
+        Main.toggleSideMenu = toggleSideMenu;
+        Main.menuSelectHandler = menuSelectHandler;
+        Main.getCurrentState = getCurrentState;
+        Main.toggleAccordion = toggleAccordion;
+        Main.toggleSettingHandler = toggleSettingHandler;
+        Main.goToDaumMapHandler = goToDaumMapHandler;
+
+        $scope.$on('$ionicView.beforeEnter', beforeEnterSuccess);
+
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+        function toggleSideMenu() {
             $ionicSideMenuDelegate.toggleLeft();
         }
 
-
-        Main.menuSelectHandler = function(item) {
+        function menuSelectHandler(item) {
             MainModel.currentItem = item;
-            $state.go(item.state)
+            $state.go(item.state);
             $ionicSideMenuDelegate.toggleLeft(false);
         }
 
-        Main.getCurrentState = function() {
-            return $ionicHistory.currentStateName()
+        function getCurrentState() {
+            return $ionicHistory.currentStateName();
+
         }
 
-        Main.toggleAccordion = function() {
+        function toggleAccordion() {
             Main.settingSubMenu = !Main.settingSubMenu;
         }
 
-        Main.toggleSettingHandler = function(setting) {
+        function toggleSettingHandler(setting) {
             if (MainModel.setting[setting] === 'on') {
-                MainModel.setting[setting] = 'off'
+                MainModel.setting[setting] = 'off';
             } else {
-                MainModel.setting[setting] = 'on'
+                MainModel.setting[setting] = 'on';
             }
-
             //req server to turn off setting.
         }
 
-        Main.goToDaumMapHandler = function() {
+        function goToDaumMapHandler() {
             $state.go('main.daumMap');
         }
+
+        function beforeEnterSuccess() {
+            var userWrapper = angular.fromJson(localStorage.getItem(appName + '_' + 'auth_token'));
+            var user = userWrapper.user;
+            MainModel.user = userWrapper.user;
+        }
+
 
     } // END
 

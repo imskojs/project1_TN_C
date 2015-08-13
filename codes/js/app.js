@@ -3,10 +3,12 @@
     'use strict';
 
     angular.module('app', [
-        'ngTemplates',
+        'applicat.push.service',
         'ionic',
         'ngCordova',
         'ngResource',
+        'ngTemplates',
+        'permission',
 
         "ui.bootstrap.tpls",
         "ui.bootstrap.datepicker"
@@ -14,13 +16,22 @@
 
     .run([
 
-        '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService', '$window',
+        '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService', 'Permission', '$window', 'PushService',
 
-        function($ionicPlatform, $rootScope, $stateParams, $state, AuthService, $window) {
+        function($ionicPlatform, $rootScope, $stateParams, $state, AuthService, Permission, $window, PushService) {
 
             AuthService.init();
 
+            console.log(Permission);
             Permission
+                .defineRole('user', function() {
+                    var user = AuthService.getUser();
+                    console.log(user);
+                    if (user) {
+                        return true;
+                    }
+                    return false;
+                });
 
 
 
@@ -28,15 +39,18 @@
             $ionicPlatform.ready(function() {
                 if ($window.cordova && $window.cordova.plugins.Keyboard) {
                     $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                    PushService.registerDevice();
                 }
                 if ($window.StatusBar) {
                     $window.StatusBar.styleDefault();
                 }
             });
-            // AuthService.login('admin', 'admin1234');
-            $state.go('login');
+            AuthService.login('admin', 'admin1234')
+                .then(function() {
+                    $state.go('main.home');
+                });
 
-
+            // $state.go('login');
         }
     ])
 
@@ -61,6 +75,7 @@
             })
 
             .state('main', {
+                abstract: true,
                 url: '/main',
                 templateUrl: 'state/main/main.html',
                 controller: 'MainController as Main'
@@ -73,6 +88,16 @@
                         templateUrl: 'state/mainHome/mainHome.html',
                         controller: 'MainHomeController as Home'
                     }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
+                    }
                 }
             })
 
@@ -82,6 +107,16 @@
                     main: {
                         templateUrl: 'state/list/list.html',
                         controller: 'ListController as List'
+                    }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
                     }
                 }
             })
@@ -93,6 +128,16 @@
                         templateUrl: 'state/daumMap/daumMap.html',
                         controller: 'DaumMapController as Map'
                     }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
+                    }
                 }
             })
 
@@ -103,6 +148,16 @@
                         templateUrl: 'state/detail/detail.html',
                         controller: 'DetailController as Detail'
                     }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
+                    }
                 }
             })
 
@@ -112,6 +167,16 @@
                     main: {
                         templateUrl: 'state/schedule/schedule.html',
                         controller: 'ScheduleController as Schedule'
+                    }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
                     }
                 }
             })
@@ -133,7 +198,18 @@
                             templateUrl: 'state/balance/list/balanceList.html',
                             controller: 'BalanceListController as BalanceList'
                         }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
+                        }
                     }
+
                 })
                 .state('main.balance.detail', {
                     url: '/detail/:placeName/:points',
@@ -142,7 +218,18 @@
                             templateUrl: 'state/balance/detail/balanceDetail.html',
                             controller: 'BalanceDetailController as BalanceDetail'
                         }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
+                        }
                     }
+
                 })
 
             .state('main.cancel', {
@@ -152,7 +239,18 @@
                         templateUrl: 'state/cancel/cancel.html',
                         controller: 'CancelController as Cancel'
                     }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
+                    }
                 }
+
             })
 
             .state('main.favorite', {
@@ -162,7 +260,18 @@
                         templateUrl: 'state/favorite/favorite.html',
                         controller: 'FavoriteController as Favorite'
                     }
+                },
+                data: {
+                    permissions: {
+                        only: ['user'],
+                        redirectTo: {
+                            otherwise: {
+                                state: 'login'
+                            }
+                        }
+                    }
                 }
+
             })
 
             .state('main.show', {
@@ -182,7 +291,18 @@
                             templateUrl: 'state/show/list/showList.html',
                             controller: 'ShowListController as ShowList'
                         }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
+                        }
                     }
+
                 })
                 .state('main.show.savedList', {
                     url: '/savedList',
@@ -190,6 +310,16 @@
                         show: {
                             templateUrl: 'state/show/savedShow/savedShowList.html',
                             controller: 'SavedShowListController as SavedShowList'
+                        }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
                         }
                     }
                 })
@@ -199,6 +329,16 @@
                         show: {
                             templateUrl: 'state/show/detail/showDetail.html',
                             controller: 'ShowDetailController as ShowDetail'
+                        }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
                         }
                     }
                 })
@@ -220,6 +360,16 @@
                             templateUrl: 'state/announcements/event/eventList.html',
                             controller: 'EventListController as EventList'
                         }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
+                        }
                     }
                 })
                 .state('main.announcements.eventDetail', {
@@ -228,6 +378,16 @@
                         announcements: {
                             templateUrl: 'state/announcements/event/eventDetail.html',
                             controller: 'EventDetailController as EventDetail'
+                        }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
                         }
                     }
                 })
@@ -238,6 +398,16 @@
                             templateUrl: 'state/announcements/notice/noticeList.html',
                             controller: 'NoticeListController as NoticeList'
                         }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
+                        }
                     }
                 })
                 .state('main.announcements.noticeDetail', {
@@ -246,6 +416,16 @@
                         announcements: {
                             templateUrl: 'state/announcements/notice/noticeDetail.html',
                             controller: 'NoticeDetailController as NoticeDetail'
+                        }
+                    },
+                    data: {
+                        permissions: {
+                            only: ['user'],
+                            redirectTo: {
+                                otherwise: {
+                                    state: 'login'
+                                }
+                            }
                         }
                     }
                 });

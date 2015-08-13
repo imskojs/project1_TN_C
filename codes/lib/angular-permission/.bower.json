@@ -1,0 +1,40 @@
+{
+  "name": "angular-permission",
+  "authors": [
+    "Rafael Vidaurre <narzerus@gmail.com>"
+  ],
+  "description": "Route permission and access control as simple as it can get",
+  "main": "dist/angular-permission.js",
+  "keywords": [
+    "angular",
+    "permissions",
+    "roles",
+    "route"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.rafaelvidaurre.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src"
+  ],
+  "devDependencies": {
+    "angular": "*",
+    "angular-mocks": "*"
+  },
+  "dependencies": {
+    "angular-ui-router": "~0.2.11"
+  },
+  "_release": "7cc80a1380",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "7cc80a138041c81ba636d98ed13f52e29925ce15"
+  },
+  "_source": "https://imskojs@bitbucket.org/zxshinxz/angularpermissioncustom.git",
+  "_target": "*",
+  "_originalSource": "https://imskojs@bitbucket.org/zxshinxz/angularpermissioncustom.git"
+}

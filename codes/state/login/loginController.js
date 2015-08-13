@@ -3,20 +3,38 @@
     angular.module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['LoginModel', 'AuthService'];
+    LoginController.$inject = ['LoginModel', 'AuthService', 'Message', '$state'];
 
-    function LoginController(LoginModel, AuthService) {
+    function LoginController(LoginModel, AuthService, Message, $state) {
 
         var Login = this;
         Login.Model = LoginModel;
-        Login.loginWithFaceBook = function() {
-            AuthService.loginWithFacebook();
-        };
-        Login.loginWithKaKaoTalk = function() {
-            AuthService.loginWithKakao();
-        };
+
+        Login.loginWithFaceBook = loginWithFacebook;
+        Login.loginWithKaKaoTalk = loginWithKaKaoTalk;
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
+        function loginWithFacebook() {
+            AuthService.loginWithFacebook()
+                .then(function success(data) {
+                    console.log(data);
+                    Message.loading.hide();
+                    $state.go('main.home');
+                }, function err(error) {
+                    console.log(error);
+                });
+        }
+
+        function loginWithKaKaoTalk() {
+            AuthService.loginWithKakao()
+                .then(function(data) {
+                    console.log(data);
+                    Message.loading.hide();
+                    $state.go('main.home');
+                }, function err(error) {
+                    console.log(error);
+                });
+        }
     }
 })();

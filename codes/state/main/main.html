@@ -26,12 +26,12 @@
 
                     <!-- Row 1 -->
                     <li class="r1 row row-header flex">
-                        <div class="col-30">
-                            <img class="picture"
-                                ng-src="{{Main.user.picture}}"
+                        <div class="col-30 col-picture">
+                            <img class="picture circle"
+                                ng-src="{{Main.Model.user.profile_image || 'http://lorempixel.com/400/400'}}"
                             >
                         </div>
-                        <div class="col-70">
+                        <div class="col-60 col-username">
                             <span class="username">
                                 {{ Main.user.name }} 님
                             </span>

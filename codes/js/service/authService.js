@@ -384,8 +384,10 @@
             $cordovaOauth.kakao(kakaoKey).then(function(result) {
                 result.provider = 'kakao';
 
+                console.log('kakao server result');
+                console.log(result);
                 $http({
-                    url: GovernorService.getServerUrl() + '/auth/kakao/register',
+                    url: governorUrl + '/auth/register',
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -395,6 +397,7 @@
                     .success(function(data, status, headers, config) {
 
                         LocalService.set(appName + '_auth_token', JSON.stringify(data));
+                        console.log('kakao response from server');
                         console.log(JSON.stringify(data, null, 2));
                         console.log(JSON.stringify(data.user, null, 2));
                         setUser(data.user);
@@ -423,8 +426,10 @@
             $cordovaOauth.facebook(facebookKey, ["email"]).then(function(result) {
                 result.provider = 'facebook';
 
+                console.log('facebook server result');
+                console.log(result);
                 $http({
-                    url: GovernorService.getServerUrl() + '/auth/facebook/register',
+                    url: governorUrl + '/auth/register',
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -435,6 +440,7 @@
 
                         LocalService.set(appName + '_auth_token', JSON.stringify(data));
                         setUser(data.user);
+                        console.log('facebook response from our server');
                         console.log(JSON.stringify(data, null, 2));
                         console.log(JSON.stringify(data.user, null, 2));
 

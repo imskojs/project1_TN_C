@@ -41,6 +41,7 @@ var paths = {
         // Ionic/Angular Core
         './codes/lib/ionic/js/ionic.bundle.js',
         // Angular 3rd Party Libraries
+        './codes/lib/angular-permission/dist/angular-permission.js',
         './codes/lib/angular-resource/angular-resource.js',
         './codes/lib/uiBootstrapDatePicker/ui-bootstrap-custom-tpls-0.13.0.js',
         './codes/lib/ngCordova/dist/ng-cordova.js'
@@ -114,7 +115,7 @@ gulp.task('compile', ['lib', 'img', 'view', 'sass', 'js']);
 gulp.task('default', ['view', 'sass', 'js']);
 
 gulp.task('watch', function() {
-    gulp.watch(paths.view, ['view'])
+    gulp.watch(paths.view, ['view']);
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js, ['js']);
 });

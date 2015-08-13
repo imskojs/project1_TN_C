@@ -19,7 +19,8 @@
                 Posts.getPosts({
                     category: 'EVENT-POST',
                     sort: 'id DESC',
-                    limit: 10
+                    limit: 10,
+                    populates: 'photos'
                 }).$promise
                     .then(function success(data) {
                         EventListModel.postsWrapper = data;

@@ -35,8 +35,7 @@
         .constant("governorUrl", "http://192.168.0.65:1337")
         .constant("appName", "todayNail")
         .constant("kakaoKey", "42022d8578d6fb558d70ae75766ee900")
-        .constant("facebookKey", "983668071678162");
-
+        .constant("facebookKey", "983668071678162")
+        .constant("googlePushSenderID", "282095615414");
     // .constant("appId", 2)
-    // .constant("googlePushSenderID", "350504486209")
 })();

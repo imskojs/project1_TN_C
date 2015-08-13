@@ -62,7 +62,7 @@
                     tags: 'PORTFOLIO'
                 }).$promise
                 .then(function success(photos) {
-                    console.log('thisthisthis');
+                    Detail.portFolioPhotos = photos;
                     console.log(photos);
                 }, function err(error) {
                     console.log(error);

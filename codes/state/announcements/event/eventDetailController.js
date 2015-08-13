@@ -21,11 +21,12 @@
         function getPosts() {
             Message.loading.default();
             Posts.get({
-                id: $stateParams.id
+                id: $stateParams.id,
+                populates: 'photos'
             }).$promise
-                .then(function success(data) {
-                    console.log(JSON.stringify(data, null, 2));
-                    EventDetailModel.post = data;
+                .then(function success(postWrapper) {
+                    console.log(postWrapper);
+                    EventDetailModel.post = postWrapper.post;
                     Message.loading.hide();
 
                 }, function error(err) {

@@ -1,8 +1,11 @@
 #login {
-    ion-content.bg {
+    .bg {
         background: url('../img/800/02_1_login/login_bg.png') no-repeat;
         background-size: cover;
         background-position: center;
+        .scroll {
+            padding: 1px;
+        }
 
         .r1 {
             margin-top: 110vw;

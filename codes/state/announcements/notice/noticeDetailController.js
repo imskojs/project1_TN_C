@@ -19,7 +19,8 @@
             //------------------------
             Message.loading.default();
             Posts.findById({
-                id: $stateParams.id
+                id: $stateParams.id,
+                populates: 'photos'
             }).$promise
                 .then(function success(data) {
                     console.log(JSON.stringify(data, null, 2));
