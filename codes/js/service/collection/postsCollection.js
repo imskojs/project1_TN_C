@@ -92,7 +92,7 @@
                 '$promise': $cordovaFileTransfer.upload(governorUrl + '/post', filePath, options, true)
             };
 
-        }
+        };
 
         return service;
     }

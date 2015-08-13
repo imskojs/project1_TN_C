@@ -24,6 +24,7 @@
             return DaumMapModel.searchLocationNearBy(value);
         };
 
+
         Map.goToDetailHandler = function() {
             DaumMapModel.modal.hide();
             $state.go('main.detail', {
@@ -33,6 +34,8 @@
         Map.goToHandler = function(state, params) {
             $state.go(state, params);
         };
+
+
 
         // Make currently selected place from DaumMapDirective available at ModalView
         Map.selectedPlace = DaumMapModel.selectedPlace;

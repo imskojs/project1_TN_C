@@ -75,9 +75,9 @@
     angular.module('app')
         .service("AuthService", AuthService);
 
-    AuthService.$inject = ['$http', '$q', '$location', '$state', 'governorUrl', 'LocalService', 'appName'];
+    AuthService.$inject = ['$http', '$q', '$location', '$state', 'governorUrl', 'LocalService', 'appName', 'kakaoKey', 'facebookKey', '$cordovaOauth'];
 
-    function AuthService($http, $q, $location, $state, governorUrl, LocalService, appName) {
+    function AuthService($http, $q, $location, $state, governorUrl, LocalService, appName, kakaoKey, facebookKey, $cordovaOauth) {
 
         var user = null;
         var selectedApp = {
@@ -375,6 +375,89 @@
 
             ft.upload(file, encodeURI(governorUrl + '/user/updateWithImage'), success, fail, options, true);
         }
+
+
+        this.loginWithKakao = function() {
+
+            var deferred = $q.defer();
+
+            $cordovaOauth.kakao(kakaoKey).then(function(result) {
+                result.provider = 'kakao';
+
+                $http({
+                    url: GovernorService.getServerUrl() + '/auth/kakao/register',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: result
+                })
+                    .success(function(data, status, headers, config) {
+
+                        LocalService.set(appName + '_auth_token', JSON.stringify(data));
+                        console.log(JSON.stringify(data, null, 2));
+                        console.log(JSON.stringify(data.user, null, 2));
+                        setUser(data.user);
+
+                        deferred.resolve({
+                            message: 'done'
+                        });
+                    })
+                    .error(function(data, status, headers, config) {
+                        console.log(data);
+                        deferred.reject(data);
+                    });
+
+
+            }, function(error) {
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
+        }
+
+        this.loginWithFacebook = function() {
+
+            var deferred = $q.defer();
+
+            $cordovaOauth.facebook(facebookKey, ["email"]).then(function(result) {
+                result.provider = 'facebook';
+
+                $http({
+                    url: GovernorService.getServerUrl() + '/auth/facebook/register',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: result
+                })
+                    .success(function(data, status, headers, config) {
+
+                        LocalService.set(appName + '_auth_token', JSON.stringify(data));
+                        setUser(data.user);
+                        console.log(JSON.stringify(data, null, 2));
+                        console.log(JSON.stringify(data.user, null, 2));
+
+                        deferred.resolve({
+                            message: 'done'
+                        });
+                    })
+                    .error(function(data, status, headers, config) {
+                        console.log(data, status, headers, config);
+                        deferred.reject(data);
+                    });
+
+
+            }, function(error) {
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
+        }
+
+
+
+
 
     }
 

@@ -4,9 +4,9 @@
     angular.module('app')
         .factory('RoyaltyPoints', RoyaltyPoints);
 
-    RoyaltyPoints.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
+    RoyaltyPoints.$inject = ['$resource', 'governorUrl'];
 
-    function RoyaltyPoints($resource, governorUrl, $cordovaFileTransfer) {
+    function RoyaltyPoints($resource, governorUrl) {
 
         var royaltyUrl = governorUrl + '/royaltyPoint' + '/:list' + '/:mine';
 

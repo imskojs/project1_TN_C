@@ -4,9 +4,9 @@
     angular.module('app')
         .controller('CancelController', CancelController);
 
-    CancelController.$inject = ['CancelModel', 'Bookings', 'Message', '$scope'];
+    CancelController.$inject = ['CancelModel', 'Bookings', 'Message', '$scope', 'moment'];
 
-    function CancelController(CancelModel, Bookings, Message, $scope) {
+    function CancelController(CancelModel, Bookings, Message, $scope, moment) {
 
         var Cancel = this;
         Cancel.Model = CancelModel;
@@ -17,8 +17,7 @@
 
         $scope.$on('$ionicView.beforeEnter', function() {
             getMyBookings();
-        })
-
+        });
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
@@ -38,22 +37,21 @@
                 });
         }
 
-        function updateStatus(statusString, booking, index) {
+        function updateStatus(statusString, booking) {
             booking.status = statusString;
             console.log(booking);
             return Bookings.updateBooking({}, booking).$promise
                 .then(function success(data) {
+                    console.log(data);
                     Message.popUp.alert.default('예약취소 알림', '예약이 취소 되었습니다.');
                     // Array.prototype.splice.call(CancelModel.current.bookings, index, 1);
 
                 }, function err(error) {
+                    console.log(error);
 
                 });
         }
 
-        function isShow() {
-
-        }
 
         function isCanceledOrDone(booking) {
             if (booking.status === 'CANCELED' || booking.status === 'DONE') {

@@ -2,20 +2,21 @@
     'use strict';
 
     angular.module('app')
-        .factory('Places', Places)
+        .factory('Places', Places);
 
     Places.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
 
     function Places($resource, governorUrl, $cordovaFileTransfer) {
 
         var placeUrl = governorUrl + '/place' + '/:list' + '/:mine' +
-            '/:within' + '/:image';
+            '/:within' + '/:image' + ':photos';
 
         var params = {
             list: '@list',
             mine: '@mine',
             within: '@within',
             image: '@image',
+            photos: '@photos'
         };
 
         var actions = {
@@ -38,6 +39,13 @@
                     list: 'list',
                     within: 'within'
                 }
+            },
+            getPlacePhotos: {
+                method: 'GET',
+                params: {
+                    photos: 'photos'
+                },
+                isArray: true
             },
             findById: {
                 method: 'GET'
@@ -96,7 +104,7 @@
                 '$promise': $cordovaFileTransfer.upload(governorUrl + '/place/image', filePath, options)
             };
 
-        }
+        };
         return service;
     }
 

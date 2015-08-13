@@ -5,10 +5,10 @@
         .directive('daumMap', daumMap);
 
     daumMap.$inject = ['DaumMapModel', 'Places', 'Bookings', '$state', '$cordovaGeolocation', 'Message', '$q',
-        '$stateParams'
+        '$stateParams', 'daum', '_', 'moment'
     ];
 
-    function daumMap(DaumMapModel, Places, Bookings, $state, $cordovaGeolocation, Message, $q, $stateParams) {
+    function daumMap(DaumMapModel, Places, Bookings, $state, $cordovaGeolocation, Message, $q, $stateParams, daum, _, moment) {
         return {
             scope: {
                 markerSrc: '@',
@@ -16,7 +16,7 @@
                 markerWidth: '@',
                 markerHeight: '@',
             },
-            compile: function(element, attr) {
+            compile: function(element) {
                 //==========================================================================
                 //              Global Map Property
                 //==========================================================================
@@ -42,7 +42,7 @@
 
                     var arrayOfIds = _.pluck(places, 'id');
 
-                    var arrayOfPromises = _.map(arrayOfIds, function(id, i, self) {
+                    var arrayOfPromises = _.map(arrayOfIds, function(id) {
                         return Bookings.getBookingsDateBetween({
                             placeId: id,
                             from: currentMoment.clone().set({
@@ -55,7 +55,7 @@
                                 minute: 59,
                                 second: 59
                             }).toDate().getTime()
-                        }).$promise
+                        }).$promise;
                     });
 
                     return $q.all(arrayOfPromises)
@@ -70,9 +70,9 @@
                                 if (availabilities[i] === 'unavailable') {
                                     places.splice(i, 1);
                                 }
-                            };
+                            }
 
-                            return places
+                            return places;
 
                         }, function err(arrayOfErrors) {
                             console.log(arrayOfErrors);
@@ -80,14 +80,14 @@
                 }
 
                 function setCurrentMoment() {
-                    var currentHour = moment().get('hour');
                     var currentMinute = moment().get('minute');
+                    var currentMoment = null;
                     if (currentMinute <= 30) {
-                        var currentMoment = moment().set({
+                        currentMoment = moment().set({
                             minutes: 29
                         });
                     } else {
-                        var currentMoment = moment().set({
+                        currentMoment = moment().set({
                             minutes: 59
                         });
                     }
@@ -100,7 +100,7 @@
                     var closingMomentsForToday = [];
                     angular.forEach(places, function(place, i) {
                         console.log(place);
-                        var endHourArray = place.openingHours[todayInt].end.split(':')
+                        var endHourArray = place.openingHours[todayInt].end.split(':');
                         var hours = endHourArray[0];
                         var minutes = endHourArray[1];
                         var closingMoment = moment().set({
@@ -108,7 +108,7 @@
                             minutes: minutes
                         });
                         if (place.openingHours[todayInt].start === place.openingHours[todayInt].end) {
-                            places.splice(i, 1, null)
+                            places.splice(i, 1, null);
                             arrayOfBookingsWrapper.splice(i, 1, null);
                         } else if (currentMoment.isAfter(closingMoment)) {
                             places.splice(i, 1, null);
@@ -116,15 +116,16 @@
                         } else {
                             closingMomentsForToday.push(closingMoment);
                         }
-                    })
-                    for (var i = places.length - 1; i >= 0; i--) {
+                    });
+                    var i = 0;
+                    for (i = places.length - 1; i >= 0; i--) {
                         if (places[i] === null) {
                             places.splice(i, 1);
                             arrayOfBookingsWrapper.splice(i, 1);
                         }
-                    };
+                    }
                     if (places.length === 0) {
-                        Message.popUp.alert.default('바로검색 알림', '지금은 검색주위의 샵들이 모두 닫았습니다, 내일 이용해주시거나, 다른지역을 검색해주세요')
+                        Message.popUp.alert.default('바로검색 알림', '지금은 검색주위의 샵들이 모두 닫았습니다, 내일 이용해주시거나, 다른지역을 검색해주세요');
                         return [];
                     }
 
@@ -135,16 +136,13 @@
                     });
                     console.log('arrayOfBookings');
                     console.log(arrayOfBookings);
-                    var employees = _.map(places, function(place) {
-                        return place.employee
-                    })
                     var arrayOfDurations = _.map(arrayOfBookings, function(bookings) {
                         return _.map(bookings, function(booking) {
-                            return booking.products[0].product.duration
-                        })
-                    })
+                            return booking.products[0].product.duration;
+                        });
+                    });
                     var arrayOfBookingsMoment = []; // [ [newbooking, newbooking,... ], []]
-                    for (var i = 0; i < arrayOfDurations.length; i++) {
+                    for (i = 0; i < arrayOfDurations.length; i++) {
                         var resultArray_i = []; // inner [] of resultArray = [ [], [], ... ]
                         var bookings = arrayOfBookings[i];
                         var durations = arrayOfDurations[i];
@@ -153,7 +151,7 @@
                         console.log(place);
                         for (var j = 0; j < durations.length; j++) {
                             var booking = bookings[i];
-                            var datetime = booking.datetime
+                            var datetime = booking.datetime;
                             var bookingMoment = moment(datetime);
                             var duration = durations[i];
                             var closingMoment = closingMomentsForToday[i];
@@ -178,17 +176,19 @@
 
 
                     var arrayOfTimeStrings = [];
-                    for (var i = 0; i < arrayOfBookingsMoment.length; i++) {
+
+                    function generateTimeStrings(bookingMoment) {
+                        var hours = bookingMoment.get('hours');
+                        var minutes = bookingMoment.get('minutes');
+                        var timeString = String(hours) + ':' + String(minutes);
+                        return timeString;
+                    }
+                    for (i = 0; i < arrayOfBookingsMoment.length; i++) {
                         var bookingsMoment = arrayOfBookingsMoment[i];
                         console.log(bookingsMoment);
-                        var timeStrings = _.map(bookingsMoment, function(bookingMoment) {
-                            var hours = bookingMoment.get('hours');
-                            var minutes = bookingMoment.get('minutes')
-                            var timeString = String(hours) + ':' + String(minutes);
-                            return timeString;
-                        });
+                        var timeStrings = _.map(bookingsMoment, generateTimeStrings);
                         if (timeStrings.length === 0) {
-                            timeStrings = ['available']
+                            timeStrings = ['available'];
                         }
                         arrayOfTimeStrings.push(timeStrings);
                     }
@@ -199,21 +199,21 @@
                     angular.forEach(arrayOfTimeStrings, function(timeStrings) {
                         var groupedTimeStrings = _.groupBy(timeStrings, function(timeString) {
                             return timeString;
-                        })
+                        });
                         arrayOfGroupedTimeStrings.push(groupedTimeStrings);
-                    })
+                    });
                     console.log('arrayOfGroupedTimeStrings');
                     console.log(arrayOfGroupedTimeStrings);
 
                     var availabilities = [];
-                    for (var i = 0; i < arrayOfGroupedTimeStrings.length; i++) {
+                    for (i = 0; i < arrayOfGroupedTimeStrings.length; i++) {
                         var availabilityFlag = false;
-                        var place = places[i];
+                        var place_i = places[i];
                         for (var key in arrayOfGroupedTimeStrings[i]) {
-                            if (arrayOfGroupedTimeStrings[i][key].length < place.employee || key === 'available') {
-                                availabilities.push('available')
+                            if (arrayOfGroupedTimeStrings[i][key].length < place_i.employee || key === 'available') {
+                                availabilities.push('available');
                                 availabilityFlag = true;
-                                break
+                                break;
                             }
                         }
                         if (availabilityFlag === false) {
@@ -227,7 +227,7 @@
 
                 function processPin(markerImg, markerClickedImg, scope) {
 
-                    angular.forEach(DaumMapModel.places, function(place, i, self) {
+                    angular.forEach(DaumMapModel.places, function(place, i) {
                         //place = {location:{type:'Point', coordinates:[126.10101, 27.101010]}, ...}
                         var placeLongitude = place.location.coordinates[0];
                         var placeLatitude = place.location.coordinates[1];
@@ -240,12 +240,12 @@
                             title: String(i),
                             image: markerImg,
                             clickable: true
-                        })
+                        });
                         daum.maps.event.addListener(marker, 'click', function() {
                             var marker = this;
                             scope.$apply(function() {
                                 // on click: differentiate clicked image;
-                                angular.forEach(DaumMapModel.markers, function(otherMarker, i, self) {
+                                angular.forEach(DaumMapModel.markers, function(otherMarker) {
                                     otherMarker.setImage(markerImg);
                                 });
                                 marker.setImage(markerClickedImg);
@@ -261,9 +261,10 @@
                                     .then(function success(data) {
                                         Message.loading.hide();
                                         DaumMapModel.selectedPlace = data;
-                                        console.log(DaumMapModel.selectedPlace)
+                                        console.log(DaumMapModel.selectedPlace);
                                         DaumMapModel.modal.show();
                                     }, function err(error) {
+                                        console.log(error);
                                         Message.loading.hide();
                                         Message.popUp.alert.default();
 
@@ -278,7 +279,7 @@
                 // Draw Markers after query
                 var drawMarkers = function(currentCenter, markerImg, markerClickedImg, scope) {
                     // Reset previous markers;
-                    angular.forEach(DaumMapModel.markers, function(marker, i, self) {
+                    angular.forEach(DaumMapModel.markers, function(marker) {
                         marker.setMap(null);
                     });
                     DaumMapModel.markers = [];
@@ -296,7 +297,7 @@
 
                                 filterPlaces(placesWrapper.places, 60)
                                     .then(function success(places) {
-                                        DaumMapModel.places = places
+                                        DaumMapModel.places = places;
                                         processPin(markerImg, markerClickedImg, scope);
                                     }, function err(error) {
                                         console.log(error);
@@ -329,15 +330,14 @@
                                 Message.popUp.alert.default(
                                     '위치 공유가 꺼져있습니다.',
                                     '위치 공유가 켜주세요.'
-                                )
+                                );
                                 return false;
                             }
-                            var result = {
+
+                            DaumMapModel.currentPosition = {
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude
                             };
-
-                            var currentCenter = DaumMapModel.currentPosition = result
 
                             map.setCenter(new daum.maps.LatLng(
                                 DaumMapModel.currentPosition.latitude,
@@ -353,7 +353,7 @@
                             Message.popUp.alert.default(
                                 '위치 공유가 꺼져있습니다.',
                                 '위치 공유가 켜주세요.'
-                            )
+                            );
                         });
                 };
                 //==========================================================================
@@ -366,7 +366,7 @@
                         Message.popUp.alert.default('검색하기 알림', '장소 값을 넣어서 다시 검색해주세요');
                         return false;
                     }
-                    ps.keywordSearch(value, function(status, data, pagination) {
+                    ps.keywordSearch(value, function(status, data) {
 
                         // if no search result, notify and exit.
                         if (data.places[0] === undefined) {
@@ -384,10 +384,6 @@
                             data.places[0].latitude,
                             data.places[0].longitude
                         ));
-                        var currentCenter = {
-                            latitude: data.places[0].latitude,
-                            longitude: data.places[0].longitude
-                        };
 
                         // No longer needed as when map's center is moved it will draw.
                         // drawMarkers(currentCenter);
@@ -400,10 +396,10 @@
                         Message.popUp.alert.default({
                             title: '위치 공유가 꺼져있습니다.',
                             template: '위치 공유가 켜주세요.'
-                        })
+                        });
                     });
                 };
-                return function(scope, element, attr) {
+                return function(scope) {
                     // Marker style properties.
                     var markerSize = new daum.maps.Size(scope.markerWidth, scope.markerHeight);
                     var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
@@ -420,7 +416,7 @@
                         var currentCenter = {
                             longitude: map.getCenter().getLng(),
                             latitude: map.getCenter().getLat()
-                        }
+                        };
 
                         angular.extend(currentCenter, {
                             distance: 2000,

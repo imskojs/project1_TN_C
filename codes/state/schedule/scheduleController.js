@@ -100,7 +100,6 @@
                     // update viewSlots
                     ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, true);
                     updateSlotsWithBookings(data);
-
                     // booking availabilty logic
                     var index = ScheduleModel.selectedIndex;
                     var duration = ScheduleModel.form.products[0].product.duration
@@ -121,7 +120,7 @@
                             Message.loading.hide();
                             Message.popUp.alert.default(
                                 '예약 불가 안내',
-                                '고르신 서비스의 시간이 영업 종료시간을 넘기어 예약이 불가합니다.'
+                                '고르신 서비스의 마무리시간이 영업 종료시간을 넘기어 예약이 불가합니다.'
                             );
                             return false;
                         }

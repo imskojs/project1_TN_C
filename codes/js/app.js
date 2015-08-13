@@ -14,21 +14,21 @@
 
     .run([
 
-        '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService',
+        '$ionicPlatform', '$rootScope', '$stateParams', '$state', 'AuthService', '$window',
 
-        function($ionicPlatform, $rootScope, $stateParams, $state, AuthService) {
+        function($ionicPlatform, $rootScope, $stateParams, $state, AuthService, $window) {
 
 
             $ionicPlatform.ready(function() {
-                if (window.cordova && window.cordova.plugins.Keyboard) {
-                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                if ($window.cordova && $window.cordova.plugins.Keyboard) {
+                    $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 }
-                if (window.StatusBar) {
-                    StatusBar.styleDefault();
+                if ($window.StatusBar) {
+                    $window.StatusBar.styleDefault();
                 }
             });
-            AuthService.login('admin', 'admin1234');
-            $state.go('main.home');
+            // AuthService.login('admin', 'admin1234');
+            $state.go('login');
 
 
         }
@@ -242,7 +242,7 @@
                             controller: 'NoticeDetailController as NoticeDetail'
                         }
                     }
-                })
+                });
         } //END
     ]);
 

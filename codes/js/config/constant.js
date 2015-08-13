@@ -34,9 +34,9 @@
     angular.module('app')
         .constant("governorUrl", "http://192.168.0.65:1337")
         .constant("appName", "todayNail")
+        .constant("kakaoKey", "42022d8578d6fb558d70ae75766ee900")
+        .constant("facebookKey", "983668071678162");
+
     // .constant("appId", 2)
     // .constant("googlePushSenderID", "350504486209")
-    // .constant("kakaoKey", "bdb254de02ea0b7521635ba469608674")
-    // .constant("facebookKey", "801820753200919")
-
 })();
