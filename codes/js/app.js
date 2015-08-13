@@ -18,6 +18,12 @@
 
         function($ionicPlatform, $rootScope, $stateParams, $state, AuthService, $window) {
 
+            AuthService.init();
+
+            Permission
+
+
+
 
             $ionicPlatform.ready(function() {
                 if ($window.cordova && $window.cordova.plugins.Keyboard) {
