@@ -1,0 +1,42 @@
+#balance-detail {
+    .r1 {
+        margin: {
+            top: 60px;
+        }
+        i {
+            content: url($img + 'icon/icon_money.png');
+            width: 100%;
+        }
+    }
+
+    .r2 {
+        margin: {
+            top: 10px;
+        }
+        .c1 {
+            text-align: center;
+            h3 {
+                color: $positive;
+            }
+            .name {
+                color: $positive;
+            }
+
+        }
+    }
+
+    .r3 {
+        width: 60%;
+        margin: 20px auto !important;
+        background: $positive;
+        height: 45px;
+        color: white;
+        .c1 {
+            text-align: right;
+            padding-right: 15px;
+            p {
+                font-size: 20px;
+            }
+        }
+    }
+}

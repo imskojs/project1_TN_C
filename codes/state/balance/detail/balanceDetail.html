@@ -1,0 +1,26 @@
+<ion-view id="balance-detail" view-title="place.title">
+    <ion-content>
+        <div class="row r1 flex">
+            <div class="c1 col-40">
+                <i class="money-icon"></i>
+            </div>
+        </div>
+
+        <div class="row r2">
+            <div class="col c1">
+                <h3>{{BalanceDetail.placeName}}</h3>
+                <span class="name">{{BalanceDetail.username}}</span><span class="text">님의 남은 적립금</span>
+            </div>
+        </div>
+
+        <div class="row r3 radius-top radius-bottom flex auto">
+            <div class="col-90 c1">
+                <p class="zero">{{BalanceDetail.points}}</p>
+            </div>
+            <div class="col-10 c2">
+                <p class="zero">원</p>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

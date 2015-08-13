@@ -1,0 +1,34 @@
+<ion-view id="balance-list"
+    view-title="적립금 확인"
+>
+    <ion-content>
+        <ul class="list">
+            <li class="r1 shop-list row row-item auto radius-top radius-bottom shadow"
+                ng-repeat="royaltyObj in BalanceList.Model.current.royaltyPointObjs"
+            >
+                <div class="c1 col-25 place-image flex">
+                    <img ng-src="{{royaltyObj.url}}" alt="">
+                </div>
+                <div class="c2 col-75 row wrap zero">
+                    <div class="col-100 place-name">
+                        <span>{{ royaltyObj.name }}</span>
+                    </div>
+                    <div class="col-100 row detail">
+                        <div class="col-10">
+                            <i class="place-icon"></i>
+                        </div>
+                        <div class="col-57 place-address">
+                            <span>{{ royaltyObj.address }}</span>
+                        </div>
+                        <div class="col-33"
+                            ng-click="BalanceList.goToHandler('main.balance.detail', {points: royaltyObj.royaltyPoints, placeName: royaltyObj.name})"
+                        >
+                            <i class="coin-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

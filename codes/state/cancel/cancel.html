@@ -1,0 +1,46 @@
+<ion-view view-title="예약취소" id="cancel">
+    <ion-content>
+        <ul class="list">
+            <li class="row row-list auto radius-bottom radius-top shadow zero"
+                ng-repeat="booking in Cancel.Model.current.bookings"
+                ng-if="!Cancel.isCanceledOrDone(booking);"
+                ng-class="Cancel.isDone(booking);"
+            >
+                <div class="c1 col-70 row wrap">
+                    <div class="col-100 shop-name">
+                        <span>{{booking.place.name}}</span>
+                    </div>
+
+                    <div class="col-30">
+                        <span>날짜</span>
+                    </div>
+                    <div class="col-70">
+                        <span>{{booking.datetime | date: 'yyyy.MM.dd'}}</span>
+                    </div>
+
+                    <div class="col-30">
+                        <span>시간</span>
+                    </div>
+                    <div class="col-70">
+                        <span>{{booking.datetime | date: 'HH:mm'}}</span>
+                    </div>
+
+                    <div class="col-30">
+                        <span>예약정보</span>
+                    </div>
+                    <div class="col-70">
+                        <span>{{booking.products[0].product.name}}</span>
+                    </div>
+
+                </div>
+                <div class="c2 col-30 zero radius-right flex"
+                    ng-click="Cancel.cancelHandler(booking, $index);"
+                >
+                    <p class="zero col">
+                        예약취소
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

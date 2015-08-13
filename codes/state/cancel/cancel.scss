@@ -1,0 +1,31 @@
+#cancel {
+    .row-list {
+        width: 98%;
+        margin: 5px auto !important;
+        border: 1px solid #eaeaea;
+        &.done {
+            opacity: 0.5;
+        }
+        .shop-name {
+            font-size: 18px;
+            span {
+                color: $positive;
+            }
+        }
+        .c1 {
+            span {
+                color: $positive;
+            }
+        }
+        .c2 {
+            background: #e53e96;
+            text-align: center;
+            height: inherit;
+             p{
+                font-size: 20px;
+                color: white;
+            }
+        }
+
+    }
+}
