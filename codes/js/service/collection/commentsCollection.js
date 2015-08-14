@@ -4,7 +4,7 @@
     angular.module('app')
         .factory('Comments', Comments);
 
-    Comments.$inject = ['$resource', 'governorUrl']
+    Comments.$inject = ['$resource', 'governorUrl'];
 
     function Comments($resource, governorUrl) {
 
@@ -18,7 +18,7 @@
             }
         };
 
-        var service = $resource(commentUrl, params, actions)
+        var service = $resource(commentUrl, params, actions);
 
         return service;
     }

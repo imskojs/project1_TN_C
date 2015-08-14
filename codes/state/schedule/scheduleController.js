@@ -4,11 +4,11 @@
         .controller('ScheduleController', ScheduleController);
 
     ScheduleController.$inject = ['DetailModel', 'ScheduleModel', 'Places', 'Bookings', 'Message',
-        '$scope', '$ionicModal', '$q', '$stateParams'
+        '$scope', '$ionicModal', '$q', '$stateParams', '$http', 'governorUrl', 'moment', '_'
     ];
 
     function ScheduleController(DetailModel, ScheduleModel, Places, Bookings, Message,
-        $scope, $ionicModal, $q, $stateParams) {
+        $scope, $ionicModal, $q, $stateParams, $http, governorUrl, moment, _) {
 
         var Schedule = this;
         Schedule.Model = ScheduleModel;
@@ -77,7 +77,7 @@
                     angular.copy({}, ScheduleModel.form);
                     Schedule.modal.hide();
                 });
-        }
+        };
         Schedule.bookingHandler = function() {
             ScheduleModel.form.place = $stateParams.id;
             ScheduleModel.form.category = 'NAIL-BOOKING';
@@ -102,7 +102,7 @@
                     updateSlotsWithBookings(data);
                     // booking availabilty logic
                     var index = ScheduleModel.selectedIndex;
-                    var duration = ScheduleModel.form.products[0].product.duration
+                    var duration = ScheduleModel.form.products[0].product.duration;
                     var numberOfSlots = Math.ceil(duration / interval);
                     for (var i = index; i < index + numberOfSlots; i++) {
                         // service crashes with other times
@@ -135,17 +135,51 @@
                                 '예약이 완료 되었습니다.'
                             ).then(function(response) {
                                 Schedule.closeModalHandler();
-                            })
+                            });
                             console.log(data);
                         }, function err(error) {
+                            Message.loading.hide();
                             console.log(error);
                         });
+
+
+                    // $http({
+                    //     url: governorUrl + '/booking/request',
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     data: Schedule.Model.form
+                    // })
+                    //     .success(function(data) {
+                    //         Message.loading.hide();
+                    //         Message.popUp.alert.default(
+                    //             '예약 완료 알림',
+                    //             '예약이 완료 되었습니다.'
+                    //         ).then(function(response) {
+                    //             Schedule.closeModalHandler();
+                    //             console.log(response);
+                    //         });
+                    //         console.log(data);
+
+                    //     })
+                    //     .error(function(error) {
+                    //         console.log(error);
+
+                    //         Message.loading.hide();
+                    //     });
+
+
+
+
+
+
                 },
                 function err(error) {
                     console.log(error);
                 });
 
-        }
+        };
 
 
         $scope.$on('$ionicView.beforeEnter', function() {
@@ -203,21 +237,21 @@
             var endHour = endTimeArray[0];
             var endMinute = endTimeArray[1];
 
-            var startInMinutes = Number(startHour) * 60 + Number(startMinute)
+            var startInMinutes = Number(startHour) * 60 + Number(startMinute);
             var endInMinutes = ableToBookAtEndTimeBool ? Number(endHour) * 60 + Number(endMinute) + interval :
-                Number(endHour) * 60 + Number(endMinute)
+                Number(endHour) * 60 + Number(endMinute);
 
-            var arrayOfSlotsInMinutes = _.range(startInMinutes, endInMinutes, interval)
+            var arrayOfSlotsInMinutes = _.range(startInMinutes, endInMinutes, interval);
 
             var arrayOfSlotsInMoment = [];
-            angular.forEach(arrayOfSlotsInMinutes, function(minutes, i, self) {
+            angular.forEach(arrayOfSlotsInMinutes, function(minutes) {
                 var reserveMomentCopy = reserveMoment.clone();
                 var slot = reserveMomentCopy.set({
                     minute: minutes,
                     second: 0
-                })
+                });
                 arrayOfSlotsInMoment.push(slot);
-            })
+            });
             // console.log(arrayOfSlotsInMoment);
             return arrayOfSlotsInMoment;
         }
@@ -225,22 +259,23 @@
         function updateSlotsWithBookings(bookingsWrapper) {
             var viewSlots = ScheduleModel.viewSlots;
             var bookings = ScheduleModel.bookings = bookingsWrapper.bookings;
-            var employee = DetailModel.current.employee;
+            // var employee = DetailModel.current.employee;
             // var interval = 30;
 
-            angular.forEach(bookings, function(booking, index, self) {
+            angular.forEach(bookings, function(booking) {
                 // get beginning time(inclusive)
                 var begBookingMoment = moment.utc(booking.datetime).local()
                     .add(1, 'seconds');
                 var duration = booking.products[0].product && booking.products[0].product.duration;
                 // if begTime is between reserveSlot
                 // for each viewslots
+                var viewSlotEnd = '';
                 for (var i = 0; i < viewSlots.length; i++) {
                     if (i < viewSlots.length - 1) {
-                        var viewSlotEnd = viewSlots[i + 1];
+                        viewSlotEnd = viewSlots[i + 1];
                         // if index is the last one.
                     } else if (i === viewSlots.length - 1) {
-                        var viewSlotEnd = viewSlots[i].clone().add(interval, 'minutes')
+                        viewSlotEnd = viewSlots[i].clone().add(interval, 'minutes');
                     }
 
                     // if beginning of booking time is between reserveSlot
@@ -268,7 +303,7 @@
             Message.popUp.alert.default(
                 korean + '이 비었습니다.',
                 korean + '을 입력/골라 주세요.'
-            )
+            );
         }
 
 

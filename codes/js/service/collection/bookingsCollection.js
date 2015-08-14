@@ -55,7 +55,10 @@
             },
             updateBooking: {
                 method: 'PUT',
-                isArray: true
+                isArray: true,
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
             },
             removeBooking: {
                 method: 'DELETE'
@@ -93,7 +96,7 @@
                 '$promise': $cordovaFileTransfer.upload(governorUrl + '/booking/image', filePath, options)
             };
 
-        }
+        };
 
         return service;
     }

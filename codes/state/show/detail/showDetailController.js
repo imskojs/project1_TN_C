@@ -6,11 +6,11 @@
 
     ShowDetailController.$inject = [
         'ShowDetailModel', 'Posts', 'Comments', 'MainModel', '$stateParams', '$scope', 'Message',
-        'Favorite'
+        'Favorite', 'governorUrl', '$http'
     ];
 
     function ShowDetailController(ShowDetailModel, Posts, Comments, MainModel, $stateParams, $scope,
-        Message, Favorite
+        Message, Favorite, governorUrl, $http
     ) {
 
         var ShowDetail = this;
@@ -50,11 +50,41 @@
 
 
         function addComment(comment) {
-            var commentBody = {
+            // var commentBody = {
+            //     content: comment,
+            //     post: $stateParams.id
+            // };
+
+            // $http({
+            //     url: governorUrl + '/post/comment',
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     data: commentBody
+            // })
+            //     .success(
+            //         function(data) {
+            //             var createdById = data.createdBy;
+            //             data.createdBy = {};
+            //             data.createdBy.username = MainModel.user.username;
+            //             data.createdBy.createdBy = createdById;
+            //             console.log(data);
+            //             Message.popUp.alert.default('댓글달기 알림', '댓글을 성공적으로 작성하셨습니다.');
+            //             ShowDetailModel.current.comments.unshift(data);
+            //             ShowDetail.comment = null;
+
+            //         })
+            //     .error(function(error) {
+
+            //         console.log(error);
+            //         Message.popUp.alert.default('댓글달기 알림', '인터넷이 꺼져있습니다.');
+            //     });
+
+            Comments.addCommentToPost({}, {
                 content: comment,
                 post: $stateParams.id
-            };
-            Comments.addCommentToPost({}, commentBody).$promise
+            }).$promise
                 .then(function success(data) {
                     var createdById = data.createdBy;
                     data.createdBy = {};
@@ -71,6 +101,10 @@
                 });
         }
 
-    } //END
 
+
+
+
+
+    } //END
 })();
