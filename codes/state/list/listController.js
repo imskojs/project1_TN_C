@@ -12,13 +12,18 @@
         List.lists = ListModel.lists;
 
         // Go to details of the clicked item;
-        List.itemHandler = function(item) {
+        List.itemHandler = itemHandler;
+
+
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+        function itemHandler(item) {
             angular.copy(item, ListModel.currentItem);
             $state.go('main.detail', {
                 id: item.id
             });
-            console.log(item);
-        };
+        }
 
         // Check for newer stuff
         List.doRefresh = function() {
@@ -47,7 +52,6 @@
         List.checkForMore = function() {
             return ListModel.moreData;
         };
+
     }
-
-
 })();

@@ -3,19 +3,22 @@
     angular.module('app')
         .controller('AnnouncementsController', AnnouncementsController);
 
-    AnnouncementsController.$inject = ['$state'];
+    AnnouncementsController.$inject = ['$state', 'AnnouncementsModel'];
 
-    function AnnouncementsController($state) {
+    function AnnouncementsController($state, AnnouncementsModel) {
 
         var Announcements = this;
+        Announcements.Model = AnnouncementsModel;
 
-        Announcements.goToEventListHandler = function() {
-            $state.go('main.announcements.eventList')
+        Announcements.goToHandler = goToHandler;
+
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+
+        function goToHandler(state, params) {
+            return $state.go(state, params);
         }
-        Announcements.goToNoticeListHandler = function() {
-            $state.go('main.announcements.noticeList')
-        }
+
     }
-
-
 })();

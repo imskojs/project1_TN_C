@@ -4,7 +4,7 @@
     angular.module('app')
         .factory('BalanceModel', BalanceModel);
 
-    BalanceModel.$inject = [];
+    // BalanceModel.$inject = [];
 
     function BalanceModel() {
 

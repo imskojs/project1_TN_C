@@ -3,19 +3,11 @@
     angular.module('app')
         .factory('BalanceListModel', BalanceListModel);
 
-
-
     function BalanceListModel() {
 
         var model = {
-            current: {
-
-            }
+            current: {}
         };
-
-
         return model;
     }
-
-
 })();

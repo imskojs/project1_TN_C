@@ -10,19 +10,22 @@
 
         var BalanceDetail = this;
         BalanceDetail.Model = BalanceDetailModel;
+
         BalanceDetail.placeName = null;
         BalanceDetail.points = null;
         BalanceDetail.username = AuthService.getUser().username;
 
-        $scope.$on('$ionicView.beforeEnter', function() {
-            BalanceDetail.placeName = $stateParams.placeName;
-            BalanceDetail.points = $stateParams.points;
-            console.log(AuthService.getUser());
-        });
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
+
         //------------------------
         //  IMPLEMENTATIONS;
         //------------------------
 
-    }
+        function doBeforeEnter() {
+            BalanceDetail.placeName = $stateParams.placeName;
+            BalanceDetail.points = $stateParams.points;
+            console.log(AuthService.getUser());
+        }
 
+    }
 })();

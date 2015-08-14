@@ -3,9 +3,9 @@
     angular.module('app')
         .factory('DetailModel', DetailModel);
 
-    DetailModel.$inject = ['$q', '$state', '$stateParams'];
+    DetailModel.$inject = ['$q', '$state', '$stateParams', 'moment'];
 
-    function DetailModel($q, $state, $stateParams) {
+    function DetailModel($q, $state, $stateParams, moment) {
 
         var model = {
 
@@ -47,17 +47,13 @@
                 var shopId = $stateParams.id;
                 console.log(shopId);
 
-                // selectedDate = 2015-08-04
-                var selectedDate = moment(dt.date)
+                // dt.date = 2015-08-04
+                var selectedDate = moment(dt.date);
 
-                // var bookings = DetailModel.currentPlace.bookings;
-
-                // Parameters needed to requery a shop detail
-                //as things might have changed since shop details.
                 $state.go('main.schedule', {
                     id: shopId,
                     selectedDate: selectedDate.format('YYYY-MM-DD')
-                })
+                });
             },
 
         };

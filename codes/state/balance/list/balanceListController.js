@@ -4,24 +4,21 @@
     angular.module('app')
         .controller('BalanceListController', BalanceListController);
 
-    BalanceListController.$inject = ['BalanceListModel', 'RoyaltyPoints', 'Places', '$scope', '$state', '$q'];
+    BalanceListController.$inject = ['BalanceListModel', 'RoyaltyPoints', 'Places', '$scope', '$state', '$q', '_'];
 
-    function BalanceListController(BalanceListModel, RoyaltyPoints, Places, $scope, $state, $q) {
+    function BalanceListController(BalanceListModel, RoyaltyPoints, Places, $scope, $state, $q, _) {
 
         var BalanceList = this;
         BalanceList.Model = BalanceListModel;
+
         BalanceList.goToHandler = goToHandler;
 
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
 
-        $scope.$on('$ionicView.beforeEnter', function() {
-            getMyBalanceList();
-        })
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
-
-
         function getMyBalanceList() {
             return RoyaltyPoints.getMyRoyaltyPoints({
                     category: 'NAIL-ROYALTYPOINT'
@@ -32,10 +29,10 @@
                     promisesBulk
                         .then(function success(arrayOfPlaces) {
                             console.log(arrayOfPlaces);
-                            var royaltyPoints = _.pluck(royaltyWrapper.royaltyPoints, 'points')
+                            var royaltyPoints = _.pluck(royaltyWrapper.royaltyPoints, 'points');
                             var names = _.pluck(arrayOfPlaces, 'name');
                             var addresses = _.pluck(arrayOfPlaces, 'address');
-                            var photoUrls = _.pluck(_.pluck(_.pluck(arrayOfPlaces, 'photos'), '0'), 'url')
+                            var photoUrls = _.pluck(_.pluck(_.pluck(arrayOfPlaces, 'photos'), '0'), 'url');
                             var arrayOfResults = [];
                             for (var i = 0; i < royaltyPoints.length; i++) {
                                 var result = {};
@@ -57,11 +54,11 @@
 
         function findByIdsInArray(arrayOfObjects) {
             var arrayOfIds = _.pluck(arrayOfObjects, 'place');
-            var arrayOfPromises = _.map(arrayOfIds, function(id, i, self) {
+            var arrayOfPromises = _.map(arrayOfIds, function(id) {
                 return Places.findById({
                     id: id,
                     populates: 'photos'
-                }).$promise
+                }).$promise;
             });
             var promisesBulkToResolve = $q.all(arrayOfPromises);
 
@@ -72,49 +69,9 @@
             return $state.go(state, params);
         }
 
-
-        // var arrayOfIds = _.pluck(places, 'id');
-
-        // var arrayOfPromises = _.map(arrayOfIds, function(id, i, self) {
-        //     return Bookings.getBookingsDateBetween({
-        //         placeId: id,
-        //         from: currentMoment.clone().set({
-        //             hour: 0,
-        //             minute: 0,
-        //             second: 0
-        //         }).toDate().getTime(),
-        //         to: currentMoment.clone().set({
-        //             hour: 23,
-        //             minute: 59,
-        //             second: 59
-        //         }).toDate().getTime()
-        //     }).$promise
-        // });
-
-        // return $q.all(arrayOfPromises)
-        //     .then(function success(arrayOfBookingsWrapper) {
-
-        //         var availabilities = checkAvailableSlots(places, arrayOfBookingsWrapper, interval, currentMoment, rangeMinutes);
-
-        //         if (availabilities.length === 0) {
-        //             return [];
-        //         }
-        //         for (var i = places.length - 1; i >= 0; i--) {
-        //             if (availabilities[i] === 'unavailable') {
-        //                 places.splice(i, 1);
-        //             }
-        //         };
-
-        //         return places
-
-        //     }, function err(arrayOfErrors) {
-        //         console.log(arrayOfErrors);
-        //     });
-
-
-
-
+        function doBeforeEnter() {
+            getMyBalanceList();
+        }
 
     } //END
-
 })();

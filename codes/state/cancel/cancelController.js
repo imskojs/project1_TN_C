@@ -15,9 +15,8 @@
         Cancel.isCanceledOrDone = isCanceledOrDone;
         Cancel.isDone = isDone;
 
-        $scope.$on('$ionicView.beforeEnter', function() {
-            getMyBookings();
-        });
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
+
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
@@ -42,10 +41,6 @@
             booking.status = statusString;
             console.log(booking);
 
-
-
-
-
             $http({
                 url: governorUrl + '/booking',
                 method: 'PUT',
@@ -62,14 +57,6 @@
 
                     Message.loading.hide();
                 });
-
-
-
-
-
-
-
-
 
             // return Bookings.updateBooking({}, booking).$promise
             //     .then(function success(data) {
@@ -94,6 +81,10 @@
 
         function isDone(booking) {
             return booking.status === 'DONE' ? 'done' : 'not-done';
+        }
+
+        function doBeforeEnter() {
+            getMyBookings();
         }
     } // Factory END
 

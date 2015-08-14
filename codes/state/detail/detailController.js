@@ -16,6 +16,7 @@
 
         var Detail = this;
         Detail.Model = DetailModel;
+
         // Detail.date will update as user picks the date.
         Detail.date = moment();
         Detail.isFavorite = Favorite.isFavorite.bind(null, 'NAIL_SAVED_PLACES');
@@ -23,10 +24,8 @@
         Detail.portFolioPhotos = [];
         Detail.toggleSavePlace = Favorite.saveToFavorite.bind(null, 'NAIL_SAVED_PLACES', Detail, DetailModel);
 
-        $scope.$on('$ionicView.beforeEnter', function() {
-            loadPlace();
-            loadPortfolioPhotos();
-        });
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
+
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
@@ -67,6 +66,11 @@
                 }, function err(error) {
                     console.log(error);
                 });
+        }
+
+        function doBeforeEnter() {
+            loadPlace();
+            loadPortfolioPhotos();
         }
 
     }

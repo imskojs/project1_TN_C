@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular.module('app')
-        .controller('BalanceController', BalanceController)
+        .controller('BalanceController', BalanceController);
 
     BalanceController.$inject = ['BalanceModel'];
 
@@ -9,7 +9,6 @@
 
         var Balance = this;
         Balance.Model = BalanceModel;
-
 
         //------------------------
         //  IMPLEMENTATIONS
