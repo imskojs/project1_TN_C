@@ -41,7 +41,7 @@
                 method: 'PUT'
             },
             likePost: {
-                method: 'PUT',
+                method: 'POST',
                 params: {
                     like: 'like'
                 }

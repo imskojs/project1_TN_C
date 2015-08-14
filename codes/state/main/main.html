@@ -28,12 +28,12 @@
                     <li class="r1 row row-header flex">
                         <div class="col-30 col-picture">
                             <img class="picture circle"
-                                ng-src="{{Main.Model.user.profile_image || 'http://lorempixel.com/400/400'}}"
+                                ng-src="{{Main.Model.user.profile_image || Main.Model.user.gravatarUrl || Main.Model.user.thumbnail_image || 'http://lorempixel.com/400/400'}}"
                             >
                         </div>
                         <div class="col-60 col-username">
                             <span class="username">
-                                {{ Main.user.name }} 님
+                                {{ 'User' + Main.Model.user.username }} 님
                             </span>
                         </div>
                     </li>
@@ -72,7 +72,7 @@
                         ng-show="Main.settingSubMenu === true"
                     >
 
-                        <div class="row row-menu-list row-accordion flex-v zero"
+<!--                         <div class="row row-menu-list row-accordion flex-v zero"
                             ng-click="Main.toggleSettingHandler('location')"
                             ng-class="{'activate': Main.Model.setting.location === 'on'}"
                         >
@@ -84,7 +84,7 @@
                             </div>
 
                         </div>
-
+ -->
                         <div class="row row-menu-list flex-v zero"
                             ng-click="Main.toggleSettingHandler('push')"
                             ng-class="{'activate': Main.Model.setting.push === 'on'}"

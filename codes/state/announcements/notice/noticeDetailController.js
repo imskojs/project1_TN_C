@@ -3,33 +3,39 @@
     angular.module('app')
         .controller('NoticeDetailController', NoticeDetailController);
 
-    NoticeDetailController.$inject = ['NoticeDetailModel', 'Posts', '$stateParams', '$scope', 'Message']
+    NoticeDetailController.$inject = ['NoticeDetailModel', 'Posts', '$stateParams', '$scope', 'Message'];
 
 
     function NoticeDetailController(NoticeDetailModel, Posts, $stateParams, $scope, Message) {
 
         var NoticeDetail = this;
-
         NoticeDetail.Model = NoticeDetailModel;
 
-        $scope.$on('$ionicView.beforeEnter', function() {
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
-            //------------------------
-            //  Load post with id
-            //------------------------
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+
+        function doBeforeEnter() {
+            getPosts();
+        }
+
+        function getPosts() {
             Message.loading.default();
-            Posts.findById({
+            Posts.get({
                 id: $stateParams.id,
                 populates: 'photos'
             }).$promise
-                .then(function success(data) {
-                    console.log(JSON.stringify(data, null, 2));
-                    NoticeDetailModel.post = data;
+                .then(function success(postWrapper) {
+                    console.log(postWrapper);
+                    NoticeDetailModel.post = postWrapper.post;
                     Message.loading.hide();
 
-                }, function error(err) {
-                    Message.popUp.alert.default('해당포스트가 없습니다', '지워진 포스트이거나 인터넷이 꺼져있습니다.');
+                }, function err(error) {
+                    console.log(error);
+                    Message.popUp.alert.default('공지사항 알림', '없는 공지사항 입니다');
                 });
-        });
+        }
     }
 })();

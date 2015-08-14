@@ -22,7 +22,7 @@
         Main.toggleSettingHandler = toggleSettingHandler;
         Main.goToDaumMapHandler = goToDaumMapHandler;
 
-        $scope.$on('$ionicView.beforeEnter', beforeEnterSuccess);
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
         //------------------------
         //  IMPLEMENTATIONS
@@ -59,10 +59,10 @@
             $state.go('main.daumMap');
         }
 
-        function beforeEnterSuccess() {
+        function doBeforeEnter() {
             var userWrapper = angular.fromJson(localStorage.getItem(appName + '_' + 'auth_token'));
-            var user = userWrapper.user;
             MainModel.user = userWrapper.user;
+            console.log(MainModel.user);
         }
 
 

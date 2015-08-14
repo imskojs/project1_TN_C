@@ -22,25 +22,26 @@
                     <img class="title-image" ng-src="{{ post.photos[0] && post.photos[0].url }}"
                     >
                     <p class="title">{{ post.title }}</p>
-                    <p class="user-id">TODO:{{ post.createdBy.nickname }}</p>
-                    <div class="row counts">
+                    <p class="user-id">{{ post.createdBy.username }}</p>
+<!--                     <div class="row counts">
                         <div class="col-10 flex icon-container"
                             toggle
                         >
                             <i class="icon ion-star"></i>
                         </div>
                         <div class="col-20 like-count count">
-                            <span> TODO:{{ post.likeCount }} </span>
+                            <span> {{ post.likes }} </span>
                         </div>
                         <div class="col-10 flex icon-container">
                             <i class="icon ion-ios-chatbubble"></i>
                         </div>
                         <div class="col-20 comment-count count">
-                            <span> TODO:{{ post.comments.length }} </span>
+                            <span> {{ post.comments.length }} </span>
                         </div>
                     </div>
 
-            </ion-item>
+ -->
+             </ion-item>
         </ion-list>
     </ion-content>
 </ion-view>

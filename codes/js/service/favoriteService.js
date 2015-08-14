@@ -7,9 +7,9 @@
     angular.module('app')
         .factory('Favorite', Favorite);
 
-    Favorite.$inject = ['$stateParams', 'Message', 'Posts'];
+    Favorite.$inject = ['$stateParams', 'Message', 'Posts', 'localStorage'];
 
-    function Favorite($stateParams, Message, Posts) {
+    function Favorite($stateParams, Message, Posts, localStorage) {
 
         var service = {
             isFavorite: isFavorite,
@@ -25,7 +25,7 @@
             var favoritesArray = angular.fromJson(favoritesString);
             if (!Array.isArray(favoritesArray)) {
                 favoritesArray = [];
-            };
+            }
             for (var i = 0; i < favoritesArray.length; i++) {
                 var favorite = favoritesArray[i];
                 if (favorite.id === $stateParams.id) {
@@ -39,7 +39,7 @@
             var favoritesArray = angular.fromJson(favoritesString);
             // If no item create empty bucket.
             if (!Array.isArray(favoritesArray)) {
-                favoritesArray = []
+                favoritesArray = [];
             }
             for (var i = 0; i < favoritesArray.length; i++) {
                 var favorite = favoritesArray[i];
@@ -56,7 +56,7 @@
             // If current favorite does not exist then save;
             var favoriteToSave = {
                 id: model.current.id,
-            }
+            };
 
             addToAttributes(model, favoriteToSave);
 
@@ -65,10 +65,10 @@
             favoritesString = angular.toJson(favoritesArray);
             localStorage.setItem(localStorageItem, favoritesString);
             if (sendLikeStorageName) {
-                sendLike(sendLikeStorageName, favoriteToSave.id);
+                sendLike(sendLikeStorageName, favoriteToSave.id, model);
             }
             vm.styleFavorite = true;
-            Message.popUp.alert.default('즐겨찾기 알림', '즐겨찾기에 추가되었습니다.')
+            Message.popUp.alert.default('즐겨찾기 알림', '즐겨찾기에 추가되었습니다.');
         }
 
         function addToAttributes(model, favoriteToSave) {
@@ -81,12 +81,12 @@
             if (model.current.photos.length > 0) {
                 favoriteToSave.photos = [{
                     url: model.current.photos[0].url
-                }]
+                }];
             }
             if (model.current.location) {
                 favoriteToSave.location = {
                     coordinates: model.current.location.coordinates
-                }
+                };
             }
             if (model.current.address) {
                 favoriteToSave.address = model.current.address;
@@ -106,12 +106,12 @@
             }
         }
 
-        function sendLike(likedOnceStorageItem, id) {
+        function sendLike(likedOnceStorageItem, id, model) {
             // add to liked once list
             var likedOnceString = localStorage.getItem(likedOnceStorageItem);
             var likedOnceArray = angular.fromJson(likedOnceString);
             if (!Array.isArray(likedOnceArray)) {
-                likedOnceArray = []
+                likedOnceArray = [];
             }
             for (var i = 0; i < likedOnceArray.length; i++) {
                 var currentId = likedOnceArray[i];
@@ -122,14 +122,13 @@
             likedOnceArray.push(id);
             likedOnceString = angular.toJson(likedOnceArray);
             localStorage.setItem(likedOnceStorageItem, likedOnceString);
-            console.log('thisdata');
-
             Posts.likePost({
-                id: id
+                post: id
             }).$promise
-                .then(function success(data) {
+                .then(function success(postWrapper) {
                     console.log('thisdata');
-                    console.log(data);
+                    console.log(postWrapper);
+                    model.likes = postWrapper.post.likes;
                 }, function err(error) {
                     console.log(error);
                 });

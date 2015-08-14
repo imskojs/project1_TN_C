@@ -17,7 +17,8 @@
                 category: 'SHOW-POST',
                 createdBy: {
                     nickname: ''
-                }
+                },
+                likes: ''
             }
         };
 

@@ -14,7 +14,7 @@
                 }],
                 content: '',
                 title: '',
-                category: 'SHOW-POST',
+                category: 'NOTICE-POST',
                 createdBy: {
                     nickname: ''
                 }

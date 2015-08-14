@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app')
-        .factory('EventListModel', EventListModel)
+        .factory('EventListModel', EventListModel);
 
     function EventListModel() {
         var model = {
@@ -18,7 +18,7 @@
                 }],
                 more: true
             }
-        }
+        };
 
         return model;
     }
