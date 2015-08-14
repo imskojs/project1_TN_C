@@ -16,7 +16,7 @@
         //  IMPLEMENTATIONS
         //------------------------
         function loginWithFacebook() {
-            AuthService.loginWithFacebook()
+            return AuthService.loginWithFacebook()
                 .then(function success(data) {
                     console.log(data);
                     Message.loading.hide();
@@ -27,7 +27,7 @@
         }
 
         function loginWithKaKaoTalk() {
-            AuthService.loginWithKakao()
+            return AuthService.loginWithKakao()
                 .then(function(data) {
                     console.log(data);
                     Message.loading.hide();

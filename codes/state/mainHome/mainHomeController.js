@@ -8,20 +8,24 @@
 
         var Home = this;
 
-        Home.search = ''
+        Home.search = '';
 
 
-        Home.goToHandler = function(state, params) {
+        Home.goToHandler = goToHandler;
+        Home.searchHandler = searchHandler;
+
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+        function goToHandler(state, params) {
             $state.go(state, params);
         }
 
-        // APP SPECIFIC
-        Home.searchHandler = function(search) {
+        function searchHandler(search) {
+            console.log(search);
             $state.go('main.daumMap', {
                 from: 'homeInput'
-            })
+            });
         }
     }
-
-
 })();
