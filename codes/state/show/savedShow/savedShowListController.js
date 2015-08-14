@@ -15,6 +15,9 @@
 
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
         function doBeforeEnter() {
             SavedShowListModel.posts = angular.fromJson(localStorage.getItem('NAIL_SAVED_POSTS'));
             console.log('this');

@@ -4,10 +4,12 @@
     angular.module('app')
         .controller('ShowController', ShowController);
 
-    ShowController.$inject = ['ShowModel', 'Posts', '$state', '$ionicModal', '$scope', 'ShowListModel', '$cordovaCamera', 'Message', '$timeout', '$window', '$cordovaFile', 'AuthService'];
+    ShowController.$inject = ['ShowModel', 'Posts', '$state', '$ionicModal', '$scope', 'ShowListModel',
+        '$cordovaCamera', 'Message', '$timeout', '$window', '$cordovaFile'
+    ];
 
     function ShowController(ShowModel, Posts, $state, $ionicModal, $scope, ShowListModel,
-        $cordovaCamera, Message, $timeout, $window, $cordovaFile, AuthService
+        $cordovaCamera, Message, $timeout, $window, $cordovaFile
     ) {
 
         var Show = this;
@@ -83,7 +85,7 @@
                             Show.writeImageSrc = dataUri;
                         }, function(error) {
                             console.log(error);
-                        })
+                        });
 
                 }, function error(err) {
                     console.log(err);
@@ -101,27 +103,7 @@
                 content: Show.writeContent,
                 file: Show.writeImageFile
             };
-            console.log(postWithFile);
 
-
-            var options = {
-                params: postWithFile,
-                chunkedMode: false,
-                headers: {
-                    Connection: "close",
-                    Authorization: 'Bearer ' + AuthService.getToken()
-                }
-            };
-            var ft = new FileTransfer();
-            ft.upload('', encodeURI('http://192.168.0.65:1337' + '/post'), success, fail, options, true);
-
-            function success() {
-
-            }
-
-            function fail() {
-
-            }
             Posts.createPostWithImage({}, postWithFile).$promise
                 .then(function success() {
                     Show.writeTitle = '';
@@ -143,6 +125,24 @@
                 }, function progress(prog) {
                     console.dir(prog);
                 });
+            // var options = {
+            //     params: postWithFile,
+            //     chunkedMode: false,
+            //     headers: {
+            //         Connection: "close",
+            //         Authorization: 'Bearer ' + AuthService.getToken()
+            //     }
+            // };
+            // var ft = new FileTransfer();
+            // ft.upload('', encodeURI('http://192.168.0.65:1337' + '/post'), success, fail, options, true);
+
+            // function success() {
+
+            // }
+
+            // function fail() {
+
+            // }
         };
 
 

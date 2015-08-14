@@ -45,12 +45,12 @@
                     $window.StatusBar.styleDefault();
                 }
             });
-            // AuthService.login('admin', 'admin1234')
-            //     .then(function() {
-            //         $state.go('main.home');
-            //     });
+            AuthService.login('admin', 'admin1234')
+                .then(function() {
+                    $state.go('main.home');
+                });
 
-            $state.go('login');
+            // $state.go('login');
         }
     ])
 
@@ -101,25 +101,25 @@
                 }
             })
 
-            .state('main.list', {
-                url: '/list',
-                views: {
-                    main: {
-                        templateUrl: 'state/list/list.html',
-                        controller: 'ListController as List'
-                    }
-                },
-                data: {
-                    permissions: {
-                        only: ['user'],
-                        redirectTo: {
-                            otherwise: {
-                                state: 'login'
-                            }
-                        }
-                    }
-                }
-            })
+            // .state('main.list', {
+            //     url: '/list',
+            //     views: {
+            //         main: {
+            //             templateUrl: 'state/list/list.html',
+            //             controller: 'ListController as List'
+            //         }
+            //     },
+            //     data: {
+            //         permissions: {
+            //             only: ['user'],
+            //             redirectTo: {
+            //                 otherwise: {
+            //                     state: 'login'
+            //                 }
+            //             }
+            //         }
+            //     }
+            // })
 
             .state('main.daumMap', {
                 url: '/daumMap/:from',

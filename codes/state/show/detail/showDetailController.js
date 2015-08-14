@@ -5,12 +5,11 @@
         .controller('ShowDetailController', ShowDetailController);
 
     ShowDetailController.$inject = [
-        'ShowDetailModel', 'Posts', 'Comments', 'MainModel', '$stateParams', '$scope', 'Message',
-        'Favorite', 'governorUrl', '$http'
+        'ShowDetailModel', 'Posts', 'Comments', 'MainModel', '$stateParams', '$scope', 'Message', 'Favorite'
     ];
 
     function ShowDetailController(ShowDetailModel, Posts, Comments, MainModel, $stateParams, $scope,
-        Message, Favorite, governorUrl, $http
+        Message, Favorite
     ) {
 
         var ShowDetail = this;
@@ -20,10 +19,8 @@
             Favorite.saveToFavorite.bind(null, 'NAIL_SAVED_POSTS', ShowDetail, ShowDetailModel, 'NAIL_LIKED_ONCE');
         ShowDetail.addComment = addComment;
 
-        $scope.$on('$ionicView.beforeEnter', function() {
-            loadPosts();
-            ShowDetail.styleFavorite = Favorite.isFavorite('NAIL_SAVED_POSTS');
-        });
+        $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
+
 
 
         //------------------------
@@ -50,6 +47,24 @@
 
 
         function addComment(comment) {
+            Comments.addCommentToPost({}, {
+                content: comment,
+                post: $stateParams.id
+            }).$promise
+                .then(function success(data) {
+                    var createdById = data.createdBy;
+                    data.createdBy = {};
+                    data.createdBy.username = MainModel.user.username;
+                    data.createdBy.createdBy = createdById;
+                    console.log(data);
+                    Message.popUp.alert.default('댓글달기 알림', '댓글을 성공적으로 작성하셨습니다.');
+                    ShowDetailModel.current.comments.unshift(data);
+                    ShowDetail.comment = null;
+
+                }, function err(error) {
+                    console.log(error);
+                    Message.popUp.alert.default('댓글달기 알림', '인터넷이 꺼져있습니다.');
+                });
             // var commentBody = {
             //     content: comment,
             //     post: $stateParams.id
@@ -81,26 +96,12 @@
             //         Message.popUp.alert.default('댓글달기 알림', '인터넷이 꺼져있습니다.');
             //     });
 
-            Comments.addCommentToPost({}, {
-                content: comment,
-                post: $stateParams.id
-            }).$promise
-                .then(function success(data) {
-                    var createdById = data.createdBy;
-                    data.createdBy = {};
-                    data.createdBy.username = MainModel.user.username;
-                    data.createdBy.createdBy = createdById;
-                    console.log(data);
-                    Message.popUp.alert.default('댓글달기 알림', '댓글을 성공적으로 작성하셨습니다.');
-                    ShowDetailModel.current.comments.unshift(data);
-                    ShowDetail.comment = null;
-
-                }, function err(error) {
-                    console.log(error);
-                    Message.popUp.alert.default('댓글달기 알림', '인터넷이 꺼져있습니다.');
-                });
         }
 
+        function doBeforeEnter() {
+            loadPosts();
+            ShowDetail.styleFavorite = Favorite.isFavorite('NAIL_SAVED_POSTS');
+        }
 
 
 
