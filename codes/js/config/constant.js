@@ -33,7 +33,7 @@
 
     angular.module('app')
         .constant("governorUrl", "http://localhost:1337")
-    // .constant("governorUrl", "http://192.168.0.65:1337")
+     //.constant("governorUrl", "http://192.168.200.149:1337")
     // .constant("governorUrl", "http://todaynail.applicat.co.kr")
     .constant("appName", "todayNail")
         .constant("kakaoKey", "42022d8578d6fb558d70ae75766ee900")

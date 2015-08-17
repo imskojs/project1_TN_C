@@ -45,12 +45,12 @@
                     $window.StatusBar.styleDefault();
                 }
             });
-            AuthService.login('admin', 'admin1234')
+            AuthService.login('user', 'admin1234')
                 .then(function() {
                     $state.go('main.home');
                 });
 
-            // $state.go('login');
+             //$state.go('login');
         }
     ])
 
