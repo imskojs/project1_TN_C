@@ -1,15 +1,15 @@
 <ion-view id="main">
     <ion-side-menus>
         <ion-side-menu-content
-            edge-drag-threshold="false"
-            drag-content="false"
-        >
-        <!-- Main View -->
+                edge-drag-threshold="false"
+                drag-content="false"
+                >
+            <!-- Main View -->
             <ion-nav-bar class="bar-positive"
-                align-title="center"
-                no-tap-scroll="true"
-                delegate-handle="main"
-            >
+                         align-title="center"
+                         no-tap-scroll="true"
+                         delegate-handle="main"
+                    >
                 <ion-nav-back-button>
                 </ion-nav-back-button>
             </ion-nav-bar>
@@ -28,12 +28,12 @@
                     <li class="r1 row row-header flex">
                         <div class="col-30 col-picture">
                             <img class="picture circle"
-                                ng-src="{{Main.Model.user.profile_image || Main.Model.user.gravatarUrl || Main.Model.user.thumbnail_image || 'http://lorempixel.com/400/400'}}"
-                            >
+                                 ng-src="{{Main.Model.user.profile_image || Main.Model.user.gravatarUrl || Main.Model.user.thumbnail_image || 'http://lorempixel.com/400/400'}}"
+                                    >
                         </div>
                         <div class="col-60 col-username">
                             <span class="username">
-                                {{ 'User' + Main.Model.user.username }} 님
+                                {{ Main.displayUserName()}} 님
                             </span>
                         </div>
                     </li>
@@ -47,7 +47,7 @@
                             }
                         "
                         ng-click="Main.menuSelectHandler(item)"
-                    >
+                            >
                         <div class="col-85 col-list-text zero">
                             <p> {{ item.text }} </p>
                         </div>
@@ -58,8 +58,8 @@
                 </ul>
 
                 <div class="row row-menu-list flex-v row-setting zero"
-                    ng-click="Main.toggleAccordion();"
-                >
+                     ng-click="Main.toggleAccordion();"
+                        >
                     <div class="col-85 col-list-text zero">
                         <p>설정</p>
                     </div>
@@ -68,37 +68,37 @@
                     </div>
 
                 </div>
-                    <div class="accordion"
-                        ng-show="Main.settingSubMenu === true"
-                    >
-
-<!--                         <div class="row row-menu-list row-accordion flex-v zero"
-                            ng-click="Main.toggleSettingHandler('location')"
-                            ng-class="{'activate': Main.Model.setting.location === 'on'}"
+                <div class="accordion"
+                     ng-show="Main.settingSubMenu === true"
                         >
-                            <div class="col-30 col-list-text">
-                                <p>위치설정</p>
-                            </div>
-                            <div class="col-20">
-                                <i class="ion-android-locate"></i>
-                            </div>
 
+                    <!--                         <div class="row row-menu-list row-accordion flex-v zero"
+                                                ng-click="Main.toggleSettingHandler('location')"
+                                                ng-class="{'activate': Main.Model.setting.location === 'on'}"
+                                            >
+                                                <div class="col-30 col-list-text">
+                                                    <p>위치설정</p>
+                                                </div>
+                                                <div class="col-20">
+                                                    <i class="ion-android-locate"></i>
+                                                </div>
+
+                                            </div>
+                     -->
+                    <div class="row row-menu-list flex-v zero"
+                         ng-click="Main.toggleSettingHandler('push')"
+                         ng-class="{'activate': Main.Model.setting.push === 'on'}"
+                            >
+                        <div class="col-30 col-list-text">
+                            <p>푸쉬알람</p>
                         </div>
- -->
-                        <div class="row row-menu-list flex-v zero"
-                            ng-click="Main.toggleSettingHandler('push')"
-                            ng-class="{'activate': Main.Model.setting.push === 'on'}"
-                        >
-                            <div class="col-30 col-list-text">
-                                <p>푸쉬알람</p>
-                            </div>
-                            <div class="col-20">
-                                <i class="ion-ios-bell-outline"></i>
-                            </div>
-
+                        <div class="col-20">
+                            <i class="ion-ios-bell-outline"></i>
                         </div>
 
                     </div>
+
+                </div>
             </ion-content>
 
             <ion-footer-bar class="side-menu-footer flex" touch>
@@ -108,7 +108,6 @@
         </ion-side-menu>
 
     </ion-side-menus>
-
 
 
 </ion-view>

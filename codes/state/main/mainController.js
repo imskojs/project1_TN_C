@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('app')
@@ -9,8 +9,7 @@
     ];
 
     function MainController($ionicSideMenuDelegate, MainModel, $state, $timeout,
-        $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName
-    ) {
+                            $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName) {
 
         var Main = this;
         Main.Model = MainModel;
@@ -21,6 +20,7 @@
         Main.toggleAccordion = toggleAccordion;
         Main.toggleSettingHandler = toggleSettingHandler;
         Main.goToDaumMapHandler = goToDaumMapHandler;
+        Main.displayUserName = displayUserName;
 
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
@@ -63,6 +63,15 @@
             var userWrapper = angular.fromJson(localStorage.getItem(appName + '_' + 'auth_token'));
             MainModel.user = userWrapper.user;
             console.log(MainModel.user);
+        }
+
+        function displayUserName() {
+            var displayName = 'User' + MainModel.user.username;
+
+            if (MainModel.user.nickname)
+                displayName = MainModel.user.nickname;
+
+            return displayName;
         }
 
 

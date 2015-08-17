@@ -8645,78 +8645,6 @@ ink.animate {
       font-size: 20px;
       color: white; }
 
-.favorite-place {
-  color: #E84390 !important; }
-
-#detail .row + .row {
-  margin: 0; }
-#detail .non-row-slide-box .row-slides {
-  height: 61.5vw; }
-  #detail .non-row-slide-box .row-slides .place-image {
-    height: 100%;
-    width: 100vw; }
-#detail .detail-container {
-  width: 90%;
-  margin-top: 2vw; }
-  #detail .detail-container p, #detail .detail-container .product-list {
-    margin-bottom: 1.5vw;
-    font-size: 3.5vw;
-    font-weight: bold; }
-  #detail .detail-container .product-list {
-    margin-bottom: 2vw; }
-  #detail .detail-container .col-title {
-    color: #6716cb; }
-  #detail .detail-container .col-text {
-    color: #777f88; }
-#detail .portfolio-scroll {
-  height: 37vw;
-  margin-top: 1px; }
-  #detail .portfolio-scroll .inner-scroll-item {
-    flex: 0 0 74vw; }
-    #detail .portfolio-scroll .inner-scroll-item img {
-      width: 100%;
-      height: 37vw; }
-#detail .row-reserve-title {
-  background: #831bd4; }
-#detail .date-picker-container {
-  background: #a85fe2;
-  padding: 1px; }
-#detail .date-picker {
-  margin-top: 5vw;
-  margin-bottom: 55px; }
-  #detail .date-picker table {
-    width: 90%;
-    margin: 0 auto; }
-    #detail .date-picker table * {
-      background: #a85fe2;
-      border: 0; }
-    #detail .date-picker table thead * {
-      border: 0;
-      background: #a85fe2; }
-    #detail .date-picker table thead .btn {
-      position: relative;
-      top: 2.5vw;
-      color: #fffff8; }
-    #detail .date-picker table thead .icon {
-      color: #fffff8; }
-    #detail .date-picker table thead small {
-      color: #fffff8; }
-    #detail .date-picker table tbody td {
-      height: 13vw; }
-      #detail .date-picker table tbody td button {
-        height: 12.5vw;
-        border-radius: 100%; }
-        #detail .date-picker table tbody td button span {
-          background: transparent;
-          color: #fffff8;
-          font-weight: bold; }
-        #detail .date-picker table tbody td button span.text-muted {
-          color: #888; }
-      #detail .date-picker table tbody td button.active {
-        background: #fffff8; }
-        #detail .date-picker table tbody td button.active span {
-          color: #831bd4; }
-
 #daum-map .row + .row {
   margin-top: 0; }
 #daum-map .row-search {
@@ -8815,6 +8743,78 @@ ink.animate {
               content: url('../img/800/icon/icon_more.png');
               width: 18.4vw;
               height: 5.1vw; }
+
+.favorite-place {
+  color: #E84390 !important; }
+
+#detail .row + .row {
+  margin: 0; }
+#detail .non-row-slide-box .row-slides {
+  height: 61.5vw; }
+  #detail .non-row-slide-box .row-slides .place-image {
+    height: 100%;
+    width: 100vw; }
+#detail .detail-container {
+  width: 90%;
+  margin-top: 2vw; }
+  #detail .detail-container p, #detail .detail-container .product-list {
+    margin-bottom: 1.5vw;
+    font-size: 3.5vw;
+    font-weight: bold; }
+  #detail .detail-container .product-list {
+    margin-bottom: 2vw; }
+  #detail .detail-container .col-title {
+    color: #6716cb; }
+  #detail .detail-container .col-text {
+    color: #777f88; }
+#detail .portfolio-scroll {
+  height: 37vw;
+  margin-top: 1px; }
+  #detail .portfolio-scroll .inner-scroll-item {
+    flex: 0 0 74vw; }
+    #detail .portfolio-scroll .inner-scroll-item img {
+      width: 100%;
+      height: 37vw; }
+#detail .row-reserve-title {
+  background: #831bd4; }
+#detail .date-picker-container {
+  background: #a85fe2;
+  padding: 1px; }
+#detail .date-picker {
+  margin-top: 5vw;
+  margin-bottom: 55px; }
+  #detail .date-picker table {
+    width: 90%;
+    margin: 0 auto; }
+    #detail .date-picker table * {
+      background: #a85fe2;
+      border: 0; }
+    #detail .date-picker table thead * {
+      border: 0;
+      background: #a85fe2; }
+    #detail .date-picker table thead .btn {
+      position: relative;
+      top: 2.5vw;
+      color: #fffff8; }
+    #detail .date-picker table thead .icon {
+      color: #fffff8; }
+    #detail .date-picker table thead small {
+      color: #fffff8; }
+    #detail .date-picker table tbody td {
+      height: 13vw; }
+      #detail .date-picker table tbody td button {
+        height: 12.5vw;
+        border-radius: 100%; }
+        #detail .date-picker table tbody td button span {
+          background: transparent;
+          color: #fffff8;
+          font-weight: bold; }
+        #detail .date-picker table tbody td button span.text-muted {
+          color: #888; }
+      #detail .date-picker table tbody td button.active {
+        background: #fffff8; }
+        #detail .date-picker table tbody td button.active span {
+          color: #831bd4; }
 
 #favorite ion-content {
   background: #a85fe2; }
