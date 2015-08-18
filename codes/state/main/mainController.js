@@ -55,20 +55,21 @@
             } else {
                 MainModel.setting.pushNotification = true;
             }
-            var deviceId = Devices.getDeviceIdSync();
-            console.log(deviceId);
             //req server to turn off setting.
             // Getting device Id does not work.
-            Devices.update({
-                deviceId: PushService.getDeviceId()
-            }, {
-                active: MainModel.setting.pushNotification
-            }).$promise
-                .then(function success(data) {
-                    console.log(data);
-                }, function err(error) {
-                    console.log(error);
-                });
+            PushService.updateDeviceToken(MainModel.setting.pushNotification);
+
+
+            // Devices.update({
+            //     deviceId: PushService.getDeviceId()
+            // }, {
+            //     active: MainModel.setting.pushNotification
+            // }).$promise
+            //     .then(function success(data) {
+            //         console.log(data);
+            //     }, function err(error) {
+            //         console.log(error);
+            //     });
         }
 
         function goToDaumMapHandler() {

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
 
@@ -12,8 +12,8 @@
     ];
 
     function PushService($http, $log, $q, $cordovaPush, $cordovaToast, $cordovaDialogs,
-                         $cordovaLocalNotification, $rootScope, googlePushSenderID, governorUrl,
-                         appName, LocalService) {
+        $cordovaLocalNotification, $rootScope, googlePushSenderID, governorUrl,
+        appName, LocalService) {
 
 
         var pushservice = this;
@@ -72,7 +72,7 @@
 
             }
 
-            $cordovaPush.register(config).then(function (result) {
+            $cordovaPush.register(config).then(function(result) {
                 $log.info("PushService - Register success " + result);
 
                 console.log("PushService - Register success " + result);
@@ -83,34 +83,33 @@
                     storeDeviceToken(result, TYPE_IOS);
                 }
 
-            }, function (err) {
+            }, function(err) {
                 $log.info("PushService - Register error " + err)
             });
 
         }
 
-        function updateDeviceToken(optionalType) {
+        function updateDeviceToken(active) {
 
             var deferred = $q.defer();
 
 
             $http({
-                url: governorUrl + '/push/device',
+                url: governorUrl + '/device',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 params: {
-                    "deviceId": this.getDeviceId(),
-                    "optionalType": optionalType
+                    "deviceId": getDeviceId(),
+                    "active": active
                 }
             })
-                .success(function (data, status, headers, config) {
+                .success(function(data, status, headers, config) {
                     $log.info("PushService - Success updating device push settings " + JSON.stringify(data));
-                    setTradeNotification(data.device.optionalType);
                     deferred.resolve(data);
                 })
-                .error(function (data, status, headers, config) {
+                .error(function(data, status, headers, config) {
                     deferred.reject(data);
                     $log.info("PushService - Failed updating device push settings");
                 });
@@ -146,7 +145,7 @@
                 },
                 data: registration
             })
-                .success(function (data, status, headers, config) {
+                .success(function(data, status, headers, config) {
                     $log.info("PushService - registered to server: " + JSON.stringify(data));
 
                     // Set devicePushId in PushService
@@ -159,7 +158,7 @@
                         setTradeNotification(data.device.optionalType);
 
                 })
-                .error(function (data, status, headers, config) {
+                .error(function(data, status, headers, config) {
                     $log.info("PushService - error: " + JSON.stringify(data));
                 });
 
@@ -183,16 +182,15 @@
                 case 'message':
                     $log.info(JSON.stringify(notification));
 
-                    if (getPushSetting())
-                        window.plugin.notification.local.schedule({
-                            title: notification.payload.title,
-                            text: notification.payload.message,
-                            icon: "res://icon.png",
-                            smallIcon: "res://pushicon.png"
+                    window.plugin.notification.local.schedule({
+                        title: notification.payload.title,
+                        text: notification.payload.message,
+                        icon: "res://icon.png",
+                        smallIcon: "res://pushicon.png"
 
-                            // parameter documentation:
-                            // https://github.com/katzer/cordova-plugin-local-notifications#further-informations-1
-                        });
+                        // parameter documentation:
+                        // https://github.com/katzer/cordova-plugin-local-notifications#further-informations-1
+                    });
 
                     break;
                 case 'error':
@@ -246,7 +244,7 @@
             //}
         }
 
-        $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+        $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
             if (ionic.Platform.isAndroid()) {
                 handleAndroid(notification);
             } else if (ionic.Platform.isIOS()) {
