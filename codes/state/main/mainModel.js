@@ -41,8 +41,7 @@
                 text: '홈으로 가기'
             },
             setting: {
-                location: 'on',
-                push: 'on'
+                pushNotification: true
             }
         };
 

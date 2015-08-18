@@ -5,9 +5,9 @@
         .factory('Users', Users);
 
 
-    Users.$inject = ['$resource', 'governorUrl', '$cordovaFileTransfer'];
+    Users.$inject = ['$resource', 'governorUrl'];
 
-    function Users($resource, governorUrl, $cordovaFileTransfer) {
+    function Users($resource, governorUrl) {
 
         var userUrl = governorUrl + '/user';
 

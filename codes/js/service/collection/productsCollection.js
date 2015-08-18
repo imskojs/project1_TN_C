@@ -82,24 +82,8 @@
                 '$promise': $cordovaFileTransfer.upload(governorUrl + '/product/image', filePath, options)
             };
 
-        }
+        };
 
         return service;
     }
-
-    // Product.get({
-    //     list: 'list',
-    //     category: 'SHOW-POST'
-    // }).$promise
-    //     .then(function success() {}, function err() {})
-
-    // Products.createProductWithImage({}, productWithFile).$promise
-    //     .then(function success() {}, function error() {}, function progress(progress) {})
-
-    // require id in productWithFile sails' req.param('id') not only look at url params but
-    //also looks at the body of req, it is a sails spcific feature.
-    // Products.createProductWithImage({}, productWithFile).$promise
-    //     .then(function success() {}, function error() {}, function progress(progress) {})
-
-
 })();

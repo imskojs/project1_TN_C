@@ -1,15 +1,15 @@
-(function () {
+(function() {
     'use strict';
 
     angular.module('app')
         .controller('MainController', MainController);
 
     MainController.$inject = ['$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
-        '$ionicNavBarDelegate', '$ionicHistory', 'localStorage', '$scope', 'appName'
+        '$ionicNavBarDelegate', '$ionicHistory', 'localStorage', '$scope', 'appName', 'Devices'
     ];
 
     function MainController($ionicSideMenuDelegate, MainModel, $state, $timeout,
-                            $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName) {
+        $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName, Devices) {
 
         var Main = this;
         Main.Model = MainModel;
@@ -18,7 +18,7 @@
         Main.menuSelectHandler = menuSelectHandler;
         Main.getCurrentState = getCurrentState;
         Main.toggleAccordion = toggleAccordion;
-        Main.toggleSettingHandler = toggleSettingHandler;
+        Main.toggleSettingHandler = togglePushHandler;
         Main.goToDaumMapHandler = goToDaumMapHandler;
         Main.displayUserName = displayUserName;
 
@@ -46,13 +46,25 @@
             Main.settingSubMenu = !Main.settingSubMenu;
         }
 
-        function toggleSettingHandler(setting) {
-            if (MainModel.setting[setting] === 'on') {
-                MainModel.setting[setting] = 'off';
+        function togglePushHandler() {
+            if (MainModel.setting.pushNotification === true) {
+                MainModel.setting.pushNotification = false;
             } else {
-                MainModel.setting[setting] = 'on';
+                MainModel.setting.pushNotification = true;
             }
+            var deviceId = Devices.getDeviceIdSync();
+            console.log(deviceId);
             //req server to turn off setting.
+            Devices.update({
+                deviceId: deviceId
+            }, {
+                active: MainModel.setting.pushNotification
+            }).$promise
+                .then(function success(data) {
+                    console.log(data);
+                }, function err(error) {
+                    console.log(error);
+                });
         }
 
         function goToDaumMapHandler() {
