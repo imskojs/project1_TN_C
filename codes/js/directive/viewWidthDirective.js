@@ -21,9 +21,9 @@
     function vw($rootScope, $window) {
         return {
             link: link
-        }
+        };
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
             $rootScope.vw = element.prop('offsetWidth');
 
             $window.addEventListener('resize', function() {

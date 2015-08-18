@@ -16,8 +16,8 @@
             link: link
         };
 
-        function link(scope, element, attrs) {
-            element.on('click', function(e) {
+        function link(scope, element) {
+            element.on('click', function() {
                 element.addClass('touch');
                 $timeout(function() {
                     element.removeClass('touch');

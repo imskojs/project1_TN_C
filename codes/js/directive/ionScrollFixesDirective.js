@@ -24,7 +24,7 @@
                 $window.horizontalIonScrollCount = 0;
             }
 
-            $window.horizontalIonScrollCount++
+            $window.horizontalIonScrollCount++;
             attr.delegateHandle = "horizontal" + $window.horizontalIonScrollCount;
 
             return function(scope, element, attr) {
@@ -41,47 +41,46 @@
 
                     container.removeEventListener('touchstart', sv.touchStart);
                     container.removeEventListener('mousedown', sv.mouseDown);
-                    document.removeEventListener('touchmove', sv.touchMove);
-                    document.removeEventListener('mousemove', sv.mousemove);
+                    $window.document.removeEventListener('touchmove', sv.touchMove);
+                    $window.document.removeEventListener('mousemove', sv.mousemove);
 
 
                     sv.touchStart = function(e) {
-                        e.preventDefault = function() {}
+                        e.preventDefault = function() {};
                         originaltouchStart.apply(sv, [e]);
-                    }
+                    };
 
                     sv.touchMove = function(e) {
-                        e.preventDefault = function() {}
+                        e.preventDefault = function() {};
                         originaltouchMove.apply(sv, [e]);
-                    }
+                    };
 
                     sv.mouseDown = function(e) {
-                        e.preventDefault = function() {}
+                        e.preventDefault = function() {};
 
                         if (originalmouseDown) {
                             originalmouseDown.apply(sv, [e]);
                         }
 
-                    }
+                    };
 
 
                     sv.mouseMove = function(e) {
-                        e.preventDefault = function() {}
+                        e.preventDefault = function() {};
 
                         if (originalmouseMove) {
                             originalmouseMove.apply(sv, [e]);
                         }
 
-                    }
+                    };
 
                     container.addEventListener("touchstart", sv.touchStart, false);
                     container.addEventListener("mousedown", sv.mouseDown, false);
-                    document.addEventListener("touchmove", sv.touchMove, false);
-                    document.addEventListener("mousemove", sv.mouseMove, false);
-                })
+                    $window.document.addEventListener("touchmove", sv.touchMove, false);
+                    $window.document.addEventListener("mousemove", sv.mouseMove, false);
+                });
 
-            }
+            };
         }
     }
-
 })();
