@@ -93,7 +93,7 @@
             }
             if (model.current.createdBy) {
                 favoriteToSave.createdBy = {};
-                favoriteToSave.createdBy.username = model.current.createdBy.username;
+                favoriteToSave.createdBy.nickname = model.current.createdBy.nickname;
             }
             if (model.current.likes) {
                 favoriteToSave.likes = model.current.likes;
@@ -128,7 +128,7 @@
                 .then(function success(postWrapper) {
                     console.log('thisdata');
                     console.log(postWrapper);
-                    model.likes = postWrapper.post.likes;
+                    model.current.likes = postWrapper.posts[0].likes;
                 }, function err(error) {
                     console.log(error);
                 });

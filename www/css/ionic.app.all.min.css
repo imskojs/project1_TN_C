@@ -7663,7 +7663,7 @@ a.button {
   font-size: 24px !important; }
 
 .row + .row {
-  margin: 0; }
+  margin-top: 0; }
 
 .spinner svg {
   fill: #831bd4;
@@ -8819,7 +8819,7 @@ ink.animate {
 #favorite ion-content {
   background: #a85fe2; }
 #favorite .r1 {
-  margin-top: 1vw; }
+  margin-top: 5px !important; }
 
 #login .bg {
   background: url('../img/800/02_1_login/login_bg.png') no-repeat;
@@ -8840,7 +8840,7 @@ ink.animate {
       content: url('../img/800/02_1_login/login_06.png'); }
 
 #main .row + .row {
-  margin: 0; }
+  margin-top: 0; }
 #main .col-picture .picture {
   display: block;
   width: 100%;

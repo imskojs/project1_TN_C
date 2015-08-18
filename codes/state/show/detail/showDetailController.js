@@ -54,11 +54,11 @@
                 .then(function success(data) {
                     var createdById = data.createdBy;
                     data.createdBy = {};
-                    data.createdBy.username = MainModel.user.username;
+                    data.createdBy.nickname = MainModel.user.nickname;
                     data.createdBy.createdBy = createdById;
                     console.log(data);
                     Message.popUp.alert.default('댓글달기 알림', '댓글을 성공적으로 작성하셨습니다.');
-                    ShowDetailModel.current.comments.unshift(data);
+                    ShowDetailModel.current.comments.push(data);
                     ShowDetail.comment = null;
 
                 }, function err(error) {

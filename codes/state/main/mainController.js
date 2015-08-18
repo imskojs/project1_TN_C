@@ -5,11 +5,13 @@
         .controller('MainController', MainController);
 
     MainController.$inject = ['$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
-        '$ionicNavBarDelegate', '$ionicHistory', 'localStorage', '$scope', 'appName', 'Devices'
+        '$ionicNavBarDelegate', '$ionicHistory', 'localStorage', '$scope', 'appName', 'Devices',
+        'PushService', '$rootScope'
     ];
 
     function MainController($ionicSideMenuDelegate, MainModel, $state, $timeout,
-        $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName, Devices) {
+        $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName, Devices,
+        PushService, $rootScope) {
 
         var Main = this;
         Main.Model = MainModel;
@@ -18,10 +20,11 @@
         Main.menuSelectHandler = menuSelectHandler;
         Main.getCurrentState = getCurrentState;
         Main.toggleAccordion = toggleAccordion;
-        Main.toggleSettingHandler = togglePushHandler;
+        Main.togglePushHandler = togglePushHandler;
         Main.goToDaumMapHandler = goToDaumMapHandler;
         Main.displayUserName = displayUserName;
 
+        $rootScope.nickname = MainModel.user.nickname;
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
         //------------------------
@@ -55,8 +58,9 @@
             var deviceId = Devices.getDeviceIdSync();
             console.log(deviceId);
             //req server to turn off setting.
+            // Getting device Id does not work.
             Devices.update({
-                deviceId: deviceId
+                deviceId: PushService.getDeviceId()
             }, {
                 active: MainModel.setting.pushNotification
             }).$promise

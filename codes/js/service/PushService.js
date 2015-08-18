@@ -23,7 +23,6 @@
         // Trade notification
         var tradeNotification = null;
         var deviceId = null;
-
         this.getTradeNotification = function() {
             return tradeNotification;
         };
@@ -85,12 +84,12 @@
 
             if (ionic.Platform.isAndroid()) {
                 $log.info("PushService - Android push");
-                var config = {
+                config = {
                     "senderID": googlePushSenderID
                 };
             } else if (ionic.Platform.isIOS()) {
                 $log.info("PushService - IOS push");
-                var config = {
+                config = {
                     "badge": "true",
                     "sound": "true",
                     "alert": "true"
@@ -166,6 +165,8 @@
                     $log.info("PushService - registered to server: " + JSON.stringify(data));
 
                     // Set devicePushId in PushService
+                    console.log('this is data');
+                    console.log(data);
                     setDeviceId(data.device.deviceId);
 
                     // If push setting exist than set the PushService

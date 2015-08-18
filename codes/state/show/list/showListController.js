@@ -94,7 +94,7 @@
                     category: 'SHOW-POST',
                     sort: 'id DESC',
                     limit: 10,
-                    populates: 'photos'
+                    populates: 'photos,comments,createdBy'
                 }).$promise
                     .then(function success(data) {
                         console.log('this');

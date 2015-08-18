@@ -110,14 +110,10 @@
                     Show.writeContent = '';
                     Show.writeImageSrc = null;
                     Show.writeImageFile = '';
+                    getNewerPosts();
                     Message.loading.hide();
                     Message.message.success('포스트가 만들어졌습니다.');
                     Show.modal.hide();
-                    $timeout(function() {
-                        $state.go('main.show.list', {}, {
-                            reload: true
-                        });
-                    }, 1500);
                 }, function err(error) {
                     console.log(error);
                     Message.loading.hide();
@@ -125,30 +121,28 @@
                 }, function progress(prog) {
                     console.dir(prog);
                 });
-            // var options = {
-            //     params: postWithFile,
-            //     chunkedMode: false,
-            //     headers: {
-            //         Connection: "close",
-            //         Authorization: 'Bearer ' + AuthService.getToken()
-            //     }
-            // };
-            // var ft = new FileTransfer();
-            // ft.upload('', encodeURI('http://192.168.0.65:1337' + '/post'), success, fail, options, true);
-
-            // function success() {
-
-            // }
-
-            // function fail() {
-
-            // }
         };
 
 
-
-        // END
+        function getNewerPosts() {
+            var currentPosts = ShowListModel.postsWrapper.posts;
+            Posts.getPosts({
+                category: 'SHOW-POST',
+                limit: 10,
+                newerThan: currentPosts[0] && currentPosts[0].id,
+                populates: 'photos'
+            }).$promise
+                .then(function success(postWrapper) {
+                    console.log('this');
+                    console.log(postWrapper);
+                    postWrapper.posts.forEach(function(post) {
+                        currentPosts.unshift(post);
+                    });
+                }, function err(error) {
+                    console.log(error);
+                    Message.popUp.alert.default();
+                });
+        }
 
     }
-
 })();
