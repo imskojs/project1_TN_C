@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
 
@@ -12,78 +12,48 @@
     ];
 
     function PushService($http, $log, $q, $cordovaPush, $cordovaToast, $cordovaDialogs,
-        $cordovaLocalNotification, $rootScope, googlePushSenderID, governorUrl,
-        appName, LocalService) {
+                         $cordovaLocalNotification, $rootScope, googlePushSenderID, governorUrl,
+                         appName, LocalService) {
+
 
         var pushservice = this;
-        // Type
+
+
+        /********************************
+         *      Instance Variables
+         ********************************/
+
         var TYPE_ANDROID = 'ANDROID';
         var TYPE_IOS = 'IOS';
-
-        // Trade notification
-        var tradeNotification = null;
         var deviceId = null;
-        this.getTradeNotification = function() {
-            return tradeNotification;
-        };
 
-        function setTradeNotification(value) {
-            tradeNotification = value;
-        }
+        /********************************
+         *           Interfaces
+         ********************************/
 
-        this.getDeviceId = function() {
+        this.getDeviceId = getDeviceId;
+
+        this.registerDevice = registerDevice;
+
+        this.updateDeviceToken = updateDeviceToken;
+
+        /********************************
+         *         Implementation
+         ********************************/
+
+        function getDeviceId() {
             return deviceId;
         };
 
-        function setDeviceId(value) {
-            deviceId = value;
-        }
 
-        // Check whether first time
-        this.hasTradeNotification = function() {
-            return (pushservice.getTradeNotification() != null);
-        };
-
-        // Register notification for trade blog
-        this.registerTradeNotification = function(optionalType) {
-
-            var deferred = $q.defer();
-
-
-            $http({
-                url: governorUrl + '/push/device',
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: {
-                    "deviceId": this.getDeviceId(),
-                    "optionalType": optionalType
-                }
-            })
-                .success(function(data, status, headers, config) {
-                    $log.info("PushService - Success updating device push settings " + JSON.stringify(data));
-                    setTradeNotification(data.device.optionalType);
-                    deferred.resolve(data);
-                })
-                .error(function(data, status, headers, config) {
-                    deferred.reject(data);
-                    $log.info("PushService - Failed updating device push settings");
-                });
-
-            return deferred.promise;
-
-        };
-
-        // Register notification for android
-        this.registerDevice = function() {
+        function registerDevice() {
 
             $log.info("PushService - Register push notification");
 
             var config = null;
 
             if (ionic.Platform.isAndroid()) {
-                $log.info("PushService - Android push");
+                $log.info("PushService - Android push" + googlePushSenderID);
                 config = {
                     "senderID": googlePushSenderID
                 };
@@ -102,7 +72,7 @@
 
             }
 
-            $cordovaPush.register(config).then(function(result) {
+            $cordovaPush.register(config).then(function (result) {
                 $log.info("PushService - Register success " + result);
 
                 console.log("PushService - Register success " + result);
@@ -113,39 +83,54 @@
                     storeDeviceToken(result, TYPE_IOS);
                 }
 
-            }, function(err) {
+            }, function (err) {
                 $log.info("PushService - Register error " + err)
             });
 
         }
 
+        function updateDeviceToken(optionalType) {
 
-        // Unregister - Unregister your device token from APNS or GCM not goint to support yet
-        ////
-        //// ** Instead, just remove the device token from your db and stop sending notifications **
-        //this.unregister = function () {
-        //    $log.info("PushService - Unregister called");
-        //    //removeDeviceToken();
-        //}
-        //
-        //function removeDeviceToken() {
-        //    //var tkn = {"token": $scope.regId};
-        //    //$http.post('http://192.168.1.16:8000/unsubscribe', JSON.stringify(tkn))
-        //    //    .success(function (data, status) {
-        //    //        $log.info("Token removed, device is successfully unsubscribed and will not receive push notifications.");
-        //    //    })
-        //    //    .error(function (data, status) {
-        //    //        $log.info("Error removing device token." + data + " " + status)
-        //    //    }
-        //    //);
-        //}
+            var deferred = $q.defer();
+
+
+            $http({
+                url: governorUrl + '/push/device',
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    "deviceId": this.getDeviceId(),
+                    "optionalType": optionalType
+                }
+            })
+                .success(function (data, status, headers, config) {
+                    $log.info("PushService - Success updating device push settings " + JSON.stringify(data));
+                    setTradeNotification(data.device.optionalType);
+                    deferred.resolve(data);
+                })
+                .error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                    $log.info("PushService - Failed updating device push settings");
+                });
+
+            return deferred.promise;
+
+        };
+
+
+        /********************************
+         *        Private Method
+         ********************************/
 
         // Stores the device token app server
         function storeDeviceToken(deviceId, deviceType) {
 
             var registration = {
                 deviceId: deviceId,
-                deviceType: deviceType
+                platform: deviceType,
+                active: true
             }
 
             $log.info("PushService - register to server: " + JSON.stringify(registration));
@@ -155,13 +140,13 @@
 
             $http({
                 url: governorUrl + '/device',
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 data: registration
             })
-                .success(function(data, status, headers, config) {
+                .success(function (data, status, headers, config) {
                     $log.info("PushService - registered to server: " + JSON.stringify(data));
 
                     // Set devicePushId in PushService
@@ -174,11 +159,12 @@
                         setTradeNotification(data.device.optionalType);
 
                 })
-                .error(function(data, status, headers, config) {
+                .error(function (data, status, headers, config) {
                     $log.info("PushService - error: " + JSON.stringify(data));
                 });
 
         }
+
 
         // Android Notification Received Handler
         function handleAndroid(notification) {
@@ -220,6 +206,10 @@
             }
         }
 
+        function setDeviceId(value) {
+            deviceId = value;
+        }
+
         // IOS Notification Received Handler
         function handleIOS(notification) {
             //// The app was already open but we'll still show the alert and sound the tone received this way. If you didn't check
@@ -256,7 +246,7 @@
             //}
         }
 
-        $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+        $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
             if (ionic.Platform.isAndroid()) {
                 handleAndroid(notification);
             } else if (ionic.Platform.isIOS()) {
