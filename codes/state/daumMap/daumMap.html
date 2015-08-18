@@ -1,5 +1,4 @@
 <ion-view id="daum-map"
-          view-title="전체보기"
           cache-view="true"
           can-swipe-back="false"
           hide-back-button="true"
@@ -11,6 +10,10 @@
                 >
         </button>
     </ion-nav-buttons>
+
+    <ion-nav-title>
+        {{Map.title}}
+    </ion-nav-title>
 
     <ion-nav-buttons side="right">
         <button class="button button-icon icon ion-pinpoint"
