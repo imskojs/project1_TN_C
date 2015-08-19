@@ -24,9 +24,8 @@
         Main.goToDaumMapHandler = goToDaumMapHandler;
         Main.displayUserName = displayUserName;
 
-        $rootScope.nickname = MainModel.user.nickname;
+        $rootScope.user = MainModel.user;
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
-
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
@@ -78,7 +77,7 @@
 
         function doBeforeEnter() {
             var userWrapper = angular.fromJson(localStorage.getItem(appName + '_' + 'auth_token'));
-            MainModel.user = userWrapper.user;
+            angular.copy(userWrapper.user, MainModel.user);
             console.log(MainModel.user);
         }
 

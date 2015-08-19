@@ -97,6 +97,17 @@
             ScheduleModel.form.place = $stateParams.id;
             ScheduleModel.form.category = 'NAIL-BOOKING';
             // Validation
+            if (!ScheduleModel.form.products) {
+                Message.loading.hide();
+                Message.popUp.alert.default(
+                    '예약 불가 안내',
+                    '현재 예약시스템을 준비 중인 샵입니다.'
+                ).then(function(response) {
+                    console.log(response);
+                    Schedule.closeModalHandler();
+                });
+                return;
+            }
             if (ScheduleModel.form.products[0] == null) {
                 return reserveErrorHelper('서비스란');
             } else if (ScheduleModel.form.userKoreanName == null) {
@@ -234,6 +245,17 @@
 
         function isSelectedSlotBookable() {
             var index = ScheduleModel.selectedIndex;
+            if (!ScheduleModel.form.products[0].product) {
+                Message.loading.hide();
+                Message.popUp.alert.default(
+                    '예약 불가 안내',
+                    '현재 예약시스템을 준비 중인 샵입니다.'
+                ).then(function(response) {
+                    console.log(response);
+                    Schedule.closeModalHandler();
+                });
+                return false;
+            }
             var duration = ScheduleModel.form.products[0].product.duration;
             var numberOfSlots = Math.ceil(duration / interval);
             for (var i = index; i < index + numberOfSlots; i++) {
@@ -262,6 +284,18 @@
 
         function makeBooking() {
 
+            if (!Array.isArray(Schedule.Model.form.products) || Schedule.Model.form.products.length === 0) {
+                Message.loading.hide();
+                Message.popUp.alert.default(
+                    '부킹가능한 상품이 없습니다.',
+                    '부킹가능한 상품을 준비 중입니다.'
+                ).then(function(response) {
+                    console.log(response);
+                    Schedule.closeModalHandler();
+                });
+                return;
+            }
+
             return Bookings.requestBooking({}, Schedule.Model.form).$promise
                 .then(function success(data) {
                     Message.loading.hide();
@@ -277,31 +311,6 @@
                     Message.loading.hide();
                     console.log(error);
                 });
-            // $http({
-            //     url: governorUrl + '/booking/request',
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     data: Schedule.Model.form
-            // })
-            //     .success(function(data) {
-            //         Message.loading.hide();
-            //         Message.popUp.alert.default(
-            //             '예약 완료 알림',
-            //             '예약이 완료 되었습니다.'
-            //         ).then(function(response) {
-            //             Schedule.closeModalHandler();
-            //             console.log(response);
-            //         });
-            //         console.log(data);
-
-            //     })
-            //     .error(function(error) {
-            //         console.log(error);
-
-            //         Message.loading.hide();
-            //     });
         }
 
 

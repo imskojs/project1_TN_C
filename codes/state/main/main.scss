@@ -2,6 +2,15 @@
     .row + .row {
         margin-top: 0;
     }
+    .status-letter {
+        color: white;
+        font-weight: bold;
+    }
+    .activate {
+        .status-letter {
+            color: $positive;
+        }
+    }
 
     $list-height: 12.5vw;
 

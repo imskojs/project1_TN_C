@@ -127,7 +127,7 @@
                         }
                     }
                     if (places.length === 0) {
-                        Message.popUp.alert.default('바로검색 알림', '지금은 검색주위의 샵들이 모두 닫았습니다, 내일 이용해주시거나, 다른지역을 검색해주세요');
+                        Message.popUp.alert.default('바로검색 알림', '현재 시각 주변에 운영하는 네일샵들이 없습니다. 내일 이용해주시거나, 다른 지역을 검색해주세요.');
                         return [];
                     }
 
@@ -336,7 +336,7 @@
                                 Message.loading.hide();
                                 Message.popUp.alert.default(
                                     '위치 공유가 꺼져있습니다.',
-                                    '위치 공유가 켜주세요.'
+                                    '위치 공유를 켜주세요.'
                                 );
                                 return false;
                             }
@@ -359,7 +359,7 @@
                             Message.loading.hide();
                             Message.popUp.alert.default(
                                 '위치 공유가 꺼져있습니다.',
-                                '위치 공유가 켜주세요.'
+                                '위치 공유를 켜주세요.'
                             );
                         });
                 };
@@ -403,7 +403,7 @@
                         Message.loading.hide();
                         Message.popUp.alert.default({
                             title: '위치 공유가 꺼져있습니다.',
-                            template: '위치 공유가 켜주세요.'
+                            template: '위치 공유 켜주세요.'
                         });
                     });
                 };
@@ -454,7 +454,7 @@
 
                 return function(scope) {
                     // Marker style properties.
-                    var markerSize = new daum.maps.Size(scope.markerWidth, scope.markerHeight);
+                    var markerSize = new daum.maps.Size(Number(scope.markerWidth), Number(scope.markerHeight));
                     var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
                     var markerClickedImg = new daum.maps.MarkerImage(scope.markerClickedSrc, markerSize);
                     map.relayout();

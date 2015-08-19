@@ -93,7 +93,15 @@
                             <p>푸쉬알람</p>
                         </div>
                         <div class="col-20">
-                            <i class="ion-ios-bell-outline"></i>
+                            <i class="ion-ios-bell"></i>
+                        </div>
+                        <div class="col-20 status-letter">
+                            <span ng-if="Main.Model.setting.pushNotification">
+                                ON
+                            </span>
+                            <span ng-if="!Main.Model.setting.pushNotification">
+                                OFF
+                            </span>
                         </div>
 
                     </div>

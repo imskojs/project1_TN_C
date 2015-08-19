@@ -8,9 +8,9 @@
         var model = {
             user: {
                 //KaKao
-                id: "55cc92edc96284828b826258",
-                username: "49720641",
-                nickname: "KoS",
+                id: "test55cc92edc96284828b826258",
+                username: "test49720641",
+                nickname: "test",
                 profile_image: "http://mud-kage.kakao.co.kr/14/dn/btqcfpt4vNR/Fmmz6xsVRH05wv1UYNniRK/o.jpg",
                 thumbnail_image: "http://mud-kage.kakao.co.kr/14/dn/btqcfp1VCch/LjjO9lFj9uwxpOB59NHEnK/o.jpg",
                 //Facebook

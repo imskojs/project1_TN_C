@@ -24,7 +24,6 @@
 
             // return Bookings.getBookings({
             return Bookings.getMyBookings({
-                    // placeId: "55caf72b3bd8fa7854f8e112",
                     from: moment().clone().subtract(1, 'years').toDate().getTime(),
                     to: moment().clone().add(1, 'years').toDate().getTime(),
                 }).$promise

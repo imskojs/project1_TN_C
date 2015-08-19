@@ -130,7 +130,7 @@
                 category: 'SHOW-POST',
                 limit: 10,
                 newerThan: currentPosts[0] && currentPosts[0].id,
-                populates: 'photos'
+                populates: 'photos,createdBy'
             }).$promise
                 .then(function success(postWrapper) {
                     console.log('this');

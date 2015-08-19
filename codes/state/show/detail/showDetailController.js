@@ -41,7 +41,7 @@
                 }, function err(error) {
                     console.log(error);
                     Message.loading.hide();
-                    Message.popUp.alert.default('해당포스트가 없습니다', '지워진 포스트이거나 인터넷이 꺼져있습니다.');
+                    Message.popUp.alert.default('해당포스트가 없습니다', '지워진 포스트이거나 인터넷이 꺼져있습니다. 즐겨찾기에서 삭제해주세요');
                 });
         }
 

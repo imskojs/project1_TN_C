@@ -16,7 +16,6 @@
         appName, LocalService) {
 
 
-        var pushservice = this;
 
 
         /********************************
@@ -43,7 +42,7 @@
 
         function getDeviceId() {
             return deviceId;
-        };
+        }
 
 
         function registerDevice() {
