@@ -1,3 +1,15 @@
+// INPUT
+// var array = [1, 2, 1, 4];
+// var num = 1;
+
+// USE
+// IN CONTROLLER;
+
+// var filterByTag = $filter('filterByTag');
+// var out = filterByTag(array, num);
+
+// OUTPUT
+// out == [1, 1]
 (function() {
     'use strict';
     angular.module('app')
