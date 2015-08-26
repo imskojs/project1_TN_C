@@ -217,7 +217,7 @@
                     }
 
                     // if beginning of booking time is between reserveSlot
-                    if (begBookingMoment.isBetween(viewSlots[i], viewSlotEnd)) {
+                    if (begBookingMoment.isBetween(viewSlots[i], viewSlotEnd) && booking.status !== 'CANCELED') {
                         // get number of slots to increament booking count;
                         var numberOfSlotsTaken = Math.ceil(Number(duration) / Number(interval));
                         // increment affected slots bookingCount;
