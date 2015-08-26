@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
     angular.module('app')
         .controller('ScheduleController', ScheduleController);
@@ -8,7 +8,7 @@
     ];
 
     function ScheduleController(DetailModel, ScheduleModel, Places, Bookings, Message,
-        $scope, $ionicModal, $q, $stateParams, $http, governorUrl, moment, _) {
+                                $scope, $ionicModal, $q, $stateParams, $http, governorUrl, moment, _) {
 
         var interval = 30;
 
@@ -96,18 +96,20 @@
         function bookingHandler() {
             ScheduleModel.form.place = $stateParams.id;
             ScheduleModel.form.category = 'NAIL-BOOKING';
+
             // Validation
-            if (!ScheduleModel.form.products) {
+            if (!ScheduleModel.form.products || ScheduleModel.form.products.length == 0) {
                 Message.loading.hide();
                 Message.popUp.alert.default(
                     '예약 불가 안내',
-                    '현재 예약시스템을 준비 중인 샵입니다.'
-                ).then(function(response) {
-                    console.log(response);
-                    Schedule.closeModalHandler();
-                });
+                    '서비스를 선택해주세요.'
+                ).then(function (response) {
+                        console.log(response);
+                        //Schedule.closeModalHandler();
+                    });
                 return;
             }
+
             if (ScheduleModel.form.products[0] == null) {
                 return reserveErrorHelper('서비스란');
             } else if (ScheduleModel.form.userKoreanName == null) {
@@ -175,12 +177,12 @@
 
             var startInMinutes = Number(startHour) * 60 + Number(startMinute);
             var endInMinutes = ableToBookAtEndTimeBool ? Number(endHour) * 60 + Number(endMinute) + interval :
-                Number(endHour) * 60 + Number(endMinute);
+            Number(endHour) * 60 + Number(endMinute);
 
             var arrayOfSlotsInMinutes = _.range(startInMinutes, endInMinutes, interval);
 
             var arrayOfSlotsInMoment = [];
-            angular.forEach(arrayOfSlotsInMinutes, function(minutes) {
+            angular.forEach(arrayOfSlotsInMinutes, function (minutes) {
                 var reserveMomentCopy = reserveMoment.clone();
                 var slot = reserveMomentCopy.set({
                     minute: minutes,
@@ -198,7 +200,7 @@
             // var employee = DetailModel.current.employee;
             // var interval = 30;
 
-            angular.forEach(bookings, function(booking) {
+            angular.forEach(bookings, function (booking) {
                 // get beginning time(inclusive)
                 var begBookingMoment = moment.utc(booking.datetime).local()
                     .add(1, 'seconds');
@@ -238,7 +240,7 @@
                 scope: $scope,
                 animation: 'slide-in-up'
             })
-                .then(function(modal) {
+                .then(function (modal) {
                     Schedule.modal = modal;
                 });
         }
@@ -250,10 +252,10 @@
                 Message.popUp.alert.default(
                     '예약 불가 안내',
                     '현재 예약시스템을 준비 중인 샵입니다.'
-                ).then(function(response) {
-                    console.log(response);
-                    Schedule.closeModalHandler();
-                });
+                ).then(function (response) {
+                        console.log(response);
+                        Schedule.closeModalHandler();
+                    });
                 return false;
             }
             var duration = ScheduleModel.form.products[0].product.duration;
@@ -289,10 +291,10 @@
                 Message.popUp.alert.default(
                     '부킹가능한 상품이 없습니다.',
                     '부킹가능한 상품을 준비 중입니다.'
-                ).then(function(response) {
-                    console.log(response);
-                    Schedule.closeModalHandler();
-                });
+                ).then(function (response) {
+                        console.log(response);
+                        Schedule.closeModalHandler();
+                    });
                 return;
             }
 
@@ -302,10 +304,10 @@
                     Message.popUp.alert.default(
                         '예약 완료 알림',
                         '예약이 완료 되었습니다.'
-                    ).then(function(response) {
-                        console.log(response);
-                        Schedule.closeModalHandler();
-                    });
+                    ).then(function (response) {
+                            console.log(response);
+                            Schedule.closeModalHandler();
+                        });
                     console.log(data);
                 }, function err(error) {
                     Message.loading.hide();
@@ -323,9 +325,6 @@
                 korean + '을 입력/골라 주세요.'
             );
         }
-
-
-
 
 
     }

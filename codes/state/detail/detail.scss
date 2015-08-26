@@ -110,6 +110,11 @@
                                 color: $positive;
                             }
                         }
+                        button[disabled] {
+                            span {
+                                color: grey;
+                            }
+                        }
                     }
                 }
             }

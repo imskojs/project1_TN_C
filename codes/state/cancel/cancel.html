@@ -1,5 +1,6 @@
 <ion-view view-title="예약취소" id="cancel">
     <ion-content>
+        <div class="text-center" data-ng-hide="!Cancel.Model.current.bookings || Cancel.Model.current.bookings.length != 0">등록된 예약이 없습니다.</div>
         <ul class="list">
             <li class="row row-list auto radius-bottom radius-top shadow zero"
                 ng-repeat="booking in Cancel.Model.current.bookings"

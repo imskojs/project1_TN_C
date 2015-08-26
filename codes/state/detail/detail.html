@@ -1,25 +1,25 @@
 <ion-view id="detail"
-    cache-view="false"
-    can-swipe-back="false"
-    hide-back-button="false"
->
-<!-- <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-android-arrow-back"
-        ng-click="Detail.goBackHandler();"
-    >
-    </button>
-</ion-nav-buttons>
- -->
- <ion-nav-title>
-    {{Detail.Model.current.name}}
-</ion-nav-title>
-<ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-heart"
-        ng-click="Detail.toggleSavePlace()"
-        ng-class="{'favorite-place': Detail.isFavorite()}"
-    >
-    </button>
-</ion-nav-buttons>
+          cache-view="false"
+          can-swipe-back="false"
+          hide-back-button="false"
+        >
+    <!-- <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-android-arrow-back"
+            ng-click="Detail.goBackHandler();"
+        >
+        </button>
+    </ion-nav-buttons>
+     -->
+    <ion-nav-title>
+        {{Detail.Model.current.name}}
+    </ion-nav-title>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-heart"
+                ng-click="Detail.toggleSavePlace()"
+                ng-class="{'favorite-place': Detail.isFavorite()}"
+                >
+        </button>
+    </ion-nav-buttons>
 
 
     <!-- List Detail Content -->
@@ -27,11 +27,11 @@
 
         <ion-slide-box class="non-row-slide-box" show-pager="true">
             <ion-slide class="row-slides zero"
-                ng-repeat="photo in Detail.interiorPhotos"
-            >
+                       ng-repeat="photo in Detail.interiorPhotos"
+                    >
                 <img class="place-image"
-                    ng-src="{{photo.url}}"
-                >
+                     ng-src="{{photo.url}}"
+                        >
             </ion-slide>
         </ion-slide-box>
         <div></div>
@@ -46,18 +46,23 @@
             <div class="row">
                 <div class="col-21 col-title">
                     <p class="zero">이용시간</p>
+
                     <p class="zero">전화번호</p>
+
                     <p class="zero">주소</p>
+
                     <p class="zero">가격정보</p>
                 </div>
                 <div class="col-79 col-text">
                     <p class="zero">TODO: 10:00 ~ 21:00</p>
+
                     <p class="zero">{{Detail.Model.current.phone}}</p>
+
                     <p class="zero text-overflow">{{Detail.Model.current.address}}</p>
                     <ul class="product-list">
                         <li class="product-item"
                             ng-repeat="product in Detail.Model.current.products | orderBy:'price'"
-                        >
+                                >
                             {{product.name}} - {{product.price}}
                         </li>
                     </ul>
@@ -73,15 +78,15 @@
             </div>
         </div>
         <ion-scroll class="portfolio-scroll"
-            zooming="false"
-            direction="x"
-            parent-scroll
-        >
-            <div class="portfolio-inner-scroll row zero"
-            >
-                <div class="col inner-scroll-item zero"
-                    ng-repeat="portfolioPhoto in Detail.portFolioPhotos"
+                    zooming="false"
+                    direction="x"
+                    parent-scroll
                 >
+            <div class="portfolio-inner-scroll row zero"
+                    >
+                <div class="col inner-scroll-item zero"
+                     ng-repeat="portfolioPhoto in Detail.portFolioPhotos"
+                        >
                     <img ng-src="{{portfolioPhoto.url}}">
                 </div>
             </div>
@@ -98,26 +103,12 @@
         <!-- {{Detail.Model.test}} -->
         <div class="date-picker-container">
             <datepicker class="date-picker"
-                ng-model="Detail.date"
-                show-weeks="false"
-                custom-class="Detail.dateStyler(date, mode)"
-            >
+                        ng-model="Detail.date"
+                        show-weeks="false"
+                        date-disabled="Detail.disablePast(date, mode)"
+                    >
             </datepicker>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     </ion-content>

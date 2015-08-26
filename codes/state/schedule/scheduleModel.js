@@ -42,7 +42,7 @@
             }],
 
             form: {
-                products: [''],
+                products: [],
                 userKoreanName: null,
                 userPhoneNumber: null,
                 datetime: new Date(),

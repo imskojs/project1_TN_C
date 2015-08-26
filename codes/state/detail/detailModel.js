@@ -1,11 +1,11 @@
-(function() {
+(function () {
     'use strict';
     angular.module('app')
         .factory('DetailModel', DetailModel);
 
-    DetailModel.$inject = ['$q', '$state', '$stateParams', 'moment'];
+    DetailModel.$inject = ['$q', '$state', '$stateParams', 'moment', 'Message'];
 
-    function DetailModel($q, $state, $stateParams, moment) {
+    function DetailModel($q, $state, $stateParams, moment, Message) {
 
         var model = {
 
@@ -42,7 +42,25 @@
             },
             //Coupled with ui-BootStrap.datePicker and
             //DetailModel.selectedDate
-            dayClickHandler: function(dt) {
+            dayClickHandler: function (dt) {
+
+                if (!this.current.products || this.current.products.length == 0) {
+                    Message.loading.hide();
+                    Message.popUp.alert.default(
+                        '예약 불가 안내',
+                        '현재 예약시스템을 준비 중인 샵입니다.'
+                    ).then(function (response) {
+                            console.log(response);
+                        });
+                    return;
+                }
+
+                var currentDate = new moment();
+                currentDate.hour(0);
+                if (currentDate > dt.date)
+                    return;
+
+
                 // copies selected date then do below;
                 var shopId = $stateParams.id;
                 console.log(shopId);

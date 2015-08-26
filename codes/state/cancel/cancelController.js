@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('app')
@@ -24,9 +24,9 @@
 
             // return Bookings.getBookings({
             return Bookings.getMyBookings({
-                    from: moment().clone().subtract(1, 'years').toDate().getTime(),
-                    to: moment().clone().add(1, 'years').toDate().getTime(),
-                }).$promise
+                from: moment().clone().subtract(1, 'years').toDate().getTime(),
+                to: moment().clone().add(1, 'years').toDate().getTime(),
+            }).$promise
                 .then(function success(bookingsWrapper) {
                     console.log(bookingsWrapper);
                     CancelModel.current.bookings = bookingsWrapper.bookings;
@@ -45,13 +45,13 @@
                 method: 'PUT',
                 data: booking
             })
-                .success(function(data) {
+                .success(function (data) {
                     console.log(data);
                     Message.loading.hide();
                     Message.popUp.alert.default('예약취소 알림', '예약이 취소 되었습니다.');
 
                 })
-                .error(function(error) {
+                .error(function (error) {
                     console.log(error);
 
                     Message.loading.hide();
@@ -71,6 +71,15 @@
 
 
         function isCanceledOrDone(booking) {
+
+            var bookingTime = new Date(booking.datetime);
+            var currentTime = new Date();
+
+            currentTime.setHours(0);
+
+            if (bookingTime < currentTime)
+                return true;
+
             if (booking.status === 'CANCELED' || booking.status === 'DONE') {
                 return true;
             } else {

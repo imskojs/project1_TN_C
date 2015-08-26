@@ -1,16 +1,33 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('app')
-        .factory('BalanceModel', BalanceModel);
+        .service('BalanceService', BalanceService);
 
-    // BalanceModel.$inject = [];
+    BalanceService.$inject = ['$http', '$q', 'governorUrl'];
 
-    function BalanceModel() {
+    function BalanceService($http, $q, governorUrl) {
 
-        var model = {
+        this.getMyRoyaltyPoints = getMyRoyaltyPoints;
 
-        };
-        return model;
+        function getMyRoyaltyPoints() {
+
+            var deferred = $q.defer();
+
+            $http({
+                url: governorUrl + '/royaltyPoint/list/mine',
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+            })
+                .success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                })
+                .error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+
+            return deferred.promise;
+
+        }
     }
 })();
