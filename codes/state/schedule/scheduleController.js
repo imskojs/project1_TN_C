@@ -58,7 +58,14 @@
         }
 
         function isAvailableSlot(reserveSlot) {
-            if (reserveSlot.bookingCount != null && DetailModel.current.employee != null) {
+            console.log('---------- reserveSlot ----------');
+            console.log(reserveSlot.isBefore(moment()));
+            console.log('HAS TYPE: ' + typeof reserveSlot);
+            console.log('---------- CONSOLE END -------------------');
+
+            if (reserveSlot.isBefore(moment())) {
+                return false;
+            } else if (reserveSlot.bookingCount != null && DetailModel.current.employee != null) {
                 return Number(DetailModel.current.employee) > reserveSlot.bookingCount;
             } else {
                 return true;
@@ -98,7 +105,7 @@
             ScheduleModel.form.category = 'NAIL-BOOKING';
 
             // Validation
-            if (!ScheduleModel.form.products || ScheduleModel.form.products.length == 0) {
+            if (!ScheduleModel.form.products || ScheduleModel.form.products.length === 0) {
                 Message.loading.hide();
                 Message.popUp.alert.default(
                     '예약 불가 안내',
