@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
     angular.module('app')
         .controller('ScheduleController', ScheduleController);
@@ -8,7 +8,7 @@
     ];
 
     function ScheduleController(DetailModel, ScheduleModel, Places, Bookings, Message,
-                                $scope, $ionicModal, $q, $stateParams, $http, governorUrl, moment, _) {
+        $scope, $ionicModal, $q, $stateParams, $http, governorUrl, moment, _) {
 
         var interval = 30;
 
@@ -86,7 +86,7 @@
             }).$promise
                 .then(function success(data) {
                     // update viewSlots
-                    ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, true);
+                    ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, false);
                     updateSlotsWithBookings(data);
                     angular.copy({}, ScheduleModel.form);
                     Schedule.modal.hide();
@@ -103,10 +103,10 @@
                 Message.popUp.alert.default(
                     '예약 불가 안내',
                     '서비스를 선택해주세요.'
-                ).then(function (response) {
-                        console.log(response);
-                        //Schedule.closeModalHandler();
-                    });
+                ).then(function(response) {
+                    console.log(response);
+                    //Schedule.closeModalHandler();
+                });
                 return;
             }
 
@@ -126,7 +126,7 @@
                 to: moment($stateParams.selectedDate).clone().add(1, 'days').toDate().getTime()
             }).$promise
                 .then(function success(data) {
-                    ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, true);
+                    ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, DetailModel.current.openingHours, 30, false);
                     updateSlotsWithBookings(data);
                     var selectedSlotIsBookable = isSelectedSlotBookable();
                     if (selectedSlotIsBookable) {
@@ -139,7 +139,7 @@
 
         function doBeforeEnter() {
             var openingHours = DetailModel.current.openingHours;
-            ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, openingHours, 30, true);
+            ScheduleModel.viewSlots = generateReserveMomentSlots($stateParams.selectedDate, openingHours, 30, false);
             Bookings.getBookingsDateBetween({
                 placeId: $stateParams.id,
                 from: moment($stateParams.selectedDate).clone().toDate().getTime(),
@@ -177,12 +177,12 @@
 
             var startInMinutes = Number(startHour) * 60 + Number(startMinute);
             var endInMinutes = ableToBookAtEndTimeBool ? Number(endHour) * 60 + Number(endMinute) + interval :
-            Number(endHour) * 60 + Number(endMinute);
+                Number(endHour) * 60 + Number(endMinute);
 
             var arrayOfSlotsInMinutes = _.range(startInMinutes, endInMinutes, interval);
 
             var arrayOfSlotsInMoment = [];
-            angular.forEach(arrayOfSlotsInMinutes, function (minutes) {
+            angular.forEach(arrayOfSlotsInMinutes, function(minutes) {
                 var reserveMomentCopy = reserveMoment.clone();
                 var slot = reserveMomentCopy.set({
                     minute: minutes,
@@ -200,7 +200,7 @@
             // var employee = DetailModel.current.employee;
             // var interval = 30;
 
-            angular.forEach(bookings, function (booking) {
+            angular.forEach(bookings, function(booking) {
                 // get beginning time(inclusive)
                 var begBookingMoment = moment.utc(booking.datetime).local()
                     .add(1, 'seconds');
@@ -240,7 +240,7 @@
                 scope: $scope,
                 animation: 'slide-in-up'
             })
-                .then(function (modal) {
+                .then(function(modal) {
                     Schedule.modal = modal;
                 });
         }
@@ -252,10 +252,10 @@
                 Message.popUp.alert.default(
                     '예약 불가 안내',
                     '현재 예약시스템을 준비 중인 샵입니다.'
-                ).then(function (response) {
-                        console.log(response);
-                        Schedule.closeModalHandler();
-                    });
+                ).then(function(response) {
+                    console.log(response);
+                    Schedule.closeModalHandler();
+                });
                 return false;
             }
             var duration = ScheduleModel.form.products[0].product.duration;
@@ -291,10 +291,10 @@
                 Message.popUp.alert.default(
                     '부킹가능한 상품이 없습니다.',
                     '부킹가능한 상품을 준비 중입니다.'
-                ).then(function (response) {
-                        console.log(response);
-                        Schedule.closeModalHandler();
-                    });
+                ).then(function(response) {
+                    console.log(response);
+                    Schedule.closeModalHandler();
+                });
                 return;
             }
 
@@ -304,10 +304,10 @@
                     Message.popUp.alert.default(
                         '예약 완료 알림',
                         '예약이 완료 되었습니다.'
-                    ).then(function (response) {
-                            console.log(response);
-                            Schedule.closeModalHandler();
-                        });
+                    ).then(function(response) {
+                        console.log(response);
+                        Schedule.closeModalHandler();
+                    });
                     console.log(data);
                 }, function err(error) {
                     Message.loading.hide();
