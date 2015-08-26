@@ -13,7 +13,7 @@
 
         BalanceDetail.placeName = null;
         BalanceDetail.points = null;
-        BalanceDetail.username = AuthService.getUser().username;
+        BalanceDetail.username = AuthService.getUser().nickname;
 
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
