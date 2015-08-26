@@ -44,17 +44,12 @@
                 }
             });
 
-            AuthService.login('user', 'admin1234')
-                .then(function() {
-                    $state.go('main.home');
-                });
+            // AuthService.login('admin', 'admin1234')
+            //     .then(function() {
+            //         $state.go('main.home');
+            //     });
 
             $state.go('main.home');
-            //$state.go('main.balance.list');
-
-            //$state.go('main.detail', {id: '55d6b6dfff4de8ba0fd8961b'});
-            //$state.go('main.schedule', {id: '55d6b6dfff4de8ba0fd8961b', selectedDate: '2015-08-22'});
-            //http://localhost:8100/#/main/schdule/55d6b6dfff4de8ba0fd8961b/2015-08-22
         }
     ])
 

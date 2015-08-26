@@ -46,6 +46,62 @@
             <div class="row">
                 <div class="col-21 col-title">
                     <p class="zero">이용시간</p>
+                </div>
+                <div class="col-79 col-text">
+                    <p class="zero"
+                        ng-repeat="groupedTime in Detail.Model.current.openingHours | groupByOpeningHours"
+                    >
+                        {{groupedTime}}
+                    </p>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-21 col-title">
+                    <p class="zero">전화번호</p>
+                </div>
+                <div class="col-79 col-text">
+                    <p class="zero" ng-click="Detail.callPhone()"
+                        ng-if="Detail.Model.current.phone"
+                    >
+                        {{Detail.Model.current.phone}}  &nbsp; &nbsp; &nbsp;
+                        <span style="background: #831bd4; color: white;"
+                        > &nbsp;바로전화&nbsp;</span>
+                    </p>
+                    <p class='zero'
+                        ng-if="!Detail.Model.current.phone"
+                    >
+                        전화번호 비공개
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-21 col-title">
+                    <p class="zero">주소</p>
+                </div>
+                <div class="col-79 col-text">
+                    <p class="zero text-overflow">{{Detail.Model.current.address}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-21 col-title">
+                    <p class="zero">가격정보</p>
+                </div>
+                <div class="col-79 col-text">
+                    <ul class="product-list">
+                        <li class="product-item"
+                            ng-repeat="product in Detail.Model.current.products | orderBy:'price'"
+                                >
+                            {{product.name}} - {{product.price}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+<!--             <div class="row">
+                <div class="col-21 col-title">
+                    <p class="zero">이용시간</p>
 
                     <p class="zero">전화번호</p>
 
@@ -56,7 +112,9 @@
                 <div class="col-79 col-text">
                     <p class="zero">TODO: 10:00 ~ 21:00</p>
 
-                    <p class="zero">{{Detail.Model.current.phone}}</p>
+                    <p class="zero" ng-click="Detail.callPhone()">
+                        {{Detail.Model.current.phone}}  &nbsp; &nbsp; &nbsp; <span style="background: #831bd4; color: white;"> &nbsp;바로전화&nbsp;</span>
+                    </p>
 
                     <p class="zero text-overflow">{{Detail.Model.current.address}}</p>
                     <ul class="product-list">
@@ -68,7 +126,8 @@
                     </ul>
                 </div>
             </div>
-        </div>
+ -->
+         </div>
 
 
         <!-- 포트폴리오 -->

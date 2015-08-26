@@ -1,16 +1,16 @@
-(function () {
+(function() {
     'use strict';
 
     angular.module('app')
         .controller('DetailController', DetailController);
 
     DetailController.$inject = [
-        'DetailModel', '$stateParams', '$scope', 'Message', 'Places',
+        'DetailModel', '$stateParams', '$scope', 'Message', 'Places', '$window',
         '$ionicSlideBoxDelegate', '$state', 'Favorite', '$filter', 'moment'
     ];
 
-    function DetailController(DetailModel, $stateParams, $scope, Message, Places,
-                              $ionicSlideBoxDelegate, $state, Favorite, $filter, moment) {
+    function DetailController(DetailModel, $stateParams, $scope, Message, Places, $window,
+        $ionicSlideBoxDelegate, $state, Favorite, $filter, moment) {
         var filterByTag = $filter('filterByTag');
 
         var Detail = this;
@@ -23,19 +23,24 @@
         Detail.portFolioPhotos = [];
         Detail.toggleSavePlace = Favorite.saveToFavorite.bind(null, 'NAIL_SAVED_PLACES', Detail, DetailModel);
         Detail.disablePast = disablePast;
+        Detail.callPhone = callPhone;
 
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
 
         //------------------------
         //  IMPLEMENTATIONS
         //------------------------
+        function callPhone() {
+            $window.location.href = 'tel:' + DetailModel.current.phone;
+        }
+
         function loadPlace() {
             Message.loading.default();
 
             return Places.findById({
-                id: $stateParams.id,
-                populates: 'photos,products,bookings'
-            }).$promise
+                    id: $stateParams.id,
+                    populates: 'photos,products,bookings'
+                }).$promise
                 .then(function success(place) {
                     DetailModel.current = place;
                     console.log('this');
@@ -57,9 +62,9 @@
 
         function loadPortfolioPhotos() {
             return Places.getPlacePhotos({
-                id: $stateParams.id,
-                tags: 'PORTFOLIO'
-            }).$promise
+                    id: $stateParams.id,
+                    tags: 'PORTFOLIO'
+                }).$promise
                 .then(function success(photos) {
                     Detail.portFolioPhotos = photos;
                     console.log(photos);
@@ -73,9 +78,8 @@
             loadPortfolioPhotos();
         }
 
-        function disablePast(date, mode) {
-
-            var currentDate = new moment();
+        function disablePast(date) {
+            var currentDate = moment();
             return currentDate > date;
         }
 

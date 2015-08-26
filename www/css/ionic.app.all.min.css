@@ -8841,6 +8841,58 @@ ink.animate {
       width: 100%;
       content: url('../img/800/02_1_login/login_06.png'); }
 
+#main .row + .row {
+  margin-top: 0; }
+#main .status-letter {
+  color: white;
+  font-weight: bold; }
+#main .activate .status-letter {
+  color: #831bd4; }
+#main .col-picture .picture {
+  display: block;
+  width: 100%;
+  height: 20vw; }
+#main .col-username {
+  margin-left: 10%; }
+#main .side-menu-content {
+  background: #c094df; }
+  #main .side-menu-content .row-header {
+    height: 26vw;
+    border-bottom: 1px solid #a85fe2; }
+  #main .side-menu-content .row-menu-list {
+    height: 12.5vw;
+    border-bottom: 1px solid #a85fe2;
+    box-sizing: border-box; }
+    #main .side-menu-content .row-menu-list .col-list-text {
+      margin-left: 5%; }
+      #main .side-menu-content .row-menu-list .col-list-text p, #main .side-menu-content .row-menu-list .col-list-text #detail .detail-container .product-list, #detail .detail-container #main .side-menu-content .row-menu-list .col-list-text .product-list {
+        font-size: 4vw;
+        line-height: 4vw;
+        margin: 0;
+        color: white; }
+    #main .side-menu-content .row-menu-list .col-icon i {
+      font-size: 5vw;
+      color: #777f88; }
+    #main .side-menu-content .row-menu-list.selected {
+      background: white;
+      border-bottom: 0; }
+      #main .side-menu-content .row-menu-list.selected .col-list-text p, #main .side-menu-content .row-menu-list.selected .col-list-text #detail .detail-container .product-list, #detail .detail-container #main .side-menu-content .row-menu-list.selected .col-list-text .product-list {
+        color: #831bd4; }
+      #main .side-menu-content .row-menu-list.selected .col-icon i {
+        color: #3fc4d1; }
+#main .accordion .row-menu-list {
+  background: #a178be;
+  height: 12.5vw; }
+  #main .accordion .row-menu-list i:before {
+    font-size: 6vw;
+    color: white; }
+#main .accordion .activate i:before {
+  color: #831bd4; }
+#main .side-menu-footer {
+  background: #c094df; }
+  #main .side-menu-footer .side-menu-footer-icon {
+    color: white; }
+
 #main-home ion-content {
   background: #831bd4; }
   #main-home ion-content .r1 {
@@ -8901,58 +8953,6 @@ ink.animate {
     #main-home ion-content .r4 .c2 .show-off-icon {
       content: url('../img/800/02_main/main04.png');
       width: 100%; }
-
-#main .row + .row {
-  margin-top: 0; }
-#main .status-letter {
-  color: white;
-  font-weight: bold; }
-#main .activate .status-letter {
-  color: #831bd4; }
-#main .col-picture .picture {
-  display: block;
-  width: 100%;
-  height: 20vw; }
-#main .col-username {
-  margin-left: 10%; }
-#main .side-menu-content {
-  background: #c094df; }
-  #main .side-menu-content .row-header {
-    height: 26vw;
-    border-bottom: 1px solid #a85fe2; }
-  #main .side-menu-content .row-menu-list {
-    height: 12.5vw;
-    border-bottom: 1px solid #a85fe2;
-    box-sizing: border-box; }
-    #main .side-menu-content .row-menu-list .col-list-text {
-      margin-left: 5%; }
-      #main .side-menu-content .row-menu-list .col-list-text p, #main .side-menu-content .row-menu-list .col-list-text #detail .detail-container .product-list, #detail .detail-container #main .side-menu-content .row-menu-list .col-list-text .product-list {
-        font-size: 4vw;
-        line-height: 4vw;
-        margin: 0;
-        color: white; }
-    #main .side-menu-content .row-menu-list .col-icon i {
-      font-size: 5vw;
-      color: #777f88; }
-    #main .side-menu-content .row-menu-list.selected {
-      background: white;
-      border-bottom: 0; }
-      #main .side-menu-content .row-menu-list.selected .col-list-text p, #main .side-menu-content .row-menu-list.selected .col-list-text #detail .detail-container .product-list, #detail .detail-container #main .side-menu-content .row-menu-list.selected .col-list-text .product-list {
-        color: #831bd4; }
-      #main .side-menu-content .row-menu-list.selected .col-icon i {
-        color: #3fc4d1; }
-#main .accordion .row-menu-list {
-  background: #a178be;
-  height: 12.5vw; }
-  #main .accordion .row-menu-list i:before {
-    font-size: 6vw;
-    color: white; }
-#main .accordion .activate i:before {
-  color: #831bd4; }
-#main .side-menu-footer {
-  background: #c094df; }
-  #main .side-menu-footer .side-menu-footer-icon {
-    color: white; }
 
 #reserve-modal {
   background: rgba(0, 0, 0, 0.5); }

@@ -58,10 +58,6 @@
         }
 
         function isAvailableSlot(reserveSlot) {
-            console.log('---------- reserveSlot ----------');
-            console.log(reserveSlot.isBefore(moment()));
-            console.log('HAS TYPE: ' + typeof reserveSlot);
-            console.log('---------- CONSOLE END -------------------');
 
             if (reserveSlot.isBefore(moment())) {
                 return false;
