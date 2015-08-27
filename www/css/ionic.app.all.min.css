@@ -8668,7 +8668,8 @@ ink.animate {
       border-radius: 2px 2px 2px 2px;
       line-height: 4vw;
       font-size: 4vw;
-      margin-right: 2vw; }
+      margin-right: 2vw;
+      background: white; }
   #daum-map .row-search .c2 {
     height: 100%; }
     #daum-map .row-search .c2 input {
@@ -8831,6 +8832,24 @@ ink.animate {
 #favorite .r1 {
   margin-top: 5px !important; }
 
+#login .bg {
+  background: url('../img/800/02_1_login/login_bg.png') no-repeat;
+  background-size: cover;
+  background-position: center; }
+  #login .bg .scroll {
+    padding: 1px; }
+  #login .bg .r1 {
+    margin-top: 110vw; }
+    #login .bg .r1 .c1 .facebook-button {
+      width: 100%;
+      content: url('../img/800/02_1_login/login_fb.png'); }
+  #login .bg .r2 {
+    margin-top: 1vw;
+    margin-bottom: 5vw; }
+    #login .bg .r2 .c1 .kakao-button {
+      width: 100%;
+      content: url('../img/800/02_1_login/login_06.png'); }
+
 #main .row + .row {
   margin-top: 0; }
 #main .status-letter {
@@ -8882,24 +8901,6 @@ ink.animate {
   background: #c094df; }
   #main .side-menu-footer .side-menu-footer-icon {
     color: white; }
-
-#login .bg {
-  background: url('../img/800/02_1_login/login_bg.png') no-repeat;
-  background-size: cover;
-  background-position: center; }
-  #login .bg .scroll {
-    padding: 1px; }
-  #login .bg .r1 {
-    margin-top: 110vw; }
-    #login .bg .r1 .c1 .facebook-button {
-      width: 100%;
-      content: url('../img/800/02_1_login/login_fb.png'); }
-  #login .bg .r2 {
-    margin-top: 1vw;
-    margin-bottom: 5vw; }
-    #login .bg .r2 .c1 .kakao-button {
-      width: 100%;
-      content: url('../img/800/02_1_login/login_06.png'); }
 
 #main-home ion-content {
   background: #831bd4; }
