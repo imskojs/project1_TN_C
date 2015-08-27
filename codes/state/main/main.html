@@ -32,9 +32,12 @@
                                     >
                         </div>
                         <div class="col-60 col-username">
-                            <span class="username">
-                                {{ Main.displayUserName()}} 님
-                            </span>
+                            <p class="username zero" style="margin-bottom: 5px; color: white">
+                                아이디: <span style="font-weight: bold">{{ Main.displayUserName()}}</span>
+                            </p>
+                            <p class="username zero" style="color: white">
+                                회원번호: <span style="font-weight: bold">{{ Main.Model.user.username }}</span>
+                            </p>
                         </div>
                     </li>
 
