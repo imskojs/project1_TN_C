@@ -3,7 +3,17 @@
 //              COMMON STYLE
 //==========================================================================
 //==========================================================================
-.ion-android-arrow-back::before{
+.ion-android-arrow-back {
+    padding: {
+        left: 10px !important;
+        right: 8px !important;
+    }
+} .ion-android-arrow-back::before{
+    font-size: 24px !important;
+    color: white;
+}
+
+.ion-android-share-alt::before {
     font-size: 24px !important;
 }
 //------------------------

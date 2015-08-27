@@ -54,7 +54,7 @@
                 .then(function success(data) {
                     var createdById = data.createdBy;
                     data.createdBy = {};
-                    data.createdBy.nickname = MainModel.user.nickname;
+                    data.createdBy.nickname = MainModel.user.nickname || MainModel.user.username;
                     data.createdBy.createdBy = createdById;
                     console.log(data);
                     Message.popUp.alert.default('댓글달기 알림', '댓글을 성공적으로 작성하셨습니다.');

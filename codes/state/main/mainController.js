@@ -6,12 +6,12 @@
 
     MainController.$inject = ['$ionicSideMenuDelegate', 'MainModel', '$state', '$timeout',
         '$ionicNavBarDelegate', '$ionicHistory', 'localStorage', '$scope', 'appName', 'Devices',
-        'PushService', '$rootScope'
+        'PushService', '$rootScope', '$cordovaSocialSharing'
     ];
 
     function MainController($ionicSideMenuDelegate, MainModel, $state, $timeout,
         $ionicNavBarDelegate, $ionicHistory, localStorage, $scope, appName, Devices,
-        PushService, $rootScope) {
+        PushService, $rootScope, $cordovaSocialSharing) {
 
         var Main = this;
         Main.Model = MainModel;
@@ -23,6 +23,7 @@
         Main.togglePushHandler = togglePushHandler;
         Main.goToDaumMapHandler = goToDaumMapHandler;
         Main.displayUserName = displayUserName;
+        Main.socialShare = socialShare;
 
         $rootScope.user = MainModel.user;
         $scope.$on('$ionicView.beforeEnter', doBeforeEnter);
@@ -88,6 +89,21 @@
                 displayName = MainModel.user.nickname;
 
             return displayName;
+        }
+
+        function socialShare() {
+            $cordovaSocialSharing
+                .share(
+                    '오늘 내일 걱정말고 오늘 Nail',
+                    '지금바로 네일샵을 찾아보세요!',
+                    null,
+                    'http://www.naver.com'
+            )
+                .then(function(suc) {
+                    console.log(suc);
+                }, function(err) {
+                    console.log(err);
+                });
         }
 
 

@@ -11,6 +11,7 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var argv = require('yargs').argv;
 var gulpif = require('gulp-if');
+var stripDebug = require('gulp-strip-debug');
 // var inlinesource = require('gulp-inline-source');
 
 
@@ -52,7 +53,9 @@ var paths = {
 gulp.task('lib', function(done) {
     gulp.src(paths.lib)
         .pipe(concat('libs.all.js'))
-        .pipe(gulpif(argv.production, uglify()))
+        .pipe(gulpif(argv.production, uglify({
+            mangle: false
+        })))
         .pipe(rename({
             extname: '.min.js'
         }))
@@ -103,7 +106,10 @@ gulp.task('sass', function(done) {
 gulp.task('js', function(done) {
     gulp.src(paths.js)
         .pipe(concat('app.all.js'))
-        .pipe(gulpif(argv.production, uglify()))
+        .pipe(gulpif(argv.production, stripDebug()))
+        .pipe(gulpif(argv.production, uglify({
+            mangle: false
+        })))
         .pipe(rename({
             extname: '.min.js'
         }))
