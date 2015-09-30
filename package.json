@@ -44,6 +44,10 @@
     {
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.socialsharing"
+    },
+    {
+      "locator": "https://bitbucket.org/zxshinxz/kakaologincordova.git",
+      "id": "kr.co.applicat.kakaologin"
     }
   ],
   "cordovaPlatforms": [
