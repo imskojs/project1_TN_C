@@ -415,7 +415,7 @@
         console.log('kakao server result');
         console.log(result);
         $http({
-          url: serverUrl + '/auth/register',
+          url: governorUrl + '/auth/register',
           method: 'post',
           headers: {
             'Content-Type': 'application/json'

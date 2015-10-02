@@ -36,10 +36,6 @@
       "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
       "id": "cordova-plugin-inappbrowser"
     },
-    {
-      "locator": "https://github.com/zxshinxz/PushPlugin.git",
-      "id": "com.phonegap.plugins.PushPlugin"
-    },
     "de.appplant.cordova.plugin.local-notification",
     {
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
@@ -48,6 +44,10 @@
     {
       "locator": "https://bitbucket.org/zxshinxz/kakaologincordova.git",
       "id": "kr.co.applicat.kakaologin"
+    },
+    {
+      "locator": "https://github.com/zxshinxz/PushPlugin.git",
+      "id": "com.phonegap.plugins.PushPlugin"
     }
   ],
   "cordovaPlatforms": [
