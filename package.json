@@ -48,6 +48,10 @@
     {
       "locator": "https://github.com/zxshinxz/PushPlugin.git",
       "id": "com.phonegap.plugins.PushPlugin"
+    },
+    {
+      "locator": "https://github.com/ccsoft/cordova-facebook",
+      "id": "com.ccsoft.plugin.CordovaFacebook"
     }
   ],
   "cordovaPlatforms": [

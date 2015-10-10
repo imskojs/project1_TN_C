@@ -37,6 +37,9 @@
         }
 
         function updateStatus(statusString, booking) {
+
+
+
             booking.status = statusString;
             console.log(booking);
 
@@ -57,16 +60,6 @@
                     Message.loading.hide();
                 });
 
-            // return Bookings.updateBooking({}, booking).$promise
-            //     .then(function success(data) {
-            //         console.log(data);
-            //         Message.popUp.alert.default('예약취소 알림', '예약이 취소 되었습니다.');
-            //         // Array.prototype.splice.call(CancelModel.current.bookings, index, 1);
-
-            //     }, function err(error) {
-            //         console.log(error);
-
-            //     });
         }
 
 

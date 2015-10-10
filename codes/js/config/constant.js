@@ -37,7 +37,7 @@
         .constant("governorUrl", "http://todaynail.applicat.co.kr")
         .constant("appName", "todayNail")
         .constant("kakaoKey", "42022d8578d6fb558d70ae75766ee900")
-        .constant("facebookKey", "983668071678162")
+        .constant("facebookKey", '983668071678162')
         .constant("googlePushSenderID", "282095615414");
     // .constant("appId", 2)
 })();
