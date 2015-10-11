@@ -4,9 +4,9 @@
     angular.module('app')
         .factory('AuthInterceptor', AuthInterceptor);
 
-    AuthInterceptor.$inject = ['$q', '$injector', '$location', 'LocalService', 'appName'];
+    AuthInterceptor.$inject = ['$q', '$location', 'LocalService', 'appName'];
 
-    function AuthInterceptor($q, $injector, $location, LocalService, appName) {
+    function AuthInterceptor($q, $location, LocalService, appName) {
 
         return {
             request: function (config) {
@@ -39,33 +39,6 @@
                     } else {
                         response.data.hideMessage = true;
                     }
-                } else if (response.status === 300) {
-
-                    var redirectPath = null;
-                    var message = '';
-                    switch (response.data.redirectCode) {
-                        case 'ACTIVATE':
-                            redirectPath = "/resend/false";
-                            message: "이메일 인증을 하셔야 서비스 이용이 가능합니다.";
-                            break;
-                        case 'RESET':
-                            redirectPath = "/passReset";
-                            message: "비밀번호를 봐꿔주세요.";
-                            break;
-                    }
-
-                    if ($location.path() !== redirectPath) {
-
-                        $location.path(redirectPath);
-
-                        if (response.data == null || response.data == undefined) {
-                            response.data = {
-                                message: message
-                            };
-                        }
-                    } else {
-                        response.data.hideMessage = true;
-                    }
                 }
                 return $q.reject(response);
             }
@@ -83,9 +56,6 @@
                          LocalService, appName, kakaoKey, $cordovaOauth, $window, $timeout) {
 
         var user = null;
-        var selectedApp = {
-            name: '어플리켓'
-        };
 
         function setUser(userInfo) {
             user = userInfo;
@@ -95,14 +65,6 @@
             return user;
         }
 
-        function setApp(app) {
-            $rootScope.appName = app.name;
-            selectedApp = app;
-        }
-
-        this.getApp = function () {
-            return selectedApp;
-        }
 
         this.getToken = function () {
             var token = LocalService.get(appName + '_auth_token');
@@ -142,23 +104,6 @@
             return deferred.promise;
         }
 
-        this.registerWithImage = function (user, file, success, fail) {
-
-            var options = new FileUploadOptions();
-
-            var newUser = angular.copy(user);
-
-            options.params = newUser;
-            options.headers = {
-                Connection: "close"
-            }
-            options.chunkedMode = false;
-
-            var ft = new FileTransfer();
-
-            ft.upload(file, encodeURI(governorUrl + '/user/registerWithImage'), success, fail, options, true);
-        }
-
         this.login = function (email, password) {
 
             var deferred = $q.defer();
@@ -191,56 +136,6 @@
 
         }
 
-        this.verifyResetCode = function (email, code) {
-
-            var deferred = $q.defer();
-
-
-            $http({
-                url: governorUrl + '/user/passwordresetcomplete',
-                method: 'put',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    'email': email,
-                    'code': code
-                }
-            })
-                .success(function (data, status, headers, config) {
-                    LocalService.set(appName + '_auth_token', JSON.stringify(data));
-                    deferred.resolve(data);
-                })
-                .error(function (data, status, headers, config) {
-                    deferred.reject(data);
-                });
-
-            return deferred.promise;
-
-        }
-
-        this.passReset = function (email) {
-
-            var deferred = $q.defer();
-
-            $http({
-                url: governorUrl + '/user/resetStart',
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    'email': email
-                }
-            })
-                .success(function (data, status, headers, config) {
-                    deferred.resolve(data);
-                })
-                .error(function (data, status, headers, config) {
-                    deferred.reject(data);
-                });
-            return deferred.promise;
-        }
 
         this.logout = function () {
             LocalService.unset(appName + '_auth_token');
@@ -551,9 +446,5 @@
 
             return deferred.promise;
         }
-
-
     }
-
-
 })();

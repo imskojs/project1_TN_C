@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
     angular.module('app')
         .factory('Message', Message);
@@ -19,7 +19,8 @@
             popUp: {
                 alert: {
                     default: popUpAlertDefault
-                }
+                },
+                confirm: popUpConfirm
             }
         };
 
@@ -48,7 +49,20 @@
         }
 
         function popUpAlertDefault(title, message) {
+
+            $ionicLoading.hide();
+
             return $ionicPopup.alert({
+                title: title || '인터넷이 끊겼습니다.',
+                template: message || '인터넷을 켜주세요.'
+            });
+        }
+
+        function popUpConfirm(title, message) {
+
+            $ionicLoading.hide();
+
+            return $ionicPopup.confirm({
                 title: title || '인터넷이 끊겼습니다.',
                 template: message || '인터넷을 켜주세요.'
             });

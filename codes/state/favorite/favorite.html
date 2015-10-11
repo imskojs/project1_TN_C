@@ -1,10 +1,10 @@
-<ion-view view-title="즐겨찾는 shop" id="favorite">
+<ion-view view-title="즐겨찾는 shop" id="favorite" cache-view="false">
     <ion-content>
         <ul class="list">
             <li class="r1 shop-list row row-item auto radius-top radius-bottom shadow"
                 ng-repeat="place in Favorite.Model.placeList"
                 ng-click="Favorite.goToDetailHandler(place)"
-            >
+                    >
                 <div class="c1 col-25 place-image flex">
                     <img ng-src="{{place.photos[0].url}}">
                 </div>

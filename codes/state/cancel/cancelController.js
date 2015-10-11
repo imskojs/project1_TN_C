@@ -39,26 +39,31 @@
         function updateStatus(statusString, booking) {
 
 
+            Message.popUp.confirm("확인", "정말 취소 하시겠습니까?").then(function (result) {
+                if (result) {
 
-            booking.status = statusString;
-            console.log(booking);
+                    booking.status = statusString;
+                    console.log(booking);
 
-            $http({
-                url: governorUrl + '/booking',
-                method: 'PUT',
-                data: booking
-            })
-                .success(function (data) {
-                    console.log(data);
-                    Message.loading.hide();
-                    Message.popUp.alert.default('예약취소 알림', '예약이 취소 되었습니다.');
+                    $http({
+                        url: governorUrl + '/booking',
+                        method: 'PUT',
+                        data: booking
+                    })
+                        .success(function (data) {
+                            console.log(data);
+                            Message.loading.hide();
+                            Message.popUp.alert.default('예약취소 알림', '예약이 취소 되었습니다.');
 
-                })
-                .error(function (error) {
-                    console.log(error);
+                        })
+                        .error(function (error) {
+                            console.log(error);
 
-                    Message.loading.hide();
-                });
+                            Message.loading.hide();
+                        });
+                }
+            });
+
 
         }
 

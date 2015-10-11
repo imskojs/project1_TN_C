@@ -12,6 +12,7 @@ var sh = require('shelljs');
 var argv = require('yargs').argv;
 var gulpif = require('gulp-if');
 var stripDebug = require('gulp-strip-debug');
+var autoprefixer = require('gulp-autoprefixer');
 // var inlinesource = require('gulp-inline-source');
 
 
@@ -98,6 +99,10 @@ gulp.task('sass', function(done) {
         })))
         .pipe(rename({
             extname: '.min.css'
+        }))
+        .pipe(autoprefixer({
+            browsers: ['> 1%'],
+            cascade: false
         }))
         .pipe(gulp.dest('./www/css/'))
         .on('end', done);
