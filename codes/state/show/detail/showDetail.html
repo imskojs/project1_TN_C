@@ -23,7 +23,7 @@
             <div class="c1 col">
                 <h3 class="title">{{ShowDetail.Model.current.title}}</h3>
                 <p class="username">{{ShowDetail.Model.current.createdBy.nickname || 'User' + ShowDetail.Model.current.createdBy.username}}</p>
-                <p class="post-content">{{ShowDetail.Model.current.content}}</p>
+                <div class="post-content" ng-bind-html="(ShowDetail.Model.current.content | newlines)"></div>
                 <div class="row counts zero">
                     <div class="col-5 flex icon-container zero"
                         toggle

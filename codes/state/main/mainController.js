@@ -97,7 +97,7 @@
           '오늘 내일 걱정말고 오늘 Nail',
           '지금바로 네일샵을 찾아보세요!',
           null,
-          'https://play.google.com/store/apps/details?id=com.ionicframework.todaynail791467'
+          'https://play.google.com/store/apps/details?id=kr.todaynail'
       )
         .then(function(suc) {
           console.log(suc);

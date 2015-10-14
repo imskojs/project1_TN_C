@@ -1,21 +1,16 @@
-(function() {
+(function () {
     'use strict';
-
 
     angular.module('applicat.push.service', ['ngCordova'])
         .service('PushService', PushService);
 
 
-    PushService.$inject = ['$http', '$log', '$q', '$cordovaPush', '$cordovaToast', '$cordovaDialogs',
-        '$cordovaLocalNotification', '$rootScope', 'googlePushSenderID', 'governorUrl',
-        'appName', 'LocalService'
+    PushService.$inject = ['$http', '$log', '$q', '$cordovaPush', '$cordovaDialogs',
+        '$cordovaMedia', '$rootScope', 'googlePushSenderID', 'governorUrl'
     ];
 
-    function PushService($http, $log, $q, $cordovaPush, $cordovaToast, $cordovaDialogs,
-        $cordovaLocalNotification, $rootScope, googlePushSenderID, governorUrl,
-        appName, LocalService) {
-
-
+    function PushService($http, $log, $q, $cordovaPush, $cordovaDialogs, $cordovaMedia,
+                         $rootScope, googlePushSenderID, governorUrl) {
 
 
         /********************************
@@ -71,7 +66,7 @@
 
             }
 
-            $cordovaPush.register(config).then(function(result) {
+            $cordovaPush.register(config).then(function (result) {
                 $log.info("PushService - Register success " + result);
 
                 console.log("PushService - Register success " + result);
@@ -82,7 +77,7 @@
                     storeDeviceToken(result, TYPE_IOS);
                 }
 
-            }, function(err) {
+            }, function (err) {
                 $log.info("PushService - Register error " + err)
             });
 
@@ -104,11 +99,11 @@
                     "active": active
                 }
             })
-                .success(function(data, status, headers, config) {
+                .success(function (data, status, headers, config) {
                     $log.info("PushService - Success updating device push settings " + JSON.stringify(data));
                     deferred.resolve(data);
                 })
-                .error(function(data, status, headers, config) {
+                .error(function (data, status, headers, config) {
                     deferred.reject(data);
                     $log.info("PushService - Failed updating device push settings");
                 });
@@ -116,7 +111,6 @@
             return deferred.promise;
 
         };
-
 
         /********************************
          *        Private Method
@@ -144,20 +138,12 @@
                 },
                 data: registration
             })
-                .success(function(data, status, headers, config) {
+                .success(function (data, status, headers, config) {
                     $log.info("PushService - registered to server: " + JSON.stringify(data));
-
-                    // Set devicePushId in PushService
-                    console.log('this is data');
                     console.log(data);
                     setDeviceId(data.device.deviceId);
-
-                    // If push setting exist than set the PushService
-                    if (angular.isDefined(data.device.optionalType))
-                        setTradeNotification(data.device.optionalType);
-
                 })
-                .error(function(data, status, headers, config) {
+                .error(function (data, status, headers, config) {
                     $log.info("PushService - error: " + JSON.stringify(data));
                 });
 
@@ -209,55 +195,61 @@
 
         // IOS Notification Received Handler
         function handleIOS(notification) {
-            //// The app was already open but we'll still show the alert and sound the tone received this way. If you didn't check
-            //// for foreground here it would make a sound twice, once when received in background and upon opening it from clicking
-            //// the notification when this code runs (weird).
-            //if (notification.foreground == "1") {
-            //    // Play custom audio if a sound specified.
-            //    if (notification.sound) {
-            //        var mediaSrc = $cordovaMedia.newMedia(notification.sound);
-            //        mediaSrc.promise.then($cordovaMedia.play(mediaSrc.media));
-            //    }
-            //
-            //    if (notification.body && notification.messageFrom) {
-            //        $cordovaDialogs.alert(notification.body, notification.messageFrom);
-            //    }
-            //    else $cordovaDialogs.alert(notification.alert, "Push Notification Received");
-            //
-            //    if (notification.badge) {
-            //        $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
-            //            $log.info("Set badge success " + result)
-            //        }, function (err) {
-            //            $log.info("Set badge error " + err)
-            //        });
-            //    }
-            //}
-            //// Otherwise it was received in the background and reopened from the push notification. Badge is automatically cleared
-            //// in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
-            //// the data in this situation.
-            //else {
-            //    if (notification.body && notification.messageFrom) {
-            //        $cordovaDialogs.alert(notification.body, "(RECEIVED WHEN APP IN BACKGROUND) " + notification.messageFrom);
-            //    }
-            //    else $cordovaDialogs.alert(notification.alert, "(RECEIVED WHEN APP IN BACKGROUND) Push Notification Received");
-            //}
+
+            console.log(notification);
+            // The app was already open but we'll still show the alert and sound the tone received this way. If you didn't check
+            // for foreground here it would make a sound twice, once when received in background and upon opening it from clicking
+            // the notification when this code runs (weird).
+            if (notification.foreground == "1") {
+                // Play custom audio if a sound specified.
+
+                if (notification.sound) {
+                    var audio = $cordovaMedia.newMedia(notification.sound);
+
+                    audio.then(function (r) {
+                        console.log('success');
+                        console.log(r);
+                        setTimeout(function () {
+                            audio.play();
+                        }, 500);
+
+                    }, function (r) {
+                        console.log('error');
+                        console.log(r);
+                    });
+
+                }
+
+                if (notification.body && notification.message) {
+                    $cordovaDialogs.alert(notification.body, notification.message);
+                }
+                else $cordovaDialogs.alert(notification.title, notification.message);
+
+                if (notification.badge) {
+                    $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
+                        $log.info("Set badge success " + result)
+                    }, function (err) {
+                        $log.info("Set badge error " + err)
+                    });
+                }
+            }
+            // Otherwise it was received in the background and reopened from the push notification. Badge is automatically cleared
+            // in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
+            // the data in this situation.
+            else {
+                if (notification.body && notification.message) {
+                    $cordovaDialogs.alert(notification.body, notification.message);
+                }
+                else $cordovaDialogs.alert(notification.title, notification.message);
+            }
         }
 
-        $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+        $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
             if (ionic.Platform.isAndroid()) {
                 handleAndroid(notification);
             } else if (ionic.Platform.isIOS()) {
                 handleIOS(notification);
             }
         });
-
-        function getPushSetting() {
-            var setting = JSON.parse(LocalService.get(appName + '_setting'));
-            if (setting)
-                return setting.push;
-            else
-                return false;
-        }
-
     };
 })();

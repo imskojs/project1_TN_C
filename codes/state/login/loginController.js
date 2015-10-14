@@ -1,41 +1,47 @@
-(function() {
-  'use strict';
-  angular.module('app')
-    .controller('LoginController', LoginController);
+(function () {
+    'use strict';
+    angular.module('app')
+        .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['LoginModel', 'AuthService', 'Message', '$state', '$window'];
+    LoginController.$inject = ['$scope', 'LoginModel', 'AuthService', 'Message', '$state', '$window'];
 
-  function LoginController(LoginModel, AuthService, Message, $state, $window) {
+    function LoginController($scope, LoginModel, AuthService, Message, $state, $window) {
 
-    var Login = this;
-    Login.Model = LoginModel;
 
-    Login.loginWithFaceBook = loginWithFacebook;
-    Login.loginWithKaKaoTalk = loginWithKaKaoTalk;
-    //------------------------
-    //  IMPLEMENTATIONS
-    //------------------------
-    function loginWithFacebook() {
-      return AuthService.loginWithFacebook()
-        .then(function success(data) {
-          console.log(data);
-          Message.loading.hide();
-          $state.go('main.home');
-        }, function err(error) {
-          console.log(error);
+        $scope.$on('$ionicView.beforeEnter', function () {
+            Message.hide();
         });
-    }
 
-    function loginWithKaKaoTalk() {
 
-      return AuthService.loginWithKakao()
-        .then(function(data) {
-          console.log(data);
-          Message.loading.hide();
-          $state.go('main.home');
-        }, function err(error) {
-          console.log(error);
-        });
+        var Login = this;
+        Login.Model = LoginModel;
+
+        Login.loginWithFaceBook = loginWithFacebook;
+        Login.loginWithKaKaoTalk = loginWithKaKaoTalk;
+        //------------------------
+        //  IMPLEMENTATIONS
+        //------------------------
+        function loginWithFacebook() {
+            return AuthService.loginWithFacebook()
+                .then(function success(data) {
+                    console.log(data);
+                    Message.loading.hide();
+                    $state.go('main.home');
+                }, function err(error) {
+                    console.log(error);
+                });
+        }
+
+        function loginWithKaKaoTalk() {
+
+            return AuthService.loginWithKakao()
+                .then(function (data) {
+                    console.log(data);
+                    Message.loading.hide();
+                    $state.go('main.home');
+                }, function err(error) {
+                    console.log(error);
+                });
+        }
     }
-  }
 })();

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('app')
@@ -16,7 +16,7 @@
                 markerWidth: '@',
                 markerHeight: '@',
             },
-            compile: function(element) {
+            compile: function (element) {
                 //==========================================================================
                 //              Global Map Property
                 //==========================================================================
@@ -42,9 +42,14 @@
 
                     var currentMoment = setCurrentMoment();
 
+                    places = _.compact(_.map(places, function (place) {
+                        if (!place.employee || parseInt(place.employee, 10) < 1)
+                            place = null;
+                    }));
+
                     var arrayOfIds = _.pluck(places, 'id');
 
-                    var arrayOfPromises = _.map(arrayOfIds, function(id) {
+                    var arrayOfPromises = _.map(arrayOfIds, function (id) {
                         return Bookings.getBookingsDateBetween({
                             placeId: id,
                             from: currentMoment.clone().set({
@@ -100,7 +105,7 @@
                     var todayInt = currentMoment.clone().get('day');
 
                     var closingMomentsForToday = [];
-                    angular.forEach(places, function(place, i) {
+                    angular.forEach(places, function (place, i) {
                         console.log(place);
                         var endHourArray = place.openingHours[todayInt].end.split(':');
                         var hours = endHourArray[0];
@@ -132,13 +137,13 @@
                     }
 
 
-                    var arrayOfBookings = _.map(arrayOfBookingsWrapper, function(bookingsWrapper) {
+                    var arrayOfBookings = _.map(arrayOfBookingsWrapper, function (bookingsWrapper) {
                         return bookingsWrapper.bookings;
                     });
                     console.log('arrayOfBookings');
                     console.log(arrayOfBookings);
-                    var arrayOfDurations = _.map(arrayOfBookings, function(bookings) {
-                        return _.map(bookings, function(booking) {
+                    var arrayOfDurations = _.map(arrayOfBookings, function (bookings) {
+                        return _.map(bookings, function (booking) {
                             return booking.products[0].product.duration;
                         });
                     });
@@ -198,8 +203,8 @@
                     console.log(arrayOfTimeStrings);
 
                     var arrayOfGroupedTimeStrings = [];
-                    angular.forEach(arrayOfTimeStrings, function(timeStrings) {
-                        var groupedTimeStrings = _.groupBy(timeStrings, function(timeString) {
+                    angular.forEach(arrayOfTimeStrings, function (timeStrings) {
+                        var groupedTimeStrings = _.groupBy(timeStrings, function (timeString) {
                             return timeString;
                         });
                         arrayOfGroupedTimeStrings.push(groupedTimeStrings);
@@ -229,7 +234,7 @@
 
                 function processPin(markerImg, markerClickedImg, scope) {
 
-                    angular.forEach(DaumMapModel.places, function(place, i) {
+                    angular.forEach(DaumMapModel.places, function (place, i) {
                         //place = {location:{type:'Point', coordinates:[126.10101, 27.101010]}, ...}
                         var placeLongitude = place.location.coordinates[0];
                         var placeLatitude = place.location.coordinates[1];
@@ -243,11 +248,11 @@
                             image: markerImg,
                             clickable: true
                         });
-                        daum.maps.event.addListener(marker, 'click', function() {
+                        daum.maps.event.addListener(marker, 'click', function () {
                             var marker = this;
-                            scope.$apply(function() {
+                            scope.$apply(function () {
                                 // on click: differentiate clicked image;
-                                angular.forEach(DaumMapModel.markers, function(otherMarker) {
+                                angular.forEach(DaumMapModel.markers, function (otherMarker) {
                                     otherMarker.setImage(markerImg);
                                 });
                                 marker.setImage(markerClickedImg);
@@ -280,9 +285,9 @@
                 }
 
                 // Draw Markers after query
-                var drawMarkers = function(currentCenter, markerImg, markerClickedImg, scope) {
+                var drawMarkers = function (currentCenter, markerImg, markerClickedImg, scope) {
                     // Reset previous markers;
-                    angular.forEach(DaumMapModel.markers, function(marker) {
+                    angular.forEach(DaumMapModel.markers, function (marker) {
                         marker.setMap(null);
                     });
                     DaumMapModel.markers = [];
@@ -323,7 +328,7 @@
                 //==========================================================================
                 //              Find Current location and search nearby
                 //==========================================================================
-                DaumMapModel.findMeThenSearchNearBy = function() {
+                DaumMapModel.findMeThenSearchNearBy = function () {
                     Message.loading.default();
                     // filterValue = null;
                     $cordovaGeolocation.getCurrentPosition({
@@ -366,7 +371,7 @@
                 //==========================================================================
                 //              Find specific location with value and search nearby
                 //==========================================================================
-                DaumMapModel.searchLocationNearBy = function(value) {
+                DaumMapModel.searchLocationNearBy = function (value) {
                     Message.loading.default();
                     if (!value) {
                         Message.loading.hide();
@@ -374,7 +379,7 @@
                         return false;
                     }
                     // filterValue = null;
-                    ps.keywordSearch(value, function(status, data) {
+                    ps.keywordSearch(value, function (status, data) {
 
                         // if no search result, notify and exit.
                         if (data.places[0] === undefined) {
@@ -397,7 +402,7 @@
                         // drawMarkers(currentCenter);
 
                         Message.loading.hide();
-                    }, function(err) {
+                    }, function (err) {
                         console.log(err);
                         console.log(err);
                         Message.loading.hide();
@@ -409,7 +414,7 @@
                 };
 
 
-                DaumMapModel.searchPlaceByName = function(value) {
+                DaumMapModel.searchPlaceByName = function (value) {
 
                     Message.loading.default();
 
@@ -452,7 +457,7 @@
                 };
 
 
-                return function(scope) {
+                return function (scope) {
                     // Marker style properties.
                     var markerSize = new daum.maps.Size(Number(scope.markerWidth), Number(scope.markerHeight));
                     var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
@@ -463,7 +468,7 @@
                     //  Search when moved
                     // ------------------------
 
-                    daum.maps.event.addListener(map, 'idle', function() {
+                    daum.maps.event.addListener(map, 'idle', function () {
 
                         Message.loading.default();
                         var currentCenter = {

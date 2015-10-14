@@ -53,6 +53,10 @@
     {
       "locator": "https://github.com/ccsoft/cordova-facebook",
       "id": "com.ccsoft.plugin.CordovaFacebook"
+    },
+    {
+      "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
+      "id": "cordova-plugin-x-socialsharing"
     }
   ],
   "cordovaPlatforms": [

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('app')
@@ -10,7 +10,7 @@
     ];
 
     function DetailController(DetailModel, $stateParams, $scope, Message, Places, $window,
-        $ionicSlideBoxDelegate, $state, Favorite, $filter, moment) {
+                              $ionicSlideBoxDelegate, $state, Favorite, $filter, moment) {
         var filterByTag = $filter('filterByTag');
 
         var Detail = this;
@@ -38,9 +38,9 @@
             Message.loading.default();
 
             return Places.findById({
-                    id: $stateParams.id,
-                    populates: 'photos,products,bookings'
-                }).$promise
+                id: $stateParams.id,
+                populates: 'photos,products,bookings'
+            }).$promise
                 .then(function success(place) {
                     DetailModel.current = place;
                     console.log('this');
@@ -62,9 +62,9 @@
 
         function loadPortfolioPhotos() {
             return Places.getPlacePhotos({
-                    id: $stateParams.id,
-                    tags: 'PORTFOLIO'
-                }).$promise
+                id: $stateParams.id,
+                tags: 'PORTFOLIO'
+            }).$promise
                 .then(function success(photos) {
                     Detail.portFolioPhotos = photos;
                     console.log(photos);
@@ -80,7 +80,7 @@
 
         function disablePast(date) {
             var currentDate = moment();
-            return currentDate > date;
+            return currentDate > date || !DetailModel.current.employee || parseInt(DetailModel.current.employee, 10) < 1;
         }
 
     }

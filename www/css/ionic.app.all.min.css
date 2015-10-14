@@ -9166,6 +9166,12 @@ ink.animate {
     width: 7vw;
     content: url('../img/800/icon/icon_notice.png'); }
 
+#balance-list .r1 {
+  margin: 5px auto !important; }
+  #balance-list .r1 .coin-icon {
+    content: url('../img/800/icon/icon_coin.png');
+    width: 100%; }
+
 #balance-detail .r1 {
   margin-top: 60px; }
   #balance-detail .r1 i {
@@ -9190,12 +9196,6 @@ ink.animate {
     padding-right: 15px; }
     #balance-detail .r3 .c1 p, #balance-detail .r3 .c1 #detail .detail-container .product-list, #detail .detail-container #balance-detail .r3 .c1 .product-list {
       font-size: 20px; }
-
-#balance-list .r1 {
-  margin: 5px auto !important; }
-  #balance-list .r1 .coin-icon {
-    content: url('../img/800/icon/icon_coin.png');
-    width: 100%; }
 
 .bar-header .favorite-post.button {
   color: tomato; }
