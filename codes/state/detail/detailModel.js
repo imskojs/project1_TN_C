@@ -44,6 +44,11 @@
             //DetailModel.selectedDate
             dayClickHandler: function (dt) {
 
+                var currentDate = moment();
+
+                if (currentDate.date() > dt.date.getDate())
+                    return;
+
                 if (!this.current.products || this.current.products.length == 0) {
                     Message.loading.hide();
                     Message.popUp.alert.default(
@@ -73,6 +78,7 @@
                     selectedDate: selectedDate.format('YYYY-MM-DD')
                 });
             },
+
 
         };
 

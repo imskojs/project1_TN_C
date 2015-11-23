@@ -43,10 +43,6 @@
       "id": "nl.x-services.plugins.socialsharing"
     },
     {
-      "locator": "https://bitbucket.org/zxshinxz/kakaologincordova.git",
-      "id": "kr.co.applicat.kakaologin"
-    },
-    {
       "locator": "https://github.com/zxshinxz/PushPlugin.git",
       "id": "com.phonegap.plugins.PushPlugin"
     },
@@ -57,7 +53,8 @@
     {
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
       "id": "cordova-plugin-x-socialsharing"
-    }
+    },
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "ios",

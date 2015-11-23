@@ -343,24 +343,30 @@
         this.loginWithFacebook = function () {
 
 
-            var hasLoggedIn = false;
 
             var deferred = $q.defer();
 
-            $rootScope.facebookPlugin.login(function (response) {
+            facebookConnectPlugin.login(['public_profile', 'email'],
+                function (response) {
 
+                    console.log('AuthService.login - facebook server result');
+                    console.log('Access token is: ' + response);
 
-                console.log('facebook server result');
-                console.log('Access token is: ' + response.accessToken);
+                    var result = {
+                        provider: 'facebook',
+                        access_token: response.authResponse.accessToken
+                    };
 
-                var result = {
-                    provider: 'facebook',
-                    access_token: response.accessToken
-                };
+                    connectFacebookWithServer(result);
 
-                console.log(result);
+                }, function () {
+                    console.log('failed to load facebook');
+                    deferred.reject({message: 'failed to login to facebook'});
+                });
+
+            function connectFacebookWithServer(result) {
                 $http({
-                    url: governorUrl + '/auth/register',
+                    url: serverUrl + '/auth/register',
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -368,8 +374,6 @@
                     data: result
                 })
                     .success(function (data, status, headers, config) {
-
-                        hasLoggedIn = true;
 
                         LocalService.set(appName + '_auth_token', JSON.stringify(data));
                         setUser(data.user);
@@ -386,63 +390,7 @@
                         deferred.reject(data);
                     });
 
-
-            }), function () {
-                console.log('failed to load facebook');
-                deferred.reject({message: 'failed to login to facebook'});
-            };
-
-            $timeout(function () {
-
-                if (!hasLoggedIn) {
-
-
-                    $rootScope.facebookPlugin.login(function (response) {
-
-
-                        console.log('facebook server result');
-                        console.log('Access token is: ' + response.accessToken);
-
-                        var result = {
-                            provider: 'facebook',
-                            access_token: response.accessToken
-                        };
-
-                        console.log(result);
-                        $http({
-                            url: governorUrl + '/auth/register',
-                            method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            data: result
-                        })
-                            .success(function (data, status, headers, config) {
-
-                                hasLoggedIn = true;
-
-                                LocalService.set(appName + '_auth_token', JSON.stringify(data));
-                                setUser(data.user);
-                                console.log('facebook response from our server');
-                                console.log(JSON.stringify(data, null, 2));
-                                console.log(JSON.stringify(data.user, null, 2));
-
-                                deferred.resolve({
-                                    message: 'done'
-                                });
-                            })
-                            .error(function (data, status, headers, config) {
-                                console.log(data, status, headers, config);
-                                deferred.reject(data);
-                            });
-
-
-                    }), function () {
-                        console.log('failed to load facebook');
-                        deferred.reject({message: 'failed to login to facebook'});
-                    }
-                }
-            }, 6000);
+            }
 
             return deferred.promise;
         }

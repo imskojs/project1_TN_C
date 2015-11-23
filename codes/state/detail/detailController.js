@@ -22,6 +22,7 @@
         Detail.interiorPhotos = [];
         Detail.portFolioPhotos = [];
         Detail.toggleSavePlace = Favorite.saveToFavorite.bind(null, 'NAIL_SAVED_PLACES', Detail, DetailModel);
+        Detail.hasEmployee = hasEmployee;
         Detail.disablePast = disablePast;
         Detail.callPhone = callPhone;
 
@@ -42,11 +43,13 @@
                 populates: 'photos,products,bookings'
             }).$promise
                 .then(function success(place) {
+                    $scope.place = place;
                     DetailModel.current = place;
                     console.log('this');
                     console.log(place);
                     Detail.interiorPhotos = filterByTag(DetailModel.current.photos, 'INTERIOR');
                     // Detail.portFolioPhotos = filterByTag(DetailModel.current.photos, 'PORTFOLIO');
+
 
                     Message.loading.hide();
                     $ionicSlideBoxDelegate.update();
@@ -80,7 +83,13 @@
 
         function disablePast(date) {
             var currentDate = moment();
-            return currentDate > date || !DetailModel.current.employee || parseInt(DetailModel.current.employee, 10) < 1;
+            return currentDate.date() > date.getDate();
+        }
+
+        function hasEmployee() {
+            return DetailModel.current && DetailModel.current.employee &&
+                parseInt(DetailModel.current.employee, 10) > 0;
+
         }
 
     }

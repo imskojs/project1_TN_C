@@ -219,6 +219,7 @@ function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datep
 
 $scope.dayClickHandler = function (dt){
   angular.copy(dt, DetailModel.selectedDate);
+  angular.copy(place, DetailModel.current);
   DetailModel.dayClickHandler(dt);
 }
 

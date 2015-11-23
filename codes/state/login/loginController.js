@@ -7,11 +7,13 @@
 
     function LoginController($scope, LoginModel, AuthService, Message, $state, $window) {
 
-
         $scope.$on('$ionicView.beforeEnter', function () {
-            Message.hide();
+            Message.loading.hide();
         });
 
+        $scope.$on('$ionicView.afterEnter', function () {
+            Message.loading.hide();
+        });
 
         var Login = this;
         Login.Model = LoginModel;
@@ -22,6 +24,7 @@
         //  IMPLEMENTATIONS
         //------------------------
         function loginWithFacebook() {
+
             return AuthService.loginWithFacebook()
                 .then(function success(data) {
                     console.log(data);

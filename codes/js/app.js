@@ -12,6 +12,7 @@
 
         "ui.bootstrap.tpls",
         "ui.bootstrap.datepicker"
+
     ])
 
         .run([
@@ -63,26 +64,32 @@
 
                 });
 
-                // AuthService.login('admin', 'admin1234')
-                //     .then(function() {
-                //         $state.go('main.home');
-                //     });
+                //AuthService.login('user', 'admin1234')
+                //    .then(function () {
+                //        $state.go('main.home');
+                //        //$state.go('main.detail', {id: '5620678d006b1e5f06375fde'});
+                //        //$state.go('main.daumMap');
+                //    });
 
                 $state.go('main.home');
+
             }
         ])
 
         .config([
 
-            '$stateProvider', '$httpProvider',
+            '$stateProvider', '$httpProvider', '$provide',
 
             function ($stateProvider, $httpProvider) {
+
+
 
                 // Security handler
                 $httpProvider.interceptors.push('AuthInterceptor');
 
                 // Allow session
-                // $httpProvider.defaults.withCredentials = true;
+                $httpProvider.defaults.withCredentials = true;
+
 
                 $stateProvider
 

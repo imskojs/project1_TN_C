@@ -45,6 +45,8 @@
                     places = _.compact(_.map(places, function (place) {
                         if (!place.employee || parseInt(place.employee, 10) < 1)
                             place = null;
+
+                        return place;
                     }));
 
                     var arrayOfIds = _.pluck(places, 'id');
@@ -132,7 +134,7 @@
                         }
                     }
                     if (places.length === 0) {
-                        Message.popUp.alert.default('바로검색 알림', '현재 시각 주변에 운영하는 네일샵들이 없습니다. 내일 이용해주시거나, 다른 지역을 검색해주세요.');
+                            Message.popUp.alert.default('바로검색 알림', '현재 시각 주변에 운영하는 네일샵들이 없습니다. 내일 이용해주시거나, 다른 지역을 검색해주세요.');
                         return [];
                     }
 
@@ -468,7 +470,14 @@
                     //  Search when moved
                     // ------------------------
 
-                    daum.maps.event.addListener(map, 'idle', function () {
+                    daum.maps.load(function() {
+                        // v3가 모두 로드된 후, 이 콜백 함수가 실행됩니다.
+                        loadPlace();
+                    });
+
+                    daum.maps.event.addListener(map, 'idle', loadPlace);
+
+                    function loadPlace() {
 
                         Message.loading.default();
                         var currentCenter = {
@@ -478,13 +487,16 @@
 
                         angular.extend(currentCenter, {
                             distance: 2000,
-                            limit: 20
+                            limit: 60
                         });
 
                         console.log(currentCenter);
                         drawMarkers(currentCenter, markerImg, markerClickedImg, scope);
 
-                    });
+                    }
+
+
+
                 };
             }
         };
