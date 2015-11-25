@@ -366,7 +366,7 @@
 
             function connectFacebookWithServer(result) {
                 $http({
-                    url: serverUrl + '/auth/register',
+                    url: governorUrl + '/auth/register',
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
