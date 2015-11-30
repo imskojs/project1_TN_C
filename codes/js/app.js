@@ -45,22 +45,22 @@
                     }
 
 
-                    $rootScope.facebookPlugin = new CC.CordovaFacebook();
-
-                    if ($rootScope.facebookPlugin) {
-
-                        $rootScope.facebookPlugin.init(facebookKey, '오늘네일',
-                            ['public_profile', 'email', 'publish_actions'],
-                            function (response) {
-                                if (response) {
-                                    console.log("Access token is: " + response.accessToken);
-                                    console.log("Expires: " + response.expirationDate);
-                                    console.log("Permissions are: " + response.permissions);
-                                }
-                            }), function () {
-                            console.log("failed to load facebook");
-                        };
-                    }
+                    //$rootScope.facebookPlugin = new CC.CordovaFacebook();
+                    //
+                    //if ($rootScope.facebookPlugin) {
+                    //
+                    //    $rootScope.facebookPlugin.init(facebookKey, '오늘네일',
+                    //        ['public_profile', 'email', 'publish_actions'],
+                    //        function (response) {
+                    //            if (response) {
+                    //                console.log("Access token is: " + response.accessToken);
+                    //                console.log("Expires: " + response.expirationDate);
+                    //                console.log("Permissions are: " + response.permissions);
+                    //            }
+                    //        }), function () {
+                    //        console.log("failed to load facebook");
+                    //    };
+                    //}
 
                 });
 

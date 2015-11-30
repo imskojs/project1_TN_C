@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="kr.co.applicat.kakaologin"
+        version="0.1.0">
+
+    <name>KakaoLogin</name>
+    <description>Native single sign on for KakoTalk</description>\
+    <keywords>oAuth KakaoTalk</keywords>
+    <license>Apache 2.0</license>
+    <author>Andy Yoonyong Shin</author>
+    <engines>
+        <engine name="cordova" version=">=3.4.0"/>
+    </engines>
+    <asset src="www/KakaoLogin.js" target="js/KakaoLogin.js"/>
+    <js-module src="www/KakaoLogin.js" name="KakaoLogin">
+        <clobbers target="cordova.plugins.KakaoLogin"/>
+    </js-module>
+    <platform name="android">
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+
+            <activity
+                    android:name="kr.co.applicat.kakaologin.KakaoLoginActivity"
+                    android:exported="false"
+                    android:launchMode="singleInstance"
+                    android:theme="@android:style/Theme.NoDisplay"/>
+
+            <meta-data
+                    android:name="com.kakao.sdk.AppKey"
+                    android:value="@string/kakao_app_key"/>
+
+            <!--<uses-permission android:name="android.permission.INTERNET" />-->
+
+        </config-file>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="KakaoLogin">
+                <param name="android-package" value="kr.co.applicat.kakaologin.KakaoLogin"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/KakaoLogin.java" target-dir="src/kr/co/applicat/kakaologin/"/>
+        <source-file src="src/android/KakaoLoginActivity.java" target-dir="src/kr/co/applicat/kakaologin/"/>
+
+        <!--<source-file src="src/android/res/drawable/kakao_account_button_background.xml" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_account_logo.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_cancel_button_background.xml" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_close_button.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_default_profile_image.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_editable_profile.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_login_bar.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_login_button_background.9.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_login_symbol.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable/kakao_profile_boxbg.9.png" target-dir="res/drawable/"/>-->
+        <!--<source-file src="src/android/res/drawable-hdpi/kakaoaccount_icon.png" target-dir="res/drawable-hdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-hdpi/kakaostory_icon.png" target-dir="res/drawable-hdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-hdpi/kakaotalk_icon.png" target-dir="res/drawable-hdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-small/kakaoaccount_icon.png" target-dir="res/drawable-small/"/>-->
+        <!--<source-file src="src/android/res/drawable-small/kakaostory_icon.png" target-dir="res/drawable-small/"/>-->
+        <!--<source-file src="src/android/res/drawable-small/kakaotalk_icon.png" target-dir="res/drawable-small/"/>-->
+        <!--<source-file src="src/android/res/drawable-xhdpi/kakaoaccount_icon.png" target-dir="res/drawable-xhdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-xhdpi/kakaostory_icon.png" target-dir="res/drawable-xhdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-xhdpi/kakaotalk_icon.png" target-dir="res/drawable-xhdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-xxhdpi/kakaoaccount_icon.png" target-dir="res/drawable-xxhdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-xxhdpi/kakaostory_icon.png" target-dir="res/drawable-xxhdpi/"/>-->
+        <!--<source-file src="src/android/res/drawable-xxhdpi/kakaotalk_icon.png" target-dir="res/drawable-xxhdpi/"/>-->
+        <!--<source-file src="src/android/res/layout/kakao_internal_login_activity.xml" target-dir="res/layout/"/>-->
+        <!--<source-file src="src/android/res/layout/kakao_login_layout.xml" target-dir="res/layout/"/>-->
+
+        <!--<source-file src="src/android/res/values/kakao_colors.xml" target-dir="res/values/"/>-->
+        <!--<source-file src="src/android/res/values/kakao_dimens.xml" target-dir="res/values/"/>-->
+        <source-file src="src/android/res/values/kakao_strings.xml" target-dir="res/values/"/>
+        <!--<source-file src="src/android/res/values/kakaolink_strings.xml" target-dir="res/values/"/>-->
+
+        <!--<source-file src="src/android/res/values-ko/kakao_strings.xml" target-dir="res/values-ko/"/>-->
+        <!--<source-file src="src/android/res/values-ko/kakaolink_strings.xml" target-dir="res/values-ko/"/>-->
+
+    </platform>
+
+    <platform name="ios">
+
+        <config-file target="config.xml" parent="/widget">
+            <feature name="KakaoLogin">
+                <param name="ios-package" value="KakaoLogin"/>
+            </feature>
+        </config-file>
+
+        <framework src="src/ios/KakaoOpenSDK.framework" custom="true" />
+        <framework src="QuartzCore.framework"/>
+
+        <header-file src="src/ios/KakaoLogin.h" target-dir="KakaoLogin"/>
+        <source-file src="src/ios/KakaoLogin.m" target-dir="KakaoLogin"/>
+    </platform>
+    <!--
+
+    <platform name="wp7">
+    <source-file src="src/wp7/Hello.cs"/>
+    </platform>
+    -->
+
+</plugin>

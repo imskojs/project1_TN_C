@@ -1,0 +1,62 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "kr.co.applicat.kakaologin": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "org.apache.cordova.camera": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "org.apache.cordova.file": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "org.apache.cordova.file-transfer": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "org.apache.cordova.geolocation": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "org.apache.cordova.splashscreen": {
+            "PACKAGE_NAME": "kr.todaynail"
+        },
+        "phonegap-facebook-plugin": {
+            "APP_ID": "983668071678162",
+            "APP_NAME": "오늘네일",
+            "PACKAGE_NAME": "kr.todaynail"
+        }
+    },
+    "dependent_plugins": {}
+}

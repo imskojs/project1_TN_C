@@ -3,7 +3,6 @@
 
 .idea/
 node_modules/
-plugins/
 www/css/
 www/js/
 www/view/
