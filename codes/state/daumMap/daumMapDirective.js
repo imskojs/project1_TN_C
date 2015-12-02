@@ -13,6 +13,7 @@
             scope: {
                 markerSrc: '@',
                 markerClickedSrc: '@',
+                markerDisabledSrc: '@',
                 markerWidth: '@',
                 markerHeight: '@',
             },
@@ -45,7 +46,6 @@
                     places = _.compact(_.map(places, function (place) {
                         if (!place.employee || parseInt(place.employee, 10) < 1)
                             place = null;
-
                         return place;
                     }));
 
@@ -107,6 +107,8 @@
                     var todayInt = currentMoment.clone().get('day');
 
                     var closingMomentsForToday = [];
+
+
                     angular.forEach(places, function (place, i) {
                         console.log(place);
                         var endHourArray = place.openingHours[todayInt].end.split(':');
@@ -116,47 +118,67 @@
                             hour: hours,
                             minutes: minutes
                         });
+
+                        // If shop not opened
                         if (place.openingHours[todayInt].start === place.openingHours[todayInt].end) {
                             places.splice(i, 1, null);
                             arrayOfBookingsWrapper.splice(i, 1, null);
+
+
+                            // If shop is closed
                         } else if (currentMoment.isAfter(closingMoment)) {
                             places.splice(i, 1, null);
                             arrayOfBookingsWrapper.splice(i, 1, null);
                         } else {
+
+                            // Still need checking
                             closingMomentsForToday.push(closingMoment);
                         }
                     });
+
+
                     var i = 0;
+
                     for (i = places.length - 1; i >= 0; i--) {
                         if (places[i] === null) {
                             places.splice(i, 1);
                             arrayOfBookingsWrapper.splice(i, 1);
                         }
                     }
+
+                    // No place for booking
                     if (places.length === 0) {
-                            Message.popUp.alert.default('바로검색 알림', '현재 시각 주변에 운영하는 네일샵들이 없습니다. 내일 이용해주시거나, 다른 지역을 검색해주세요.');
+                        Message.popUp.alert.default('바로검색 알림', '현재 시각 주변에 운영하는 네일샵들이 없습니다. 내일 이용해주시거나, 다른 지역을 검색해주세요.');
                         return [];
                     }
 
 
+                    // Get booking array
                     var arrayOfBookings = _.map(arrayOfBookingsWrapper, function (bookingsWrapper) {
                         return bookingsWrapper.bookings;
                     });
+
                     console.log('arrayOfBookings');
                     console.log(arrayOfBookings);
+
                     var arrayOfDurations = _.map(arrayOfBookings, function (bookings) {
                         return _.map(bookings, function (booking) {
                             return booking.products[0].product.duration;
                         });
                     });
+
                     var arrayOfBookingsMoment = []; // [ [newbooking, newbooking,... ], []]
+
                     for (i = 0; i < arrayOfDurations.length; i++) {
+
                         var resultArray_i = []; // inner [] of resultArray = [ [], [], ... ]
                         var bookings = arrayOfBookings[i];
                         var durations = arrayOfDurations[i];
                         var place = places[i];
+
                         console.log('place');
                         console.log(place);
+
                         for (var j = 0; j < durations.length; j++) {
                             var booking = bookings[i];
                             var datetime = booking.datetime;
@@ -177,6 +199,7 @@
                                 }
                             }
                         }
+
                         arrayOfBookingsMoment.push(resultArray_i);
                     }
                     console.log('arrayOfBookingsMoment');
@@ -234,7 +257,7 @@
                     return availabilities;
                 }
 
-                function processPin(markerImg, markerClickedImg, scope) {
+                function processPin(markerImg, markerClickedImg, markerDisabledSrc, scope) {
 
                     angular.forEach(DaumMapModel.places, function (place, i) {
                         //place = {location:{type:'Point', coordinates:[126.10101, 27.101010]}, ...}
@@ -242,22 +265,41 @@
                         var placeLatitude = place.location.coordinates[1];
                         // set marker
                         var position = new daum.maps.LatLng(placeLatitude, placeLongitude);
-                        var marker = new daum.maps.Marker({
-                            map: map,
-                            position: position,
-                            // used as to link to place info
-                            title: String(i),
-                            image: markerImg,
-                            clickable: true
-                        });
+
+                        var marker = null;
+
+                        if (place.employee > 0) {
+                            marker = new daum.maps.Marker({
+                                map: map,
+                                position: position,
+                                // used as to link to place info
+                                title: String(i),
+                                image: markerImg,
+                                clickable: true
+                            });
+                        }
+                        else {
+                            marker = new daum.maps.Marker({
+                                map: map,
+                                position: position,
+                                // used as to link to place info
+                                title: String(i),
+                                image: markerDisabledSrc,
+                                clickable: true
+                            });
+                        }
+
+
                         daum.maps.event.addListener(marker, 'click', function () {
                             var marker = this;
                             scope.$apply(function () {
-                                // on click: differentiate clicked image;
-                                angular.forEach(DaumMapModel.markers, function (otherMarker) {
-                                    otherMarker.setImage(markerImg);
-                                });
-                                marker.setImage(markerClickedImg);
+
+                                //// on click: differentiate clicked image;
+                                //angular.forEach(DaumMapModel.markers, function (otherMarker) {
+                                //    otherMarker.setImage(markerImg);
+                                //});
+                                //
+                                //marker.setImage(markerClickedImg);
                                 // on click: show modal which will be filled with place info
                                 // modal references DaumMapModel.selectedPlace to fill in the info
                                 var index = Number(marker.getTitle());
@@ -287,7 +329,7 @@
                 }
 
                 // Draw Markers after query
-                var drawMarkers = function (currentCenter, markerImg, markerClickedImg, scope) {
+                var drawMarkers = function (currentCenter, markerImg, markerClickedImg, markerDisabledSrc, scope) {
                     // Reset previous markers;
                     angular.forEach(DaumMapModel.markers, function (marker) {
                         marker.setMap(null);
@@ -309,14 +351,14 @@
                                 filterPlaces(placesWrapper.places, 60)
                                     .then(function success(places) {
                                         DaumMapModel.places = places;
-                                        processPin(markerImg, markerClickedImg, scope);
+                                        processPin(markerImg, markerClickedImg, markerDisabledSrc, scope);
                                     }, function err(error) {
                                         console.log(error);
                                     });
 
                             } else {
                                 DaumMapModel.places = placesWrapper.places;
-                                processPin(markerImg, markerClickedImg, scope);
+                                processPin(markerImg, markerClickedImg, markerDisabledSrc, scope);
                             }
                             Message.loading.hide();
                             filterValue = null;
@@ -334,9 +376,9 @@
                     Message.loading.default();
                     // filterValue = null;
                     $cordovaGeolocation.getCurrentPosition({
-                        maximumAge: 3000,
-                        timeout: 5000
-                    })
+                            maximumAge: 3000,
+                            timeout: 5000
+                        })
                         .then(function success(position) {
 
                             if (position.coords == null) {
@@ -464,13 +506,15 @@
                     var markerSize = new daum.maps.Size(Number(scope.markerWidth), Number(scope.markerHeight));
                     var markerImg = new daum.maps.MarkerImage(scope.markerSrc, markerSize);
                     var markerClickedImg = new daum.maps.MarkerImage(scope.markerClickedSrc, markerSize);
+                    var markerDisabledSrc = new daum.maps.MarkerImage(scope.markerDisabledSrc, markerSize);
+
                     map.relayout();
                     DaumMapModel.domMap = map;
                     // ------------------------
                     //  Search when moved
                     // ------------------------
 
-                    daum.maps.load(function() {
+                    daum.maps.load(function () {
                         // v3가 모두 로드된 후, 이 콜백 함수가 실행됩니다.
                         loadPlace();
                     });
@@ -491,10 +535,9 @@
                         });
 
                         console.log(currentCenter);
-                        drawMarkers(currentCenter, markerImg, markerClickedImg, scope);
+                        drawMarkers(currentCenter, markerImg, markerClickedImg, markerDisabledSrc, scope);
 
                     }
-
 
 
                 };

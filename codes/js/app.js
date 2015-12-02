@@ -40,10 +40,10 @@
                         $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                         PushService.registerDevice();
                     }
+
                     if ($window.StatusBar) {
                         $window.StatusBar.styleDefault();
                     }
-
 
                     //$rootScope.facebookPlugin = new CC.CordovaFacebook();
                     //

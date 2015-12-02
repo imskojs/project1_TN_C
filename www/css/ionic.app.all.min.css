@@ -9196,6 +9196,30 @@ ink.animate {
   #balance-list .r1 .coin-icon {
     content: url('../img/800/icon/icon_coin.png');
     width: 100%; }
+  #balance-list .r1 .place-address {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+
+#show-list .r1 .items {
+  border: 0;
+  background: white; }
+  #show-list .r1 .items .title-image {
+    display: block;
+    width: 100%;
+    height: 45vw; }
+  #show-list .r1 .items .user-id {
+    color: #a85fe2; }
+  #show-list .r1 .items .count {
+    text-align: center; }
+    #show-list .r1 .items .count span {
+      font-size: 3.5vw;
+      height: 3.5vw;
+      line-height: 3.5vw; }
+  #show-list .r1 .items .icon-container .icon:before {
+    font-size: 4vw; }
+  #show-list .r1 .items .counts {
+    border-bottom: 1px solid #bbb; }
 
 .bar-header .favorite-post.button {
   color: tomato; }
@@ -9244,23 +9268,3 @@ ink.animate {
   #show-detail .r4 .c1 .comment {
     font-size: 4vw;
     color: #888; }
-
-#show-list .r1 .items {
-  border: 0;
-  background: white; }
-  #show-list .r1 .items .title-image {
-    display: block;
-    width: 100%;
-    height: 45vw; }
-  #show-list .r1 .items .user-id {
-    color: #a85fe2; }
-  #show-list .r1 .items .count {
-    text-align: center; }
-    #show-list .r1 .items .count span {
-      font-size: 3.5vw;
-      height: 3.5vw;
-      line-height: 3.5vw; }
-  #show-list .r1 .items .icon-container .icon:before {
-    font-size: 4vw; }
-  #show-list .r1 .items .counts {
-    border-bottom: 1px solid #bbb; }

@@ -1,11 +1,10 @@
 <ion-view id="balance-list"
-    view-title="적립금 확인"
+          view-title="적립금 확인"
 >
     <ion-content>
         <ul class="list">
             <li class="r1 shop-list row row-item auto radius-top radius-bottom shadow"
-                ng-repeat="royaltyObj in BalanceList.Model.current.royaltyPointObjs"
-            >
+                ng-repeat="royaltyObj in BalanceList.Model.current.royaltyPointObjs">
                 <div class="c1 col-25 place-image flex">
                     <img ng-src="{{royaltyObj.url}}" alt="">
                 </div>
@@ -21,13 +20,12 @@
                             <span>{{ royaltyObj.address }}</span>
                         </div>
                         <div class="col-33"
-                            ng-click="BalanceList.goToHandler('main.balance.detail', {points: royaltyObj.royaltyPoints, placeName: royaltyObj.name})"
+                             ng-click="BalanceList.goToHandler('main.balance.detail', {points: royaltyObj.royaltyPoints, placeName: royaltyObj.name})"
                         >
                             <i class="coin-icon"></i>
                         </div>
                     </div>
                 </div>
-
             </li>
         </ul>
     </ion-content>

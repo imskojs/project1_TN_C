@@ -20,7 +20,7 @@
  *
  */
 
-
+ 
 /*
  *
  * Constant app config
@@ -32,10 +32,10 @@
     'use strict';
 
     angular.module('app')
-        //.constant("governorUrl", "http://localhost:1337")
+        .constant("governorUrl", "http://localhost:1337")
         //.constant("governorUrl", "http://192.168.1.73:1337")
         //.constant("governorUrl", "http://192.168.0.4:1337")
-        .constant("governorUrl", "http://todaynail.applicat.co.kr")
+        //.constant("governorUrl", "http://todaynail.applicat.co.kr")
         .constant("appName", "todayNail")
         .constant("kakaoKey", "42022d8578d6fb558d70ae75766ee900")
         .constant("facebookKey", '983668071678162')
