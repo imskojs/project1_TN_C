@@ -1,63 +1,59 @@
 <ion-view id="show-list"
-          can-swipe-back="false"
-          hide-back-button="false"
-          hide-nav-bar="false"
-          view-title="네일 talk"
+          view-title="네일 talk">
+  <!-- List Content -->
+  <ion-content class="has-header">
+
+    <ion-refresher
+      pulling-text="새로운글 보기"
+      on-refresh="ShowList.getNewerPosts()"
+      disable-pulling-rotation="false"
+    >
+    </ion-refresher>
+
+    <ion-list class="r1 row-list row wrap zero">
+      <ion-item class="items"
+                data-ng-repeat="post in ShowList.Model.postsWrapper.posts"
+                item-width="50%"
+                item-height="vw * 0.69"
+                item-render-buffer="10"
+                force-refresh-images="false"
+                ng-click="ShowList.goToDetailHandler(post)"
+                touch
+      >
+        <img class="title-image" ng-src="{{ post.photos[0].url || 'http://placehold.it/500x500'}}"
         >
-    <!-- List Content -->
-    <ion-content class="has-header" >
 
-        <ion-refresher
-                pulling-text="새로운글 보기"
-                on-refresh="ShowList.getNewerPosts()"
-                disable-pulling-rotation="false"
-                >
-        </ion-refresher>
+        <p class="title">{{ post.title }}</p>
 
-        <ion-list class="r1 row-list row wrap zero">
-            <ion-item class="col items"
-                      collection-repeat="post in ShowList.Model.postsWrapper.posts"
-                      item-width="50%"
-                      item-height="vw * 0.69"
-                      item-render-buffer="10"
-                      force-refresh-images="false"
-                      ng-click="ShowList.goToDetailHandler(post)"
-                      touch
-                    >
-                <img class="title-image" ng-src="{{ post.photos[0].url || 'http://placehold.it/500x500'}}"
-                        >
+        <p class="user-id">{{ post.createdBy.nickname }}</p>
 
-                <p class="title">{{ post.title }}</p>
+        <div class="row counts">
+          <div class="col-10 flex icon-container"
+               toggle
+          >
+            <i class="icon ion-star"></i>
+          </div>
+          <div class="col-20 like-count count">
+            <span> {{post.likes}} </span>
+          </div>
+          <div class="col-10 flex icon-container">
+            <i class="icon ion-ios-chatbubble"></i>
+          </div>
+          <div class="col-20 comment-count count">
+            <span> {{ post.comments.length || 0 }} </span>
+          </div>
+        </div>
 
-                <p class="user-id">{{ post.createdBy.nickname }}</p>
-
-                <div class="row counts">
-                    <div class="col-10 flex icon-container"
-                         toggle
-                            >
-                        <i class="icon ion-star"></i>
-                    </div>
-                    <div class="col-20 like-count count">
-                        <span> {{post.likes}} </span>
-                    </div>
-                    <div class="col-10 flex icon-container">
-                        <i class="icon ion-ios-chatbubble"></i>
-                    </div>
-                    <div class="col-20 comment-count count">
-                        <span> {{ post.comments.length || 0 }} </span>
-                    </div>
-                </div>
-
-            </ion-item>
-        </ion-list>
-        <!-- Checked immediately as soon as page is entered. -->
-        <ion-infinite-scroll
-                on-infinite="ShowList.getOlderPosts()"
-                distance="1%"
-                spinner="true"
-                immediate-check="false"
-                ng-if="ShowList.checkForMore()"
-                >
-        </ion-infinite-scroll>
-    </ion-content>
+      </ion-item>
+    </ion-list>
+    <!-- Checked immediately as soon as page is entered. -->
+    <ion-infinite-scroll
+      on-infinite="ShowList.getOlderPosts()"
+      distance="1%"
+      spinner="true"
+      immediate-check="false"
+      ng-if="ShowList.checkForMore()"
+    >
+    </ion-infinite-scroll>
+  </ion-content>
 </ion-view>

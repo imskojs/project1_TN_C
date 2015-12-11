@@ -306,6 +306,23 @@ module.exports = [
 ];
 module.exports.metadata = 
 // TOP OF METADATA
-{}
+{
+    "com.ionic.keyboard": "1.0.5",
+    "com.phonegap.plugins.PushPlugin": "2.4.0",
+    "cordova-plugin-crosswalk-webview": "1.3.1",
+    "cordova-plugin-inappbrowser": "1.0.2-dev",
+    "cordova-plugin-statusbar": "1.0.2-dev",
+    "cordova-plugin-whitelist": "1.0.0",
+    "cordova-plugin-x-socialsharing": "5.0.4",
+    "org.apache.cordova.device": "0.3.0",
+    "de.appplant.cordova.plugin.local-notification": "0.8.1",
+    "kr.co.applicat.kakaologin": "0.1.0",
+    "org.apache.cordova.camera": "0.3.6",
+    "org.apache.cordova.file": "1.3.3",
+    "org.apache.cordova.file-transfer": "0.5.0",
+    "org.apache.cordova.geolocation": "0.3.12",
+    "org.apache.cordova.splashscreen": "1.0.0",
+    "phonegap-facebook-plugin": "0.12.0"
+}
 // BOTTOM OF METADATA
 });

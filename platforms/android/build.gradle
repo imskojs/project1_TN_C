@@ -246,10 +246,10 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile project(path: "CordovaLib", configuration: "debug")
     releaseCompile project(path: "CordovaLib", configuration: "release")
-    debugCompile project(path: "..:..:..:..:..:Lib:kakao-android-sdk-project-1.1.4-eclipse", configuration: "debug")
-    releaseCompile project(path: "..:..:..:..:..:Lib:kakao-android-sdk-project-1.1.4-eclipse", configuration: "release")
     debugCompile project(path: "phonegap-facebook-plugin:FacebookLib", configuration: "debug")
     releaseCompile project(path: "phonegap-facebook-plugin:FacebookLib", configuration: "release")
+    debugCompile project(path: "..:..:..:..:..:Lib:kakao-android-sdk-project-1.1.4-eclipse", configuration: "debug")
+    releaseCompile project(path: "..:..:..:..:..:Lib:kakao-android-sdk-project-1.1.4-eclipse", configuration: "release")
     // SUB-PROJECT DEPENDENCIES END
 }
 

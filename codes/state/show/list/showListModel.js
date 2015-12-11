@@ -8,15 +8,7 @@
 
         var model = {
             postsWrapper: {
-                posts: [{
-                    title: '',
-                    content: '',
-                    category: '',
-                    comments: [],
-                    photos: [{
-                        url: ''
-                    }]
-                }],
+                posts: [],
                 more: true
             },
 
