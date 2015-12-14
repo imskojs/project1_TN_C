@@ -1,5 +1,5 @@
 <ion-view id="notice-list"
-    view-title="공지 사항"
+    view-title="공지사항"
     cache-view="true"
     can-swipe-back="false"
     hide-back-button="false"
@@ -17,7 +17,7 @@
             ng-if=""
         >
             <div class="c1 col">
-                <h2 class="title">오늘 nail 공지사항</h2>
+                <h2 class="title">오늘nail 공지사항</h2>
                 <p class="message">공지사항이 없습니다.</p>
             </div>
         </div>
@@ -40,8 +40,9 @@
                     <span class="col">{{post.title}}</span>
                 </div>
 
+                <!-- 2015.12.10 수정 -->
                 <div class="c3 col-30 col flex">
-                    <span class="time col">{{ post.createdAt | date : format : timezone }}</span>
+                    <span class="time col">{{ post.createdAt | date:'yyyy.MM.dd' }}</span>
                 </div>
 
             </ion-item>

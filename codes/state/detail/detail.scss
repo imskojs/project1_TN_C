@@ -1,3 +1,5 @@
+/* 2015.12.10 수정 */
+
     .favorite-place {
         color: #E84390 !important;
     }
@@ -16,23 +18,46 @@
         }
     }
 
+    .row-title-bar {
+        background: $positive;
+    }
+
     .detail-container {
         width: 90%;
-        margin-top: 2vw;
+        margin-top: 5vw;
+        margin-bottom: 5vw;
+        .rowrow {
+            margin-left: 1.5vw;
+            margin-top: -2.5vw;
+            margin-bottom: 3vw;
+        }
+        .call {
+            font-size: 3vw;
+            font-weight: 500;
+            padding-left: 1.5vw;
+            padding-right: 1.5vw;
+            padding-top: 0.2vw;
+            padding-bottom: 0.5vw;
+            border-left: 1px solid #9d9d9d;
+            border-right: 1px solid #9d9d9d;
+            border-top: 1px solid #9d9d9d;
+            border-bottom: 1px solid #9d9d9d;
+            border-radius: 7px 7px 7px 7px;
+        }
         p {
             margin-bottom: 1.5vw;
             font-size: 3.5vw;
-            font-weight: bold;
+            font-weight: 500;
         }
         .product-list {
             @extend p;
             margin-bottom: 2vw;
         }
         .col-title {
-            color: $dark;
+            color: $positive;
         }
         .col-text {
-            color: $dark-grey;
+            color: #6b6b6b;
 
         }
     }
@@ -54,11 +79,11 @@
     }
 
     .date-picker-container {
-        background: $stable;
+        background: white;
         padding: 1px;
     }
 
-    $date-text-color: #fffff8;
+    $date-text-color: $positive;
         .date-picker {
             margin: {
                 top: 5vw;
@@ -68,13 +93,13 @@
                 width: 90%;
                 margin: 0 auto;
                 * {
-                    background: $stable;
+                    background: white;
                     border: 0;
                 }
                 thead {
                     * {
                         border: 0;
-                        background: $stable;
+                        background: white;
                     }
                     // Date title
                     .btn {
@@ -98,21 +123,21 @@
                             span {
                                 background: transparent;
                                 color: $date-text-color;
-                                font-weight: bold
+                                font-weight: 500;
                             }
                             span.text-muted {
-                                color: #888;
+                                color: #cacaca;
                             }
                         }
                         button.active {
-                            background: $date-text-color;
+                            background: $positive;
                             span {
-                                color: $positive;
+                                color: white;
                             }
                         }
                         button[disabled] {
                             span {
-                                color: grey;
+                                color: #cacaca;
                             }
                         }
                     }

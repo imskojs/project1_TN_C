@@ -1,5 +1,13 @@
 <ion-view id="show-list"
-          view-title="네일 talk">
+          view-title="네일talk">
+
+    <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-ios-compose-outline"
+            ng-click="Show.modalShowHandler();"
+    >
+    </button>
+    </ion-nav-buttons>
+
   <!-- List Content -->
   <ion-content class="has-header">
 
@@ -14,7 +22,7 @@
       <ion-item class="items"
                 data-ng-repeat="post in ShowList.Model.postsWrapper.posts"
                 item-width="50%"
-                item-height="vw * 0.69"
+                item-height="vw * 0.71"
                 item-render-buffer="10"
                 force-refresh-images="false"
                 ng-click="ShowList.goToDetailHandler(post)"
@@ -31,7 +39,7 @@
           <div class="col-10 flex icon-container"
                toggle
           >
-            <i class="icon ion-star"></i>
+            <i class="icon ion-ios-download"></i>
           </div>
           <div class="col-20 like-count count">
             <span> {{post.likes}} </span>

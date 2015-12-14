@@ -26,17 +26,24 @@
 
                     <!-- Row 1 -->
                     <li class="r1 row row-header flex">
-                        <div class="col-30 col-picture">
+                    <!-- ********* 2015.12.10 수정 -->
+                     <!--    <div class="col-30 col-picture">
                             <img class="picture circle"
                                  ng-src="{{Main.Model.user.profile_image || Main.Model.user.gravatarUrl || Main.Model.user.thumbnail_image || 'http://lorempixel.com/400/400'}}"
                                     >
-                        </div>
-                        <div class="col-60 col-username">
-                            <p class="username zero" style="margin-bottom: 5px; color: white">
-                                아이디: <span style="font-weight: bold">{{ Main.displayUserName()}}</span>
+                         </div> -->
+                         <!-- ********* 2015.12.10 수정 -->
+                        <div class="col-95 col-username">
+                            <p class="username zero" style="margin-bottom: 15px; color: white">
+                                <span><font style="font-size:20pt" "font-weight:bold">
+                                {{ Main.displayUserName()}}</font> 님 반갑습니다!</span>
+                            </p>
+                                <div class="under_line"></div>
+                            <p class="username zero" style="color: white">
+                                <span>회원번호: {{ Main.Model.user.username }}</span>
                             </p>
                             <p class="username zero" style="color: white">
-                                회원번호: <span style="font-weight: bold">{{ Main.Model.user.username }}</span>
+                                <span>쉽고 빠른 네일아트 예약, 오늘Nail</span>
                             </p>
                         </div>
                     </li>
@@ -51,15 +58,20 @@
                         "
                         ng-click="Main.menuSelectHandler(item)"
                             >
+                        <!-- ********* 2015.12.10 수정 -->    
                         <div class="col-85 col-list-text zero">
-                            <p> {{ item.text }} </p>
+                            <p style="color:black">
+                            <img ng-src="{{ item.icon }}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {{ item.text }} </p>
                         </div>
-                        <div class="col-10 col-icon">
+                        <!-- <div class="col-10 col-icon">
                             <i class="ion-ios-arrow-right"></i>
-                        </div>
-                    </li>
+                        </div> -->
+                    </li>                    
                 </ul>
 
+                <!-- ********** 2015.12.10 수정
                 <div class="row row-menu-list flex-v row-setting zero"
                      ng-click="Main.toggleAccordion();"
                         >
@@ -70,12 +82,38 @@
                         <i class="ion-ios-arrow-right"></i>
                     </div>
 
-                </div>
-                <div class="accordion"
+                </div> -->
+
+                <!-- ********** 2015.12.10 수정 (변경된 코드 위치 -->
+                <div class="row row-menu-list flex-v zero"
+                         ng-click="Main.togglePushHandler()"
+                         ng-class="{'activate': Main.Model.setting.pushNotification === true}"
+                            >
+                        <div class="col-45 col-list-text">
+                            <p>
+                            <img ng-src="../img/800/icon/bell.png">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             푸쉬알람</p>
+                        </div>
+<!--                         <div class="col-20">
+                            <i class="ion-ios-bell"></i>
+                        </div> -->
+                        <div class="col-20 status-letter">
+                            <span ng-if="Main.Model.setting.pushNotification">
+                                ON
+                            </span>
+                            <span ng-if="!Main.Model.setting.pushNotification">
+                                OFF
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- ********** 2015.12.10 수정 (푸쉬알람 코드 위치 변경) -->
+<!--                 <div class="accordion"
                      ng-show="Main.settingSubMenu === true"
                         >
 
-                    <!--                         <div class="row row-menu-list row-accordion flex-v zero"
+                                            <div class="row row-menu-list row-accordion flex-v zero"
                                                 ng-click="Main.toggleSettingHandler('location')"
                                                 ng-class="{'activate': Main.Model.setting.location === 'on'}"
                                             >
@@ -87,29 +125,11 @@
                                                 </div>
 
                                             </div>
-                     -->
-                    <div class="row row-menu-list flex-v zero"
-                         ng-click="Main.togglePushHandler()"
-                         ng-class="{'activate': Main.Model.setting.pushNotification === true}"
-                            >
-                        <div class="col-30 col-list-text">
-                            <p>푸쉬알람</p>
-                        </div>
-                        <div class="col-20">
-                            <i class="ion-ios-bell"></i>
-                        </div>
-                        <div class="col-20 status-letter">
-                            <span ng-if="Main.Model.setting.pushNotification">
-                                ON
-                            </span>
-                            <span ng-if="!Main.Model.setting.pushNotification">
-                                OFF
-                            </span>
-                        </div>
 
-                    </div>
-
-                </div>
+              
+                </div> -->
+                <!-- ********** 2015.12.10 수정 -->
+                <div class="under_line_2"></div>
             </ion-content>
 
             <ion-footer-bar class="side-menu-footer flex" touch>

@@ -36,6 +36,7 @@
         </ion-slide-box>
         <div></div>
 
+        <!-- 2015.12.10 수정 -->
         <!-- 상세정보 -->
         <div class="row row-title-bar">
             <div class="c1 col">
@@ -47,26 +48,30 @@
                 <div class="col-21 col-title">
                     <p class="zero">이용시간</p>
                 </div>
+            </div>
+            <div class="rowrow">
                 <div class="col-79 col-text">
                     <p class="zero"
                        ng-repeat="groupedTime in Detail.Model.current.openingHours | groupByOpeningHours"
                             >
                         {{groupedTime}}
                     </p>
-
                 </div>
             </div>
             <div class="row">
                 <div class="col-21 col-title">
                     <p class="zero">전화번호</p>
-                </div>
+                </div>   
+            </div>
+            <div class="rowrow">
                 <div class="col-79 col-text">
                     <p class="zero" ng-click="Detail.callPhone()"
                        ng-if="Detail.Model.current.phone"
                             >
-                        {{Detail.Model.current.phone}} &nbsp; &nbsp; &nbsp;
-                        <span style="background: #831bd4; color: white;"
-                                > &nbsp;바로전화&nbsp;</span>
+                        {{Detail.Model.current.phone}} &nbsp; 
+                        <span class="call icon ion-ios-telephone-outline" > 
+                            전화걸기&nbsp;
+                        </span>
                     </p>
 
                     <p class='zero'
@@ -75,19 +80,23 @@
                         전화번호 비공개
                     </p>
                 </div>
-            </div>
+            </div>    
             <div class="row">
                 <div class="col-21 col-title">
                     <p class="zero">주소</p>
                 </div>
+            </div>
+            <div class="rowrow">
                 <div class="col-79 col-text">
                     <p class="zero">{{Detail.Model.current.address}}</p>
                 </div>
-            </div>
+            </div>    
             <div class="row">
                 <div class="col-21 col-title">
                     <p class="zero">가격정보</p>
                 </div>
+            </div>
+            <div class="rowrow">
                 <div class="col-79 col-text">
                     <ul class="product-list">
                         <li class="product-item"
@@ -97,7 +106,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>    
 
 
             <!--             <div class="row">
@@ -158,7 +167,7 @@
         <!-- 예약현황 -->
         <div class="row row-title-bar row-reserve-title">
             <div class="col" data-ng-if="!Detail.hasEmployee()">
-                <h3>현재 예약시스템을 준비 중인 샵입니다.</h3>
+                <h3>예약시스템을 준비 중인 샵입니다.</h3>
             </div>
             <div class="col" data-ng-if="Detail.hasEmployee()">
                 <h3 >원하는 날짜를 선택해주세요.</h3>

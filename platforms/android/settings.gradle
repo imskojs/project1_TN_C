@@ -3,4 +3,4 @@ include ":"
 include ":CordovaLib"
 include ":phonegap-facebook-plugin:FacebookLib"
 project(":phonegap-facebook-plugin:FacebookLib").projectDir = new File("phonegap-facebook-plugin/todaynail-FacebookLib")
-include ":..:..:..:..:..:Lib:kakao-android-sdk-project-1.1.4-eclipse"
+include ":..:..:..:..:Todaynail:kakao-android-sdk-project-1.1.4-eclipse"

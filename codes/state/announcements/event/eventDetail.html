@@ -11,6 +11,8 @@
         <div class="r1 row zero">
             <div class="c1 col zero">
                 <h2 class="title">{{ EventDetail.Model.post.title }}</h2>
+                <!-- 2015.12.10 추가 -->
+                <span class="time col">{{ EventDetail.Model.post.createdAt | date:'yyyy.MM.dd' }}</span>
             </div>
         </div>
 

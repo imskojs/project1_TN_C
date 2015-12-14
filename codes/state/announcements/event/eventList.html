@@ -2,16 +2,16 @@
     view-title="이벤트"
     cache-view="true"
     can-swipe-back="false"
-    hide-back-button="true"
+    hide-back-button="false"
     hide-nav-bar="false"
 >
     <!-- Set navigation header -->
-    <ion-nav-buttons side="left">
+<!--     <ion-nav-buttons side="left">
         <button class="button button-icon icon ion-navicon"
             ng-click="Main.toggleSideMenu()"
         >
         </button>
-    </ion-nav-buttons>
+    </ion-nav-buttons> -->
 
     <!-- List Content -->
     <ion-content class="has-header">
@@ -26,15 +26,16 @@
             ng-if=""
         >
             <div class="c1 col">
-                <h2 class="title">오늘 nail 이벤트</h2>
+                <h2 class="title">오늘nail 이벤트</h2>
                 <p class="message">진행중인 이벤트가 없습니다.</p>
             </div>
         </div>
 
         <ion-list>
+        <!-- 2015.12.10 수정(item-width) -->
             <ion-item class="r2 row-items row zero"
                 collection-repeat="post in EventList.Model.postsWrapper.posts"
-                item-width="95%"
+                item-width="100%"
                 item-height="vw * 0.30"
                 item-render-buffer="3"
                 force-refresh-images="false"
@@ -49,6 +50,8 @@
                     <h2 class="title">
                         {{ post.title }}
                     </h2>
+                    <!-- 2015.12.10 추가 -->
+                    <span class="time col">{{ post.createdAt | date:'yyyy.MM.dd' }}</span>
                     <p class="content">
                         {{ post.summary }}
                     </p>

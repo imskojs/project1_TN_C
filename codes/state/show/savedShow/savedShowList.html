@@ -13,7 +13,7 @@
             <ion-item class="col items"
                 collection-repeat="post in SavedShowList.Model.posts"
                 item-width="50%"
-                item-height="vw * 0.69"
+                item-height="vw * 0.48"
                 item-render-buffer="3"
                 force-refresh-images="false"
                 ng-click="SavedShowList.goToDetailHandler(post)"
@@ -21,8 +21,9 @@
             >
                     <img class="title-image" ng-src="{{ post.photos[0] && post.photos[0].url }}"
                     >
-                    <p class="title">{{ post.title }}</p>
-                    <p class="user-id">{{ post.createdBy.nickname }}</p>
+                    <!-- 2015.12.10 수정(주석처리) -->
+                   <!--  <p class="title">{{ post.title }}</p>
+                    <p class="user-id">{{ post.createdBy.nickname }}</p> -->
 <!--                     <div class="row counts">
                         <div class="col-10 flex icon-container"
                             toggle

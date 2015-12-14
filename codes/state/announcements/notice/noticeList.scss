@@ -25,15 +25,31 @@
         background: white;
         .c1, .c2, .c3 {
             height: 13vw;
-            border-bottom: 1px solid #555;
+            border-bottom: 1px solid #555; /* 2015.12.10 수정 */
         }
         .c1 {
             img {
                 width: 100%;
             }
         }
+
+        /* 2015.12.10 추가 */
+        .c2 {
+            font-size: 4vw;
+        }
+
+        /* 2015.12.10 수정 */
+        .c3 {
+            font-size: 3vw;
+            color: #757575;
+            padding-left: 7vw;
+        }
+
+        /* 2015.12.10 수정 */
         .notice-icon {
-            width: 7vw;
+            width: 4vw;
+            margin-bottom: 2vw;
+            margin-left: 2vw;
             content: url('../img/800/icon/icon_notice.png')
         }
 

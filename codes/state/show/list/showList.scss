@@ -7,6 +7,10 @@
       flex-wrap: wrap;
 
       .items {
+        padding-top: 1vw;
+        padding-bottom: 1vw;
+        padding-left: 1vw;
+        padding-right: 1vw;
         width: 50%;
         height: 100%;
         border: 0;
@@ -16,28 +20,52 @@
           width: 100%;
           height: 45vw;
         }
+        .title{
+                padding-top: 2vw;
+                padding-left: 1.5vw;
+                padding-bottom: 1vw;
+                background: white;
+                border: {
+                    left: 1px solid #d9d9d9;
+                    right: 1px solid #d9d9d9;
+                }
+            }
+
         .user-id {
-          color: $stable;
-        }
+                color: $stable;
+                font-size: 3vw;
+                margin-top: -1vw;
+                padding-left: 1.5vw;
+                background: white;
+                border: {
+                    left: 1px solid #d9d9d9;
+                    right: 1px solid #d9d9d9;
+                }
+            }
         .count {
-          text-align: center;
-          span {
-            font-size: 3.5vw;
-            height: 3.5vw;
-            line-height: 3.5vw;
-          }
-        }
+                text-align: left;
+                span {
+                    font-size: 3.5vw;
+                    height: 3.5vw;
+                    line-height: 3.5vw;
+                    margin-left: 1.5vw;
+                }
+            }
 
         .icon-container {
           .icon:before {
-            font-size: 4vw;
+            font-size: 4.3vw;
           }
         }
         .counts {
-          border: {
-            bottom: 1px solid #bbb;
-          }
-        }
+                background: white;
+                margin-top: -1vw;
+                border: {
+                    bottom: 1px solid #d9d9d9;
+                    left: 1px solid #d9d9d9;
+                    right: 1px solid #d9d9d9;
+                }
+            }
       }
     }
   }

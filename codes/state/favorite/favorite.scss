@@ -1,8 +1,13 @@
+/* 2015.12.10 수정 */
 #favorite {
     ion-content {
-        background: $stable;
+        background: white;
     }
     .r1 {
         margin-top: 5px !important;
-    }
+        border-bottom: 1px solid #5f008b;
+        border-top: 1px solid #5f008b;
+        border-left: 1px solid #5f008b;
+        border-right: 1px solid #5f008b;
+	}
 }

@@ -5,10 +5,5 @@
             content: url($img + 'icon/icon_coin.png');
             width: 100%;
         }
-        .place-address{
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
     }
 }

@@ -5,11 +5,31 @@
 //==========================================================================
 .ion-android-arrow-back {
     padding: {
-        left: 10px !important;
+        left: 3px !important;
         right: 8px !important;
     }
 } .ion-android-arrow-back::before{
-    font-size: 24px !important;
+    font-size: 22px !important;
+    color: white;
+}
+
+.ion-pinpoint {
+    padding: {
+        left: 8px !important;
+        right: 3px !important;
+    }
+} .ion-pinpoint::before{
+    font-size: 20px !important;
+    color: white;
+}
+
+.ion-compose {
+    padding: {
+        left: 8px !important;
+        right: 3px !important;
+    }
+} .ion-ios-compose-outline::before{
+    font-size: 25px !important;
     color: white;
 }
 
@@ -17,9 +37,23 @@
     white-space: pre-line;
 }
 
-.ion-android-share-alt::before {
+.ion-navicon::before {
     font-size: 24px !important;
 }
+
+.ion-android-share-alt::before {
+    font-size: 20px !important;
+}
+
+.ion-ios-download-outline::before {
+    font-size: 24px !important;
+}
+
+.ion-heart::before {
+    font-size:24px !important;
+}
+
+
 //------------------------
 //  Commonly used variables
 //------------------------
@@ -97,7 +131,7 @@ $img: '../img/800/';
         }
         .detail {
             .place-icon {
-                content: url($img + 'icon/icon_map_s.png');
+                content: url($img + 'icon/icon_map_b.png');
                 height: 5.5vw;
             }
 
@@ -146,6 +180,7 @@ ink.animate {animation: ripple 0.15s linear;}
 //==========================================================================
 //              Common Layout
 //==========================================================================
+
 
 .zero {
     margin: 0;

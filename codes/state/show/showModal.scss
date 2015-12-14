@@ -38,22 +38,30 @@
             top: 5vw;
         }
         margin: 0 auto;
+
+        /* 2015.12.10 수정 */
         .col {
-            background: $positive;
-            font-size: 5vw;
-            color: white;
-            height: 10vw;
+            background: none;
+            font-size: 4vw;
+            color: #5f008b;
+            height: 12vw;
             padding: {
-                top: 2vw;
+                top: 3vw;
             }
             text-align: center;
         }
         .c1 {
+            border: 1px solid #5f008b;            
+            border-radius: 7px;
+
             margin: {
                 right: 1vw;
             }
         }
+        /* 2015.12.10 수정 */
         .c2 {
+            border: 1px solid #5f008b;            
+            border-radius: 7px;
             margin: {
                 left: 1vw;
             }
@@ -71,29 +79,40 @@
         }
     }
 
-
+    /* 2015.12.10 수정 */
     .r3 {
-        padding-top: 3vw;
+        padding-top: 1vw;
         margin: 0 auto;
         .c1 {
-            color: #aaa;
-            border: {
-                bottom: 1px solid $positive;
-            }
-            margin-left: 5%;
+            color: #5D5D5D;
+            margin-left: 4%;
             font-size: 4vw;
             span {
                 display: block;
-                margin-top: 2vw;
+                margin-top: 1vw;
+            }
+
+            input {
+                margin-top: 5px;
+                margin-bottom: -15px;
+                margin-left: 0%;
+                border-radius: 7px;
+                border: 1px solid #5f008b;
+                width: 96%;
+                height: 12vw;
+                max-height: 55vw;
             }
         }
         .c2 {
-            border: {
-                bottom: 1px solid $positive;
-            }
+            border-radius: 7px;
+            border:  2px solid #5f008b;
+                            margin: -5px;
+                margin-left: 4%;
+
         }
     }
 
+    /* 2015.12.10 수정 */
     .r4 {
         padding: {
             top: 5vw;
@@ -106,12 +125,13 @@
                 padding: {
                     left: 4%;
                 }
-                color: #aaa;
+                color: #5D5D5D;
             }
             textarea {
                 margin: -5px;
                 margin-left: 4%;
-                border: 1px solid $positive;
+                border-radius: 7px;
+                border: 1px solid #5f008b;
                 width: 92%;
                 height: 55vw;
                 max-height: 55vw;

@@ -21,46 +21,47 @@
         }
     }
 
+    /* 2015.12.10 수정 */
     .r2.row-items {
-        background: none;
+        background: white;
         padding-bottom: 3vw;
-        margin: {
-            top: 2vw;
-            left: 2.5%;
-        }
         .c1 {
             border: {
-                top: 1px solid $positive;
-                left: 1px solid $positive;
-                bottom: 1px solid $positive;
+                bottom: 1px solid #adadad;
             }
             img {
                 width: 100%;
                 max-height: 26vw;
+                margin-left: 3vw;
             }
 
         }
+
+        /* 2015.12.10 수정 */
         .c2 {
             border: {
-                top: 1px solid $positive;
-                right: 1px solid $positive;
-                bottom: 1px solid $positive;
+                bottom: 1px solid #adadad;
             }
-            text-align: center;
             .title {
                 width: 80%;
-                font-size: 4.5vw;
-                margin: 0 auto;
-                padding-bottom: 2vw;
-                margin-top: 5vw;
-                color: $positive;
-                border-bottom: 1px solid $positive;
+                font-size: 4vw;
+                font-weight: bold;
+                margin-left: 5vw;
+                margin-top: 4vw;
+                color: black;
+            }
+            .time {
+                color: #000000;
+                font-size: 3vw;
+                margin-top: -1.5vw;
+                margin-left: 4vw;
+                color: #adadad;
             }
             .content {
-                margin-top: 2vw;
-                font-size: 3.5vw;
+                font-size: 3.3vw;
+                color: black;
+                margin-left: 5vw;
             }
-
         }
     }
 }

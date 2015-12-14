@@ -1,23 +1,31 @@
+/* 2015.12.20 수정 */
 #event-detail {
     .r1 {
         .c1 {
-            border-bottom: 2px solid $positive;
-            margin:{
-                top: 1vw;
-            }
+            border-bottom: 1px solid #a8a8a8;
             h2 {
-                font-size: 6vw;
-                color: $positive;
+                margin-top: 4vw;
+                margin-bottom: 4vw;
+                font-size: 4vw;
+                font-weight: bold;
+                color: black;
                 padding: {
-                    left: 5%;
+                    left: 5vw;
                 }
+            }
+            .time {
+                margin-left: 4vw;
+                margin-top: -4vw;
+                color: #959595;
+                font-size: 3vw;
+                margin-bottom: 1vw;
             }
         }
     }
 
     .r2 {
         .c1 {
-            margin-top: 3vw;
+            margin-top: 2vw;
             img {
                 width: 100%;
             }
@@ -28,6 +36,10 @@
         .c1 {
             p {
                 font-size: 3.5vw;
+                color: #333333;
+                margin-top: 1vw;
+                margin-left: 2vw;
+                margin-right: 2vw;
             }
         }
     }
