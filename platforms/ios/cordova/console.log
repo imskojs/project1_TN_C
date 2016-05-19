@@ -1,0 +1,26 @@
+2015-07-23 10:03:55.990 todayNail[57719:10687096] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/S/Library/Developer/CoreSimulator/Devices/55C59E73-A981-4B2A-ACEF-C16B8FAD3CF9/data/Containers/Data/Application/227C6B6E-A6F0-4A68-90E2-ABEF437F2B5C/Library/Cookies/Cookies.binarycookies
+2015-07-23 10:03:56.206 todayNail[57719:10687096] Apache Cordova native platform version 3.8.0 is starting.
+2015-07-23 10:03:56.206 todayNail[57719:10687096] Multi-tasking -> Device: YES, App: YES
+2015-07-23 10:03:56.217 todayNail[57719:10687096] Unlimited access to network resources
+2015-07-23 10:03:56.488 todayNail[57719:10687096] [CDVTimer][keyboard] 0.065982ms
+2015-07-23 10:03:56.604 todayNail[57719:10687096] [CDVTimer][splashscreen] 115.455031ms
+2015-07-23 10:03:56.608 todayNail[57719:10687096] [CDVTimer][statusbar] 3.933012ms
+2015-07-23 10:03:56.615 todayNail[57719:10687096] [CDVTimer][file] 7.123053ms
+2015-07-23 10:03:56.615 todayNail[57719:10687096] [CDVTimer][TotalPluginStartup] 127.342999ms
+2015-07-23 10:03:56.914 todayNail[57719:10687096] Resetting plugins due to page load.
+2015-07-23 10:03:57.614 todayNail[57719:10687096] Finished load of: file:///Users/S/Library/Developer/CoreSimulator/Devices/55C59E73-A981-4B2A-ACEF-C16B8FAD3CF9/data/Containers/Bundle/Application/849DC2EF-2197-4C93-B9B7-10A6DEBEB2FE/todayNail.app/www/index.html#/main/home
+2015-07-23 10:05:24.052 todayNail[57719:10687096] locationManager::didFailWithError (null)
+2015-07-23 10:05:38.544 todayNail[57719:10693191] Terminating since there is no system app.
+2015-08-12 15:23:24.154 todayNail[20310:16058458] Apache Cordova native platform version 3.8.0 is starting.
+2015-08-12 15:23:24.155 todayNail[20310:16058458] Multi-tasking -> Device: YES, App: YES
+2015-08-12 15:23:24.170 todayNail[20310:16058458] Unlimited access to network resources
+2015-08-12 15:23:24.471 todayNail[20310:16058458] [CDVTimer][keyboard] 0.056982ms
+2015-08-12 15:23:24.595 todayNail[20310:16058458] [CDVTimer][splashscreen] 124.451041ms
+2015-08-12 15:23:24.599 todayNail[20310:16058458] [CDVTimer][statusbar] 3.925979ms
+2015-08-12 15:23:24.607 todayNail[20310:16058458] [CDVTimer][file] 7.921040ms
+2015-08-12 15:23:24.607 todayNail[20310:16058458] [CDVTimer][TotalPluginStartup] 137.170017ms
+2015-08-12 15:23:24.749 todayNail[20310:16058458] Resetting plugins due to page load.
+2015-08-12 15:23:25.374 todayNail[20310:16058458] Finished load of: file:///Users/S/Library/Developer/CoreSimulator/Devices/55C59E73-A981-4B2A-ACEF-C16B8FAD3CF9/data/Containers/Bundle/Application/B30874A7-BBF6-4C3E-84E3-83D279DF1962/todayNail.app/www/index.html#/main/home
+2015-08-12 16:47:15.444 todayNail[20310:16058458] locationManager::didFailWithError (null)
+2015-08-12 16:47:15.489 todayNail[20310:16058458] {"code":2,"message":"The operation couldn’t be completed. (kCLErrorDomain error 0.)"}
+2015-08-12 16:47:21.202 todayNail[20310:16774775] Terminating since there is no system app.
